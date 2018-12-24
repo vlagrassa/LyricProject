@@ -128,6 +128,14 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         return setEnd(key, coords.get(key).getEnd() + offset);
     }
 
+    public String toString() {
+        String result = "";
+        for (String lang : referenceStrings.keySet()) {
+            result += lang + " " + coords.get(lang) + ": \"" + referenceStrings.get(lang).substring(coords.get(lang).getStart(), coords.get(lang).getEnd()) + "\"\n";
+        }
+        return result;
+    }
+
     // // TODO: Double check that this logic works!
     // public int compareTo(LyricSlice b) {
     //     // If the slices have different starting points, order by those
@@ -186,6 +194,6 @@ class LyricCoords {
     }
 
     public String toString() {
-        return "Range: (" + start + ", " + end + ")";
+        return "(" + start + ", " + end + ")";
     }
 }
