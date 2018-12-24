@@ -1,8 +1,14 @@
 public class LyricSlice /*implements Comparable<LyricSlice>*/ {
+
+// =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     HashMap<String,LyricCoords> coords;
     HashMap<String,String> referenceStrings;
     Integer category;
     String annotation;
+
+
+// =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public LyricSlice(HashMap<String,String> reference, Integer category, String annotation) {
         coords = new HashMap<String,LyricCoords>();
@@ -26,6 +32,9 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         this(reference, -1, "");
     }
 
+
+// =-=-= Reference String Map =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     public HashMap<String,String> getReferenceStrings() {
         return referenceStrings;
     }
@@ -33,6 +42,9 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     public String getReferenceString(String key) {
         return referenceStrings.get(key);
     }
+
+
+// =-=-= Category =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public Integer getCategory() {
         return getCategory();
@@ -52,6 +64,9 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         return category == matchcat;
     }
 
+
+// =-=-= Annotation =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     public String getAnnotation() {
         return annotation;
     }
@@ -62,20 +77,15 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         return oldAnnotation;
     }
 
+
+// =-=-= Full Coordinates =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     public HashMap<String,LyricCoords> getCoords() {
         return coords;
     }
 
     public LyricCoords getCoord(String key) {
         return coords.get(key);
-    }
-
-    public Integer getStart(String key) {
-        return coords.get(key).getStart();
-    }
-
-    public Integer getEnd(String key) {
-        return coords.get(key).getEnd();
     }
 
     public HashMap<String,LyricCoords> setCoords(HashMap<String,LyricCoords> newcoords) {
@@ -88,6 +98,17 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         LyricCoords oldcoord = coords.get(key);
         coords.put(key, newcoord);
         return oldcoord;
+    }
+
+
+// =-=-= Coordinate Start and End =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    public Integer getStart(String key) {
+        return coords.get(key).getStart();
+    }
+
+    public Integer getEnd(String key) {
+        return coords.get(key).getEnd();
     }
 
     public LyricCoords setStartEnd(String key, Integer start, Integer end) {
@@ -127,6 +148,9 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     public Integer moveEnd(String key, Integer offset) {
         return setEnd(key, coords.get(key).getEnd() + offset);
     }
+
+
+// =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
         String result = "";

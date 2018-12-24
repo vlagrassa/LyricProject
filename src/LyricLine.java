@@ -1,11 +1,20 @@
 public class LyricLine {
+
+// =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     private HashMap<String,String> plaintexts;
     private ArrayList<LyricSlice> slices;
+
+
+// =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public LyricLine() {
         plaintexts = new HashMap<String,String>();
         slices = new ArrayList<LyricSlice>();
     }
+
+
+// =-=-= Plain Text =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     // Get the plain text from texts for the given language
     public String getPlainText(String key) {
@@ -26,6 +35,9 @@ public class LyricLine {
         plaintexts = newmap;
         return temp;
     }
+
+
+// =-=-= Lyric Slices =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     // Get the list of Lyric slices
     public ArrayList<LyricSlice> getSlices() {
@@ -70,6 +82,9 @@ public class LyricLine {
     public LyricSlice createSlice() {
         return createSlice(-1, "");
     }
+
+
+// =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
         String result = ">Line<\n";
