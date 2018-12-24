@@ -7,6 +7,10 @@ public class LyricSlice {
         reference = ref;
     }
 
+    public String getReferenceString() {
+        return reference;
+    }
+
     public LyricCoords getCoords() {
         return coords;
     }
