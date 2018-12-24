@@ -192,4 +192,8 @@ class LyricCoords {
     public void moveCoords(Integer offsetS, Integer offsetE) {
         setCoords(start + offsetS, end + offsetE);
     }
+
+    public String toString() {
+        return "Range: (" + start + ", " + end + ")";
+    }
 }
