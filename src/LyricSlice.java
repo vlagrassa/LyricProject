@@ -68,11 +68,11 @@ public class LyricSlice implements Comparable<LyricSlice> {
     }
 
     public Integer getStart(String key) {
-        return coords.get(key).start;
+        return coords.get(key).getStart();
     }
 
     public Integer getEnd(String key) {
-        return coords.get(key).end;
+        return coords.get(key).getEnd();
     }
 
     public HashMap<String,LyricCoords> setCoords(HashMap<String,LyricCoords> newcoords) {
