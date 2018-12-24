@@ -90,6 +90,13 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         return oldcoord;
     }
 
+    public LyricCoords setStartEnd(String key, Integer start, Integer end) {
+        LyricCoords oldcoords = coords.get(key);
+        setStart(key, Math.min(start, end));
+        setEnd(key, Math.max(start, end));
+        return oldcoords;
+    }
+
     public Integer setStart(String key, Integer newstart) {
         LyricCoords coordSet = coords.get(key);
         Integer oldstart = coordSet.getStart();
