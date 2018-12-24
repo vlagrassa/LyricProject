@@ -44,6 +44,14 @@ public class LyricSlice {
             return coords.setEnd(newend);
         }
     }
+
+    public Integer moveStart(Integer offset) {
+        return coords.moveStart(offset);
+    }
+
+    public Integer moveEnd(Integer offset) {
+        return coords.moveEnd(offset);
+    }
 }
 
 class LyricCoords {
