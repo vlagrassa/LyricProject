@@ -91,7 +91,7 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         LyricCoords coordSet = coords.get(key);
         Integer oldstart = coordSet.getStart();
         if (newstart < 0) {
-            return coordSet.get(key).setStart(0);
+            return coordSet.setStart(0);
         }
         else if (newstart > coordSet.getEnd()) {
             Integer oldend = coordSet.getEnd();
@@ -122,7 +122,7 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         return setStart(key, coords.get(key).getStart() + offset);
     }
 
-    public Integer moveEnd(Integer offset) {
+    public Integer moveEnd(String key, Integer offset) {
         return setEnd(key, coords.get(key).getEnd() + offset);
     }
 
