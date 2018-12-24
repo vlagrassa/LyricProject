@@ -2,15 +2,25 @@ public class LyricSlice implements Comparable<LyricSlice> {
     Map<String,LyricCoords> coords;
     Map<String,String> referenceStrings;
     Integer category;
+    String annotation;
 
-    public LyricSlice(Map<String,String> ref, Integer c) {
+    public LyricSlice(Map<String,String> ref, Integer c, String a) {
         coords = new Map<String,LyricCoords>();
         referenceStrings = ref;
         category = c;
+        annotation = a;
+    }
+
+    public LyricSlice(Map<String,String> ref, Integer c) {
+        LyricSlice(ref, c, "");
+    }
+
+    public LyricSlice(Map<String,String> ref, String a) {
+        LyricSlice(ref, -1, a);
     }
 
     public LyricSlice(Map<String,String> ref) {
-        LyricSlice(ref, -1);
+        LyricSlice(ref, -1, "");
     }
 
     public Map<String,String> getReferenceStrings() {
@@ -37,6 +47,16 @@ public class LyricSlice implements Comparable<LyricSlice> {
 
     public Boolean isCategory(Integer matchcat) {
         return category == matchcat;
+    }
+
+    public String getAnnotation() {
+        return annotation;
+    }
+
+    public String setAnnotation(String newAnnotation) {
+        String oldAnnotation = annotation;
+        annotation = newAnnotation;
+        return oldAnnotation;
     }
 
     public Map<String,LyricCoords> getCoords() {
