@@ -3,18 +3,18 @@ public class LyricSlice implements Comparable<LyricSlice> {
     Map<String,String> referenceStrings;
     Integer category;
 
-    public LyricSlice(String ref, Integer c) {
+    public LyricSlice(Map<String,String> ref, Integer c) {
         coords = new Map<String,LyricCoords>();
-        reference = ref;
+        referenceStrings = ref;
         category = c;
     }
 
     public Map<String,String> getReferenceStrings() {
-        return reference;
+        return referenceStrings;
     }
 
     public String getReferenceString(String key) {
-        return reference.get(key);
+        return referenceStrings.get(key);
     }
 
     public Integer getCategory() {
@@ -82,8 +82,8 @@ public class LyricSlice implements Comparable<LyricSlice> {
     public Integer setEnd(String key, Integer newend) {
         LyricCoords coordSet = coords.get(key);
         Integer oldend = coordSet.getEnd();
-        if (newend > reference.length()) {
-            return coordSet.setEnd(reference.length());
+        if (newend > referenceStrings.get(key).length()) {
+            return coordSet.setEnd(referenceStrings.get(key).length());
         }
         else if (newend < coordSet.getStart()) {
             Integer oldstart = coordSet.getStart();
