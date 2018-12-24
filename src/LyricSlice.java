@@ -6,6 +6,9 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
 
     public LyricSlice(HashMap<String,String> reference, Integer category, String annotation) {
         coords = new HashMap<String,LyricCoords>();
+        for (String lang : reference.keySet()) {
+            coords.put(lang, new LyricCoords(0,0));
+        }
         referenceStrings = reference;
         category = category;
         annotation = annotation;
