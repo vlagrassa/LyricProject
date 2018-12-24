@@ -1,14 +1,30 @@
 public class LyricSlice {
     LyricCoords coords;
     String reference;
+    Integer category;
 
-    public LyricSlice(Integer s, Integer e, String ref) {
+    public LyricSlice(Integer s, Integer e, String ref, Integer c) {
         coords = new LyricCoords(s, e);
         reference = ref;
+        category = c;
     }
 
     public String getReferenceString() {
         return reference;
+    }
+
+    public Integer getCategory() {
+        return getCategory();
+    }
+
+    public String getCategoryStr() {
+        return Integer.toString(category);
+    }
+
+    public Integer setCategory(Integer newcat) {
+        Integer oldcat = category;
+        category = newcat;
+        return oldcat;
     }
 
     public LyricCoords getCoords() {
