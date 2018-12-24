@@ -27,6 +27,16 @@ public class LyricLine {
         return slices;
     }
 
+    public List<LyricSlice> getSlices(Integer cat) {
+        List<LyricSlice> result = new List<LyricSlice>();
+        for (LyricSlice s : slices) {
+            if (s.isCategory(cat)) {
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
     public List<LyricSlice> setSlices(List<LyricSlice> newlist) {
         List<LyricSlice> temp = slices;
         slices = newlist;

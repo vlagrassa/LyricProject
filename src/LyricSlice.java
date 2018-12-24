@@ -27,6 +27,10 @@ public class LyricSlice {
         return oldcat;
     }
 
+    public Boolean isCategory(Integer matchcat) {
+        return category == matchcat;
+    }
+
     public LyricCoords getCoords() {
         return coords;
     }
