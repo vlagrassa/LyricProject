@@ -48,8 +48,27 @@ public class LyricLine {
         return temp;
     }
 
-    public void addSlice(LyricSlice slice) {
+    public LyricSlice addSlice(LyricSlice slice) {
         slices.add(slice);
+        return slice;
+    }
+
+    public LyricSlice createSlice(Integer category, String annotation) {
+        LyricSlice newSlice = new LyricSlice(plaintexts, category, annotation);
+        slices.add(newSlice);
+        return newSlice;
+    }
+
+    public LyricSlice createSlice(Integer category) {
+        return createSlice(category, "");
+    }
+
+    public LyricSlice createSlice(String annotation) {
+        return createSlice(-1, annotation);
+    }
+
+    public LyricSlice createSlice() {
+        return createSlice(-1, "");
     }
 
     // Order the list of Lyric slices based on category
