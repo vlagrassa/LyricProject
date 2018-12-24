@@ -1,16 +1,20 @@
 public class LyricSlice implements Comparable<LyricSlice> {
-    LyricCoords coords;
-    String reference;
+    Map<String,LyricCoords> coords;
+    Map<String,String> referenceStrings;
     Integer category;
 
-    public LyricSlice(Integer s, Integer e, String ref, Integer c) {
-        coords = new LyricCoords(s, e);
+    public LyricSlice(String ref, Integer c) {
+        coords = new Map<String,LyricCoords>();
         reference = ref;
         category = c;
     }
 
-    public String getReferenceString() {
+    public Map<String,String> getReferenceStrings() {
         return reference;
+    }
+
+    public String getReferenceString(String key) {
+        return reference.get(key);
     }
 
     public Integer getCategory() {
@@ -31,78 +35,90 @@ public class LyricSlice implements Comparable<LyricSlice> {
         return category == matchcat;
     }
 
-    public LyricCoords getCoords() {
+    public Map<String,LyricCoords> getCoords() {
         return coords;
     }
 
-    public Integer getStart() {
-        return coords.start;
+    public LyricCoords getCoord(String key) {
+        return coords.get(key);
     }
 
-    public Integer getEnd() {
-        return coords.end;
+    public Integer getStart(String key) {
+        return coords.get(key).start;
     }
 
-    public LyricCoords setCoords(LyricCoords newcoords) {
-        LyricCoords oldcoords = coords;
+    public Integer getEnd(String key) {
+        return coords.get(key).end;
+    }
+
+    public Map<String,LyricCoords> setCoords(Map<String,LyricCoords> newcoords) {
+        Map<String,LyricCoords> oldcoords = coords;
         coords = newcoords;
         return oldcoords;
     }
 
-    public Integer setStart(Integer newstart) {
-        Integer oldstart = coords.getStart();
+    public LyricCoords setCoord(String key, LyricCoords newcoord) {
+        LyricCoords oldcoord = coords.get(key);
+        coords.set(key, newCoord);
+        return oldcoord
+    }
+
+    public Integer setStart(String key, Integer newstart) {
+        LyricCoords coordSet = coords.get(key);
+        Integer oldstart = coordSet.getStart();
         if (newstart < 0) {
-            return coords.setStart(0);
+            return coordSet.get(key).setStart(0);
         }
-        else if (newstart > coords.getEnd()) {
-            Integer oldend = coords.getEnd();
-            coords.setEnd(newstart);
-            return coords.setStart(oldend);
+        else if (newstart > coordSet.getEnd()) {
+            Integer oldend = coordSet.getEnd();
+            coordSet.setEnd(newstart);
+            return coordSet.setStart(oldend);
         }
         else {
-            return coords.setStart(newstart);
+            return coordSet.setStart(newstart);
         }
     }
 
-    public Integer setEnd(Integer newend) {
-        Integer oldend = coords.getEnd();
+    public Integer setEnd(String key, Integer newend) {
+        LyricCoords coordSet = coords.get(key);
+        Integer oldend = coordSet.getEnd();
         if (newend > reference.length()) {
-            return coords.setEnd(reference.length());
+            return coordSet.setEnd(reference.length());
         }
-        else if (newend < coords.getStart()) {
-            Integer oldstart = coords.getStart();
-            coords.setStart(newend);
-            return coords.setEnd(oldstart);
+        else if (newend < coordSet.getStart()) {
+            Integer oldstart = coordSet.getStart();
+            coordSet.setStart(newend);
+            return coordSet.setEnd(oldstart);
         } else {
-            return coords.setEnd(newend);
+            return coordSet.setEnd(newend);
         }
     }
 
-    public Integer moveStart(Integer offset) {
-        return setStart(coords.getStart() + offset);
+    public Integer moveStart(String key, Integer offset) {
+        return setStart(key, coords.get(key).getStart() + offset);
     }
 
     public Integer moveEnd(Integer offset) {
-        return setEnd(coords.getEnd() + offset);
+        return setEnd(key, coords.get(key).getEnd() + offset);
     }
 
-    // TODO: Double check that this logic works!
-    public int compareTo(LyricSlice b) {
-        // If the slices have different starting points, order by those
-        if (getStart() != b.getStart()) {
-            return getStart.compareTo(b.getStart());
-        }
+    // // TODO: Double check that this logic works!
+    // public int compareTo(LyricSlice b) {
+    //     // If the slices have different starting points, order by those
+    //     if (getStart() != b.getStart()) {
+    //         return getStart.compareTo(b.getStart());
+    //     }
 
-        // If they have the same starting point, order by the end points
-        else if (getEnd() != b.getEnd()) {
-            return getEnd.compareTo(b.getEnd())
-        }
+    //     // If they have the same starting point, order by the end points
+    //     else if (getEnd() != b.getEnd()) {
+    //         return getEnd.compareTo(b.getEnd())
+    //     }
 
-        // If both are the same, order by category
-        else {
-            return category.compareTo(b.getCategory());
-        }
-    }
+    //     // If both are the same, order by category
+    //     else {
+    //         return category.compareTo(b.getCategory());
+    //     }
+    // }
 }
 
 class LyricCoords {
