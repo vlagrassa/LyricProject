@@ -1,29 +1,29 @@
 public class LyricSlice implements Comparable<LyricSlice> {
-    Map<String,LyricCoords> coords;
-    Map<String,String> referenceStrings;
+    HashMap<String,LyricCoords> coords;
+    HashMap<String,String> referenceStrings;
     Integer category;
     String annotation;
 
-    public LyricSlice(Map<String,String> reference, Integer category, String annotation) {
-        coords = new Map<String,LyricCoords>();
+    public LyricSlice(HashMap<String,String> reference, Integer category, String annotation) {
+        coords = new HashMap<String,LyricCoords>();
         referenceStrings = reference;
         category = category;
         annotation = annotation;
     }
 
-    public LyricSlice(Map<String,String> reference, Integer category) {
+    public LyricSlice(HashMap<String,String> reference, Integer category) {
         this(reference, category, "");
     }
 
-    public LyricSlice(Map<String,String> reference, String annotation) {
+    public LyricSlice(HashMap<String,String> reference, String annotation) {
         this(reference, -1, annotation);
     }
 
-    public LyricSlice(Map<String,String> reference) {
+    public LyricSlice(HashMap<String,String> reference) {
         this(reference, -1, "");
     }
 
-    public Map<String,String> getReferenceStrings() {
+    public HashMap<String,String> getReferenceStrings() {
         return referenceStrings;
     }
 
@@ -59,7 +59,7 @@ public class LyricSlice implements Comparable<LyricSlice> {
         return oldAnnotation;
     }
 
-    public Map<String,LyricCoords> getCoords() {
+    public HashMap<String,LyricCoords> getCoords() {
         return coords;
     }
 
@@ -75,8 +75,8 @@ public class LyricSlice implements Comparable<LyricSlice> {
         return coords.get(key).end;
     }
 
-    public Map<String,LyricCoords> setCoords(Map<String,LyricCoords> newcoords) {
-        Map<String,LyricCoords> oldcoords = coords;
+    public HashMap<String,LyricCoords> setCoords(HashMap<String,LyricCoords> newcoords) {
+        HashMap<String,LyricCoords> oldcoords = coords;
         coords = newcoords;
         return oldcoords;
     }

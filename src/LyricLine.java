@@ -1,9 +1,9 @@
 public class LyricLine {
-    private Map<String,String> plaintexts;
+    private HashMap<String,String> plaintexts;
     private ArrayList<LyricSlice> slices;
 
     public LyricLine() {
-        plaintexts = new Map<String,String>();
+        plaintexts = new HashMap<String,String>();
         slices = new ArrayList<LyricSlice>();
     }
 
@@ -17,12 +17,12 @@ public class LyricLine {
     }
 
     // Get the full plaintext map
-    public Map<String,String> getPlainTextMap() {
+    public HashMap<String,String> getPlainTextMap() {
         return plaintexts;
     }
 
-    public Map<String,String> setPlainTextMap(Map<String,String> newmap) {
-        Map<String,String> temp = plaintexts;
+    public HashMap<String,String> setPlainTextMap(HashMap<String,String> newmap) {
+        HashMap<String,String> temp = plaintexts;
         plaintexts = newmap;
         return temp;
     }
