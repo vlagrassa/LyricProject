@@ -130,7 +130,7 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
             coordSet.setEnd(newend);
         }
 
-        return (LyricCoords(oldstart, oldend));
+        return (new LyricCoords(oldstart, oldend));
     }
 
     public Integer setStart(String key, Integer newstart) {
