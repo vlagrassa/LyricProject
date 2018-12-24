@@ -1,4 +1,4 @@
-public class LyricSlice implements Comparable<LyricSlice> {
+public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     HashMap<String,LyricCoords> coords;
     HashMap<String,String> referenceStrings;
     Integer category;
