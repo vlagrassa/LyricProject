@@ -59,11 +59,11 @@ public class LyricSlice {
     }
 
     public Integer moveStart(Integer offset) {
-        return coords.moveStart(offset);
+        return setStart(coords.getStart() + offset);
     }
 
     public Integer moveEnd(Integer offset) {
-        return coords.moveEnd(offset);
+        return setEnd(coords.getEnd() + offset);
     }
 }
 
