@@ -96,14 +96,6 @@ class LyricCoords {
         return oldend;
     }
 
-    public Integer moveStart(Integer offset) {
-        return setStart(start + offset);
-    }
-
-    public Integer moveEnd(Integer offset) {
-        return setEnd(end + offset);
-    }
-
     public void setCoords(Integer s, Integer e) {
         setStart(s);
         setEnd(e);
