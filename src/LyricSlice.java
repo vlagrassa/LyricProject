@@ -84,7 +84,7 @@ public class LyricSlice implements Comparable<LyricSlice> {
     public LyricCoords setCoord(String key, LyricCoords newcoord) {
         LyricCoords oldcoord = coords.get(key);
         coords.set(key, newCoord);
-        return oldcoord
+        return oldcoord;
     }
 
     public Integer setStart(String key, Integer newstart) {
@@ -164,7 +164,7 @@ class LyricCoords {
 
     public Integer setStart(Integer newstart) {
         Integer oldstart = start;
-        start = newstart
+        start = newstart;
         return oldstart;
     }
 

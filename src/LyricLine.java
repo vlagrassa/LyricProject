@@ -8,7 +8,7 @@ public class LyricLine {
     }
 
     public String setPlainText(String key, String val) {
-        return plaintexts.set(key, val);
+        return plaintexts.put(key, val);
     }
 
     // Get the full plaintext map
@@ -49,4 +49,12 @@ public class LyricLine {
 
     // Order the list of Lyric slices based on category
     public void orderSlices();
+
+    public String toString() {
+        String result = ">Line<\n";
+        for (String lang : plaintexts.getKeys()) {
+            result += "\t@" + lang + ": " + plaintexts.get(lang);
+        }
+        return result;
+    }
 }
