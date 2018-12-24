@@ -2,8 +2,9 @@ public class LyricSlice {
     LyricCoords coords;
     String reference;
 
-    public LyricSlice(Integer s, Integer e) {
+    public LyricSlice(Integer s, Integer e, String ref) {
         coords = new LyricCoords(s, e);
+        reference = ref;
     }
 
     public LyricCoords getCoords() {
