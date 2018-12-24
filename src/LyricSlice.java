@@ -14,6 +14,36 @@ public class LyricSlice {
         coords = newcoords;
         return oldcoords;
     }
+
+    public Integer setStart(Integer newstart) {
+        Integer oldstart = coords.getStart();
+        if (newstart < 0) {
+            return coords.setStart(0);
+        }
+        else if (newstart > coords.getEnd()) {
+            Integer oldend = coords.getEnd();
+            coords.setEnd(newstart);
+            return coords.setStart(oldend);
+        }
+        else {
+            return coords.setStart(newstart);
+        }
+        // return oldstart;
+    }
+
+    // public Integer setEnd(Integer newend) {
+    //     Integer oldend = end;
+    //     if (newend > reference.length()) {
+    //         end = reference.length();
+    //     }
+    //     else if (newend < start) {
+    //         end = start;
+    //         setStart(newend);
+    //     } else {
+    //         end = newend;
+    //     }
+    //     return oldend;
+    // }
 }
 
 class LyricCoords {
@@ -37,30 +67,13 @@ class LyricCoords {
 
     public Integer setStart(Integer newstart) {
         Integer oldstart = start;
-        if (newstart < 0) {
-            start = 0;
-        }
-        else if (newstart > end) {
-            start = end;
-            setEnd(newstart);
-        }
-        else {
-            start = newstart;
-        }
+        start = newstart
         return oldstart;
     }
 
     public Integer setEnd(Integer newend) {
         Integer oldend = end;
-        if (newend > reference.length()) {
-            end = reference.length();
-        }
-        else if (newend < start) {
-            end = start;
-            setStart(newend);
-        } else {
-            end = newend;
-        }
+        end = newend;
         return oldend;
     }
 
