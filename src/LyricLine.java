@@ -1,6 +1,6 @@
 public class LyricLine {
     private Map<String,String> plaintexts;
-    private List<LyricSlice> slices;
+    private ArrayList<LyricSlice> slices;
 
     // Get the plain text from texts for the given language
     public String getPlainText(String key) {
@@ -23,12 +23,12 @@ public class LyricLine {
     }
 
     // Get the list of Lyric slices
-    public List<LyricSlice> getSlices() {
+    public ArrayList<LyricSlice> getSlices() {
         return slices;
     }
 
-    public List<LyricSlice> getSlices(Integer cat) {
-        List<LyricSlice> result = new List<LyricSlice>();
+    public ArrayList<LyricSlice> getSlices(Integer cat) {
+        ArrayList<LyricSlice> result = new ArrayList<LyricSlice>();
         for (LyricSlice s : slices) {
             if (s.isCategory(cat)) {
                 result.add(s);
@@ -37,8 +37,8 @@ public class LyricLine {
         return result;
     }
 
-    public List<LyricSlice> setSlices(List<LyricSlice> newlist) {
-        List<LyricSlice> temp = slices;
+    public ArrayList<LyricSlice> setSlices(ArrayList<LyricSlice> newlist) {
+        ArrayList<LyricSlice> temp = slices;
         slices = newlist;
         return temp;
     }
