@@ -11,6 +11,14 @@ public class LyricSlice {
         return coords;
     }
 
+    public Integer getStart() {
+        return coords.start;
+    }
+
+    public Integer getEnd() {
+        return coords.end;
+    }
+
     public LyricCoords setCoords(LyricCoords newcoords) {
         LyricCoords oldcoords = coords;
         coords = newcoords;
