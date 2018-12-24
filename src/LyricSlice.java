@@ -9,6 +9,10 @@ public class LyricSlice implements Comparable<LyricSlice> {
         category = c;
     }
 
+    public LyricSlice(Map<String,String> ref) {
+        LyricSlice(ref, -1);
+    }
+
     public Map<String,String> getReferenceStrings() {
         return referenceStrings;
     }
