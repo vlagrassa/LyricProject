@@ -12,15 +12,15 @@ public class LyricSlice implements Comparable<LyricSlice> {
     }
 
     public LyricSlice(Map<String,String> reference, Integer category) {
-        LyricSlice(reference, category, "");
+        this(reference, category, "");
     }
 
     public LyricSlice(Map<String,String> reference, String annotation) {
-        LyricSlice(reference, -1, annotation);
+        this(reference, -1, annotation);
     }
 
     public LyricSlice(Map<String,String> reference) {
-        LyricSlice(reference, -1, "");
+        this(reference, -1, "");
     }
 
     public Map<String,String> getReferenceStrings() {
