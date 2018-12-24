@@ -4,23 +4,23 @@ public class LyricSlice implements Comparable<LyricSlice> {
     Integer category;
     String annotation;
 
-    public LyricSlice(Map<String,String> ref, Integer c, String a) {
+    public LyricSlice(Map<String,String> reference, Integer category, String annotation) {
         coords = new Map<String,LyricCoords>();
-        referenceStrings = ref;
-        category = c;
-        annotation = a;
+        referenceStrings = reference;
+        category = category;
+        annotation = annotation;
     }
 
-    public LyricSlice(Map<String,String> ref, Integer c) {
-        LyricSlice(ref, c, "");
+    public LyricSlice(Map<String,String> reference, Integer category) {
+        LyricSlice(reference, category, "");
     }
 
-    public LyricSlice(Map<String,String> ref, String a) {
-        LyricSlice(ref, -1, a);
+    public LyricSlice(Map<String,String> reference, String annotation) {
+        LyricSlice(reference, -1, annotation);
     }
 
-    public LyricSlice(Map<String,String> ref) {
-        LyricSlice(ref, -1, "");
+    public LyricSlice(Map<String,String> reference) {
+        LyricSlice(reference, -1, "");
     }
 
     public Map<String,String> getReferenceStrings() {
