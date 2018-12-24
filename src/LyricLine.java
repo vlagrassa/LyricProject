@@ -71,9 +71,6 @@ public class LyricLine {
         return createSlice(-1, "");
     }
 
-    // Order the list of Lyric slices based on category
-    // public void orderSlices();
-
     public String toString() {
         String result = ">Line<\n";
         for (String lang : plaintexts.keySet()) {
