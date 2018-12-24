@@ -2,6 +2,11 @@ public class LyricLine {
     private Map<String,String> plaintexts;
     private ArrayList<LyricSlice> slices;
 
+    public LyricLine() {
+        plaintexts = new Map<String,String>();
+        slices = new ArrayList<LyricSlice>();
+    }
+
     // Get the plain text from texts for the given language
     public String getPlainText(String key) {
         return plaintexts.get(key);
