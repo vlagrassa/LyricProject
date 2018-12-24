@@ -43,6 +43,10 @@ public class LyricLine {
         return temp;
     }
 
+    public void addSlice(LyricSlice slice) {
+        slices.add(slice);
+    }
+
     // Order the list of Lyric slices based on category
     public void orderSlices();
 }
