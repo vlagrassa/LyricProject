@@ -57,7 +57,7 @@ public class LyricLine {
 
     public String toString() {
         String result = ">Line<\n";
-        for (String lang : plaintexts.getKeys()) {
+        for (String lang : plaintexts.keySet()) {
             result += "\t@" + lang + ": " + plaintexts.get(lang);
         }
         return result;

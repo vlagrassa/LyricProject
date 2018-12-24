@@ -83,7 +83,7 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
 
     public LyricCoords setCoord(String key, LyricCoords newcoord) {
         LyricCoords oldcoord = coords.get(key);
-        coords.set(key, newCoord);
+        coords.put(key, newcoord);
         return oldcoord;
     }
 
