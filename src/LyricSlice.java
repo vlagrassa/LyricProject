@@ -80,21 +80,21 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
 
 // =-=-= Full Coordinates =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-    public HashMap<String,LyricCoords> getCoords() {
+    public HashMap<String,LyricCoords> getCoordsMap() {
         return coords;
     }
 
-    public LyricCoords getCoord(String key) {
+    public LyricCoords getCoords(String key) {
         return coords.get(key);
     }
 
-    public HashMap<String,LyricCoords> setCoords(HashMap<String,LyricCoords> newcoords) {
+    public HashMap<String,LyricCoords> setCoordsMap(HashMap<String,LyricCoords> newcoords) {
         HashMap<String,LyricCoords> oldcoords = coords;
         coords = newcoords;
         return oldcoords;
     }
 
-    public LyricCoords setCoord(String key, LyricCoords newcoord) {
+    public LyricCoords setCoords(String key, LyricCoords newcoord) {
         LyricCoords oldcoord = coords.get(key);
         coords.put(key, newcoord);
         return oldcoord;
