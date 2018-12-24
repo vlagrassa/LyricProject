@@ -1,5 +1,6 @@
 public class LyricSlice {
     LyricCoords coords;
+    String reference;
 
     public LyricSlice(Integer s, Integer e) {
         coords = new LyricCoords(s, e);
@@ -28,33 +29,30 @@ public class LyricSlice {
         else {
             return coords.setStart(newstart);
         }
-        // return oldstart;
     }
 
-    // public Integer setEnd(Integer newend) {
-    //     Integer oldend = end;
-    //     if (newend > reference.length()) {
-    //         end = reference.length();
-    //     }
-    //     else if (newend < start) {
-    //         end = start;
-    //         setStart(newend);
-    //     } else {
-    //         end = newend;
-    //     }
-    //     return oldend;
-    // }
+    public Integer setEnd(Integer newend) {
+        Integer oldend = coords.getEnd();
+        if (newend > reference.length()) {
+            return coords.setEnd(reference.length());
+        }
+        else if (newend < coords.getStart()) {
+            Integer oldstart = coords.getStart();
+            coords.setStart(newend);
+            return coords.setEnd(oldstart);
+        } else {
+            return coords.setEnd(newend);
+        }
+    }
 }
 
 class LyricCoords {
     private Integer start;
     private Integer end;
-    private String reference;
 
-    public LyricCoords(Integer s, Integer e, String ref) {
+    public LyricCoords(Integer s, Integer e) {
         start = s;
         end = e;
-        reference = ref;
     }
 
     public Integer getStart() {
