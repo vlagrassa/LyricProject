@@ -91,41 +91,33 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     }
 
     public LyricCoords setStartEnd(String key, Integer start, Integer end) {
-        LyricCoords oldcoords = coords.get(key);
-        setStart(key, Math.min(start, end));
-        setEnd(key, Math.max(start, end));
-        return oldcoords;
+        LyricCoords coordSet = coords.get(key);
+        Integer oldstart = coordSet.getStart();
+        Integer oldend = coordSet.getEnd();
+        Integer newstart = Math.min(start, end);
+        Integer newend = Math.max(start, end);
+
+        if (newstart < 0) {
+            coordSet.setStart(0);
+        } else {
+            coordSet.setStart(newstart);
+        }
+
+        if (newend > referenceStrings.get(key).length()) {
+            coordSet.setEnd(referenceStrings.get(key).length());
+        } else {
+            coordSet.setEnd(newend);
+        }
+
+        return (LyricCoords(oldstart, oldend));
     }
 
     public Integer setStart(String key, Integer newstart) {
-        LyricCoords coordSet = coords.get(key);
-        Integer oldstart = coordSet.getStart();
-        if (newstart < 0) {
-            return coordSet.setStart(0);
-        }
-        else if (newstart > coordSet.getEnd()) {
-            Integer oldend = coordSet.getEnd();
-            coordSet.setEnd(newstart);
-            return coordSet.setStart(oldend);
-        }
-        else {
-            return coordSet.setStart(newstart);
-        }
+        return setStartEnd(key, newstart, coords.get(key).getEnd()).getStart();
     }
 
     public Integer setEnd(String key, Integer newend) {
-        LyricCoords coordSet = coords.get(key);
-        Integer oldend = coordSet.getEnd();
-        if (newend > referenceStrings.get(key).length()) {
-            return coordSet.setEnd(referenceStrings.get(key).length());
-        }
-        else if (newend < coordSet.getStart()) {
-            Integer oldstart = coordSet.getStart();
-            coordSet.setStart(newend);
-            return coordSet.setEnd(oldstart);
-        } else {
-            return coordSet.setEnd(newend);
-        }
+        return setStartEnd(key, coords.get(key).getStart(), newend).getEnd();
     }
 
     public Integer moveStart(String key, Integer offset) {
