@@ -18,8 +18,8 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
             coords.put(lang, new LyricCoords(0,0));
         }
         referenceStrings = reference;
-        category = category;
-        annotation = annotation;
+        this.category = category;
+        this.annotation = annotation;
     }
 
     public LyricSlice(HashMap<String,String> reference, Integer category) {
