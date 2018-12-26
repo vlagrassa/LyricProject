@@ -38,6 +38,10 @@ public class LyricLine {
         return temp;
     }
 
+    public String[] getLanguages() {
+        return plaintexts.keySet();
+    }
+
 
 // =-=-= Lyric Slices =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
