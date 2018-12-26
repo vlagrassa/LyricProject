@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class LyricSlice /*implements Comparable<LyricSlice>*/ {
 
 // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
