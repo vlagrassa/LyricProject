@@ -4,6 +4,9 @@ public class LyricLine {
 
 // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    // Note that the Line doesn't explicitly store the list of languages,
+    // so it doesn't have them ordered - to produce them in proper order,
+    // have to invoke each one manually from a higher class.
     private HashMap<String,String> plaintexts;
     private ArrayList<LyricSlice> slices;
 
