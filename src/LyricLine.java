@@ -10,8 +10,11 @@ public class LyricLine {
 
 // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-    public LyricLine() {
+    public LyricLine(String[] languages) {
         plaintexts = new HashMap<String,String>();
+        for (String lang : languages) {
+            plaintexts.put(lang, "");
+        }
         slices = new ArrayList<LyricSlice>();
     }
 
