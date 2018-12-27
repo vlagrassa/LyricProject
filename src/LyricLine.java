@@ -41,7 +41,7 @@ public class LyricLine {
         return temp;
     }
 
-    public String[] getLanguages() {
+    public Set<String> getLanguages() {
         return plaintexts.keySet();
     }
 
