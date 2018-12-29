@@ -105,4 +105,40 @@ public class LyricLine {
         }
         return result;
     }
+
+    public String getAsHTML() {
+        Integer indent = 1;
+        String result = ">Line<\n";
+        for (String lang : getLanguages()) {
+            for (int i = 0; i < indent; i++) {
+                result += "\t";
+            }
+            result += "@" + lang + ": ";
+            result += formatLangBody(lang);
+            result += "\n";
+        }
+        return result;
+    }
+
+    private String formatLangBody(String key) {
+        StringBuilder textSB = new StringBuilder(plaintexts.get(key));
+        ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
+        for (LyricSlice slice : slices) {
+            coordsList.add(slice.getCoords(key));
+        }
+        for (int i = 0; i < coordsList.size(); i++) {
+            LyricCoords currentCoords = coordsList.get(i);
+            textSB.insert(currentCoords.getStart(), "#" + i + "[");
+            textSB.insert(currentCoords.getEnd()+3, "]");
+            // System.out.println((i) + ": " + currentCoords);
+            for (int j = i+1; j < coordsList.size(); j++) {
+                coordsList.get(j).updateAdditionToReference(currentCoords.getStart(), 3);
+                coordsList.get(j).updateAdditionToReference(currentCoords.getEnd()+3, 1);
+            }
+            // System.out.println(i + ": " + currentCoords + " -> " + textSB);
+            // System.out.println(textSB);
+            // System.out.println();
+        }
+        return textSB.toString();
+    }
 }

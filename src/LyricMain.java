@@ -25,5 +25,7 @@ public class LyricMain {
     System.out.println(testLine.getSlices());
     System.out.println("\nFiltered by category 1:");
     System.out.println(testLine.getSlices(1));
+
+    System.out.println(testLine.getAsHTML());
   }
 }
