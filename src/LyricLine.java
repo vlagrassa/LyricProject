@@ -128,12 +128,13 @@ public class LyricLine {
         }
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
-            textSB.insert(currentCoords.getStart(), "#" + i + "[");
-            textSB.insert(currentCoords.getEnd()+3, "]");
+            String bracketHeader = "#" + i + "[";
+            textSB.insert(currentCoords.getStart(), bracketHeader);
+            textSB.insert(currentCoords.getEnd() + bracketHeader.length(), "]");
             // System.out.println((i) + ": " + currentCoords);
             for (int j = i+1; j < coordsList.size(); j++) {
-                coordsList.get(j).updateAdditionToReference(currentCoords.getStart(), 3);
-                coordsList.get(j).updateAdditionToReference(currentCoords.getEnd()+3, 1);
+                coordsList.get(j).updateAdditionToReference(currentCoords.getStart(), bracketHeader.length());
+                coordsList.get(j).updateAdditionToReference(currentCoords.getEnd()+bracketHeader.length(), 1);
             }
             // System.out.println(i + ": " + currentCoords + " -> " + textSB);
             // System.out.println(textSB);
