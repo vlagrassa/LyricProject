@@ -123,12 +123,14 @@ public class LyricLine {
     private String formatLangBody(String key) {
         StringBuilder textSB = new StringBuilder(plaintexts.get(key));
         ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
+        ArrayList<String> categoryList = new ArrayList<String>();
         for (LyricSlice slice : slices) {
             coordsList.add(slice.getCoords(key));
+            categoryList.add(slice.getCategoryStr());
         }
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
-            String bracketHeader = "#" + i + "[";
+            String bracketHeader = "#" + categoryList.get(i) + i + "[";
             textSB.insert(currentCoords.getStart(), bracketHeader);
             textSB.insert(currentCoords.getEnd() + bracketHeader.length(), "]");
             // System.out.println((i) + ": " + currentCoords);
