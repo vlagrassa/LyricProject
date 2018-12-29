@@ -219,6 +219,12 @@ class LyricCoords {
         setCoords(start + offsetS, end + offsetE);
     }
 
+    public void updateAdditionToReference(Integer index, Integer length) {
+        Integer startOffset = start > index ? length : 0;
+        Integer endOffset   = end   > index ? length : 0;
+        moveCoords(startOffset, endOffset);
+    }
+
     public String toString() {
         return "(" + start + ", " + end + ")";
     }
