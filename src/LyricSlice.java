@@ -220,7 +220,7 @@ class LyricCoords {
     }
 
     public void updateAdditionToReference(Integer index, Integer length) {
-        if (not (start == 0 && end == 0)) { 
+        if (!(start == 0 && end == 0)) { 
             Integer startOffset = start >= index ? length : 0;
             Integer endOffset   = end   >= index ? length : 0;
             moveCoords(startOffset, endOffset);
