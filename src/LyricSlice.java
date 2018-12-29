@@ -220,9 +220,12 @@ class LyricCoords {
     }
 
     public void updateAdditionToReference(Integer index, Integer length) {
-        Integer startOffset = start > index ? length : 0;
-        Integer endOffset   = end   > index ? length : 0;
-        moveCoords(startOffset, endOffset);
+        if (not (start == 0 && end == 0)) { 
+            Integer startOffset = start >= index ? length : 0;
+            Integer endOffset   = end   >= index ? length : 0;
+            moveCoords(startOffset, endOffset);
+        }
+        // System.out.println("Moving coords " + this + " by (" + startOffset + ", " + endOffset + ")");
     }
 
     public String toString() {
