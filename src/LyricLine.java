@@ -122,12 +122,8 @@ public class LyricLine {
 
     private String formatLangBody(String key) {
         StringBuilder textSB = new StringBuilder(plaintexts.get(key));
-        ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
-        ArrayList<String> categoryList = new ArrayList<String>();
-        for (LyricSlice slice : slices) {
-            coordsList.add(slice.getCoords(key));
-            categoryList.add(slice.getCategoryStr());
-        }
+        ArrayList<LyricCoords> coordsList = getCoordsList(key);
+        ArrayList<String> categoryList = getCategoryStrList();
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
             String bracketHeader = "#" + categoryList.get(i) + i + "[";
@@ -143,5 +139,21 @@ public class LyricLine {
             // System.out.println();
         }
         return textSB.toString();
+    }
+
+    private ArrayList<LyricCoords> getCoordsList(String key) {
+        ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
+        for (LyricSlice slice : slices) {
+            coordsList.add(slice.getCoords(key));
+        }
+        return coordsList;
+    }
+
+    private ArrayList<String> getCategoryStrList() {
+        ArrayList<String> categoryList = new ArrayList<String>();
+        for (LyricSlice slice : slices) {
+            categoryList.add(slice.getCategoryStr());
+        }
+        return categoryList;
     }
 }
