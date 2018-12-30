@@ -191,6 +191,10 @@ class LyricCoords {
         end = e;
     }
 
+    public LyricCoords(LyricCoords orig) {
+        this(orig.getStart(), orig.getEnd());
+    }
+
     public Integer getStart() {
         return start;
     }

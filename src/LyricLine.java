@@ -144,7 +144,7 @@ public class LyricLine {
     private ArrayList<LyricCoords> getCoordsList(String key) {
         ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
         for (LyricSlice slice : slices) {
-            coordsList.add(slice.getCoords(key));
+            coordsList.add(new LyricCoords(slice.getCoords(key)));
         }
         return coordsList;
     }
