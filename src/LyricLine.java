@@ -126,7 +126,7 @@ public class LyricLine {
         ArrayList<String> categoryList = getCategoryStrList();
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
-            String bracketHeader = "#" + categoryList.get(i) + i + "[";
+            String bracketHeader = String.format("#%s[", categoryList.get(i) + i);
             textSB.insert(currentCoords.getStart(), bracketHeader);
             textSB.insert(currentCoords.getEnd() + bracketHeader.length(), "]");
             // System.out.println((i) + ": " + currentCoords);
