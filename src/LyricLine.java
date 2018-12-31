@@ -48,6 +48,21 @@ public class LyricLine {
         return plaintexts.keySet();
     }
 
+    public void modifyPlainText(String key, String str, Integer index) {
+        String origtext = plaintexts.get(key);
+        if (str == "\b") {
+            plaintexts.put(key, origtext.substring(0,index) + origtext.substring(index+1));
+            for (LyricSlice slice : slices) {
+                slice.updateAdditionToReference(key, index, -1);
+            }
+        } else {
+            plaintexts.put(key, origtext.substring(0,index) + str + origtext.substring(index));
+            for (LyricSlice slice : slices) {
+                slice.updateAdditionToReference(key, index, str.length());
+            }
+        }
+    }
+
 
 // =-=-= Lyric Slices =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

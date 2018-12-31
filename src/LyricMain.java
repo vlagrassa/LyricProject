@@ -15,17 +15,34 @@ public class LyricMain {
     System.out.println("Test Slice:\n" + testSlice);
     System.out.println("Test Line:\n" + testLine);
 
-    testLine.createSlice(1).setStartEnd("English", 7, 8);
-    testLine.createSlice(2).setStartEnd("English", 0, 4).setStartEnd("Japanese", 7, 13);
+    testLine.createSlice(2).setStartEnd("English", 7, 8);
+    testLine.createSlice(1).setStartEnd("English", 0, 4).setStartEnd("Japanese", 7, 13);
+    /*
     testLine.createSlice(3).setStartEnd("English", 0, 2).setStartEnd("Japanese", 7, 9);
     testLine.createSlice(3).setStartEnd("English", 2, 3).setStartEnd("Japanese", 9, 11);
     testLine.createSlice(3).setStartEnd("English", 3, 4).setStartEnd("Japanese", 11, 13);
+    */
 
     System.out.println("\nNo filter:");
     System.out.println(testLine.getSlices());
     System.out.println("\nFiltered by category 1:");
     System.out.println(testLine.getSlices(1));
 
+    System.out.println(testLine.getAsHTML());
+
+    // System.out.println(testLine.getSlices());
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+    testLine.modifyPlainText("English", "\b", 0);
+
+    // testLine.modifyPlainText("English", " thing", 4);
     System.out.println(testLine.getAsHTML());
   }
 }
