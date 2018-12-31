@@ -31,16 +31,8 @@ public class LyricMain {
     System.out.println(testLine.getAsHTML());
 
     // System.out.println(testLine.getSlices());
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
-    testLine.modifyPlainText("English", "\b", 0);
+    // testLine.deleteFromPlainText("English", 8, 0);
+    testLine.addToPlainText("English", "___", 8);
 
     // testLine.modifyPlainText("English", " thing", 4);
     System.out.println(testLine.getAsHTML());

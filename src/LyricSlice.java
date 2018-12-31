@@ -156,6 +156,10 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         coords.get(key).updateAdditionToReference(index, length, referenceStrings.get(key).length());
     }
 
+    public void updateDeletionFromReference(String key, Integer index, Integer length) {
+        coords.get(key).updateDeletionFromReference(index, length, referenceStrings.get(key).length());
+    }
+
 
 // =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -266,6 +270,14 @@ class LyricCoords {
             moveCoordsBound(startOffset, endOffset, referenceLength);
         }
         // System.out.println("Moving coords " + this + " by (" + startOffset + ", " + endOffset + ")");
+    }
+
+    public void updateDeletionFromReference(Integer index, Integer length, Integer referenceLength) {
+        if (!(start == 0 && end == 0)) {
+            Integer startOffset = start > index ? -length : 0;
+            Integer endOffset   = end   > index ? -length : 0;
+            moveCoordsBound(startOffset, endOffset, referenceLength);
+        }
     }
 
     public String toString() {
