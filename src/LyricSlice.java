@@ -153,13 +153,7 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     }
 
     public void updateReference(String key, Integer index, Integer length) {
-        // coords.get(key).updateReference(index, length, referenceStrings.get(key).length());
-        if (length > 0) {
-            coords.get(key).updateAdditionToReference(index, length, referenceStrings.get(key).length());
-        }
-        else if (length < 0) {
-            coords.get(key).updateDeletionFromReference(index, -length, referenceStrings.get(key).length());
-        }
+        coords.get(key).updateReference(index, length, referenceStrings.get(key).length());
     }
 
 
@@ -265,19 +259,17 @@ class LyricCoords {
         setCoordsBound(start + offsetS, end + offsetE, maxlength);
     }
 
-    public void updateAdditionToReference(Integer index, Integer length, Integer referenceLength) {
-        if (!(start == 0 && end == 0)) { 
-            Integer startOffset = start > index ? length : 0;
-            Integer endOffset   = end   >= index ? length : 0;
-            moveCoordsBound(startOffset, endOffset, referenceLength);
-        }
-        // System.out.println("Moving coords " + this + " by (" + startOffset + ", " + endOffset + ")");
-    }
-
-    public void updateDeletionFromReference(Integer index, Integer length, Integer referenceLength) {
+    public void updateReference(Integer index, Integer length, Integer referenceLength) {
         if (!(start == 0 && end == 0)) {
-            Integer startOffset = start >= index ? -length : 0;
-            Integer endOffset   = end   > index ? -length : 0;
+            Integer startOffset = 0, endOffset = 0;
+            if (length > 0) {
+                if (start >  index) startOffset = length;
+                if (end   >= index) endOffset   = length;
+            }
+            else if (length < 0) {
+                if (start >= index) startOffset = length;
+                if (end   >  index) endOffset   = length;
+            }
             moveCoordsBound(startOffset, endOffset, referenceLength);
         }
     }

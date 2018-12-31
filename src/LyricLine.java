@@ -151,8 +151,8 @@ public class LyricLine {
             textSB.insert(currentCoords.getEnd() + bracketHeader.length(), "]");
             // System.out.println((i) + ": " + currentCoords);
             for (int j = i+1; j < coordsList.size(); j++) {
-                coordsList.get(j).updateAdditionToReference(currentCoords.getStart(), bracketHeader.length(), textSB.length());
-                coordsList.get(j).updateAdditionToReference(currentCoords.getEnd()+bracketHeader.length(), 1, textSB.length());
+                coordsList.get(j).updateReference(currentCoords.getStart(), bracketHeader.length(), textSB.length());
+                coordsList.get(j).updateReference(currentCoords.getEnd()+bracketHeader.length(), 1, textSB.length());
             }
             // System.out.println(i + ": " + currentCoords + " -> " + textSB);
             // System.out.println(textSB);
