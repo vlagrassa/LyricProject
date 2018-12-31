@@ -52,7 +52,7 @@ public class LyricLine {
         String origtext = plaintexts.get(key);
         plaintexts.put(key, origtext.substring(0, index) + str + origtext.substring(index));
         for (LyricSlice slice : slices) {
-            slice.updateAdditionToReference(key, index, str.length());
+            slice.updateReference(key, index, str.length());
         }
     }
 
@@ -64,7 +64,7 @@ public class LyricLine {
             plaintexts.put(key, origtext.substring(0, index) + origtext.substring(index + length));
         }
         for (LyricSlice slice : slices) {
-            slice.updateDeletionFromReference(key, index, length);
+            slice.updateReference(key, index, -length);
         }
     }
 
