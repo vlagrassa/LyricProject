@@ -126,6 +126,10 @@ public class LyricLine {
         return result;
     }
 
+    public String getAsBracketed(String key) {
+        return insertSliceBounds(key, "[", "]");
+    }
+
     public String getAsHTML() {
         Integer indent = 1;
         String result = ">Line<\n";
@@ -141,18 +145,34 @@ public class LyricLine {
     }
 
     private String formatLangBody(String key) {
+        return insertSliceBounds(key, "#%s[", getCategoryStrList(), "]", null);
+    }
+
+    public String insertSliceBounds(String key, String headerTemplate, ArrayList<String> headers, String closerTemplate) {
+        return insertSliceBounds(key, headerTemplate, headers, closerTemplate, null);
+    }
+
+    public String insertSliceBounds(String key, String headerTemplate, String closerTemplate, ArrayList<String> closers) {
+        return insertSliceBounds(key, headerTemplate, null, closerTemplate, closers);
+    }
+
+    public String insertSliceBounds(String key, String headerTemplate, String closerTemplate) {
+        return insertSliceBounds(key, headerTemplate, null, closerTemplate, null);
+    }
+
+    public String insertSliceBounds(String key, String headerTemplate, ArrayList<String> headers, String closerTemplate, ArrayList<String> closers) {
         StringBuilder textSB = new StringBuilder(plaintexts.get(key));
         ArrayList<LyricCoords> coordsList = getCoordsList(key);
-        ArrayList<String> categoryList = getCategoryStrList();
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
-            String bracketHeader = String.format("#%s[", categoryList.get(i) + i);
+            String bracketHeader = String.format(headerTemplate, headers != null ? headers.get(i) + i : "");
+            String bracketCloser = String.format(closerTemplate, closers != null ? closers.get(i) + i : "");
             textSB.insert(currentCoords.getStart(), bracketHeader);
-            textSB.insert(currentCoords.getEnd() + bracketHeader.length(), "]");
+            textSB.insert(currentCoords.getEnd() + bracketHeader.length(), bracketCloser);
             // System.out.println((i) + ": " + currentCoords);
             for (int j = i+1; j < coordsList.size(); j++) {
                 coordsList.get(j).updateReference(currentCoords.getStart(), bracketHeader.length(), textSB.length());
-                coordsList.get(j).updateReference(currentCoords.getEnd()+bracketHeader.length(), 1, textSB.length());
+                coordsList.get(j).updateReference(currentCoords.getEnd()+bracketHeader.length(), bracketCloser.length(), textSB.length());
             }
             // System.out.println(i + ": " + currentCoords + " -> " + textSB);
             // System.out.println(textSB);
