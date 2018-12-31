@@ -53,6 +53,9 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     }
 
     public String getCategoryStr() {
+        if (category < 0) {
+            return "";
+        }
         return Integer.toString(category);
     }
 
