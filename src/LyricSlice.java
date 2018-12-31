@@ -153,7 +153,7 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     }
 
     public void updateAdditionToReference(String key, Integer index, Integer length) {
-        coords.get(key).updateAdditionToReference(index, length);
+        coords.get(key).updateAdditionToReference(index, length, referenceStrings.get(key).length());
     }
 
 
@@ -213,9 +213,31 @@ class LyricCoords {
         return oldstart;
     }
 
+    public Integer setStartBound(Integer newstart, Integer maxlength) {
+        Integer oldstart = start;
+        if (newstart < 0)
+            start = 0;
+        else if (newstart > maxlength)
+            start = maxlength;
+        else
+            start = newstart;
+        return oldstart;
+    }
+
     public Integer setEnd(Integer newend) {
         Integer oldend = end;
         end = newend;
+        return oldend;
+    }
+
+    public Integer setEndBound(Integer newend, Integer maxlength) {
+        Integer oldend = end;
+        if (newend < 0)
+            end = 0;
+        else if (newend > maxlength)
+            end = maxlength;
+        else
+            end = newend;
         return oldend;
     }
 
@@ -224,15 +246,24 @@ class LyricCoords {
         setEnd(e);
     }
 
+    public void setCoordsBound(Integer s, Integer e, Integer maxlength) {
+        setStartBound(s, maxlength);
+        setEndBound(e, maxlength);
+    }
+
     public void moveCoords(Integer offsetS, Integer offsetE) {
         setCoords(start + offsetS, end + offsetE);
     }
 
-    public void updateAdditionToReference(Integer index, Integer length) {
+    public void moveCoordsBound(Integer offsetS, Integer offsetE, Integer maxlength) {
+        setCoordsBound(start + offsetS, end + offsetE, maxlength);
+    }
+
+    public void updateAdditionToReference(Integer index, Integer length, Integer referenceLength) {
         if (!(start == 0 && end == 0)) { 
             Integer startOffset = start > index ? length : 0;
             Integer endOffset   = end   >= index ? length : 0;
-            moveCoords(startOffset, endOffset);
+            moveCoordsBound(startOffset, endOffset, referenceLength);
         }
         // System.out.println("Moving coords " + this + " by (" + startOffset + ", " + endOffset + ")");
     }
