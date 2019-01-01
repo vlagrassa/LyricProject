@@ -15,7 +15,7 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     public LyricSlice(HashMap<String,String> reference, Integer category, String annotation) {
         coords = new HashMap<String,LyricCoords>();
         for (String lang : reference.keySet()) {
-            coords.put(lang, new LyricCoords(0,0));
+            coords.put(lang, new LyricCoords(null, null));
         }
         referenceStrings = reference;
         this.category = category;
@@ -27,11 +27,11 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     }
 
     public LyricSlice(HashMap<String,String> reference, String annotation) {
-        this(reference, -1, annotation);
+        this(reference, null, annotation);
     }
 
     public LyricSlice(HashMap<String,String> reference) {
-        this(reference, -1, "");
+        this(reference, null, "");
     }
 
 
@@ -49,11 +49,11 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
 // =-=-= Category =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public Integer getCategory() {
-        return getCategory();
+        return category;
     }
 
     public String getCategoryStr() {
-        if (category < 0) {
+        if (category == null) {
             return "";
         }
         return Integer.toString(category);

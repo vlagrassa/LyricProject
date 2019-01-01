@@ -123,11 +123,11 @@ public class LyricLine {
     }
 
     public LyricSlice createSlice(String annotation) {
-        return createSlice(-1, annotation);
+        return createSlice(null, annotation);
     }
 
     public LyricSlice createSlice() {
-        return createSlice(-1, "");
+        return createSlice(null, "");
     }
 
 
