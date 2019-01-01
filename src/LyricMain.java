@@ -16,7 +16,7 @@ public class LyricMain {
     System.out.println("Test Slice:\n" + testSlice);
     System.out.println("Test Line:\n" + testLine);
 
-    testLine.createSlice(2).setStartEnd("English", 8, 9).setStartEnd("Japanese", 0, 0);
+    testLine.createSlice(2).setStartEnd("English", 8, 9);
     testLine.createSlice(1).setStartEnd("English", 0, 4).setStartEnd("Japanese", 11, 17);
     /*
     testLine.createSlice(3).setStartEnd("English", 0, 2).setStartEnd("Japanese", 7, 9);
@@ -59,6 +59,7 @@ public class LyricMain {
     String thing = "a[b[]c[d]]e";
     System.out.println(testLine.removeUnlessBrackets(thing, 3, 1));
     System.out.println("Test thing: " + thing);
+    System.out.println("\n" + testLine.getSlices());
     // System.out.println("\n" + testLine.getAsHTML());
   }
 }

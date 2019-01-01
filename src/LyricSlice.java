@@ -142,6 +142,14 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
             }
         }
 
+        // Change other slices to match removal of brackets
+        for (LyricSlice slice : listOfSlices) {
+            if (slice != this) {
+                if (coordSet.getStart() != null) slice.updateReference(key, coordSet.getStart(), -1);
+                if (coordSet.getEnd() != null) slice.updateReference(key, coordSet.getEnd(), -1);
+            }
+        }
+
         // Set new start and new end safely
         coordSet.setCoordsBound(newstart, newend, newReference.length()+1);
 
@@ -149,6 +157,14 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         newReference.insert(coordSet.getStart(), "[");
         newReference.insert(coordSet.getEnd(), "]");
         referenceStrings.put(key, newReference.toString());
+
+        // Change other slices to match reinserted brackets
+        for (LyricSlice slice : listOfSlices) {
+            if (slice != this) {
+                if (coordSet.getStart() != null) slice.updateReference(key, coordSet.getStart(), 1);
+                if (coordSet.getEnd() != null) slice.updateReference(key, coordSet.getEnd(), 1);
+            }
+        }
 
         return this;
     }
