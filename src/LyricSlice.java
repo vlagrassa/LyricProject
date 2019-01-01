@@ -189,6 +189,9 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     }
 
     public String getEnclosedBracketedText(String key) {
+        if (coords.get(key).hasNull()) {
+            return "";
+        }
         return referenceStrings.get(key).substring(coords.get(key).getStart()+1, coords.get(key).getEnd());
     }
 
@@ -285,7 +288,7 @@ class LyricCoords {
     }
 
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
-        if (!(start == 0 && end == 0)) {
+        if (!hasNull()) {
             Integer startOffset = 0, endOffset = 0;
             if (length > 0) {
                 if (start >  index) startOffset = length;
@@ -297,6 +300,14 @@ class LyricCoords {
             }
             moveCoordsBound(startOffset, endOffset, referenceLength);
         }
+    }
+
+    public Boolean hasNull() {
+        return start == null || end == null;
+    }
+
+    public Boolean isNull() {
+        return start == null && end == null;
     }
 
     public String toString() {
