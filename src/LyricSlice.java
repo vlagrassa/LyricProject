@@ -8,30 +8,32 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     HashMap<String,String> referenceStrings;
     Integer category;
     String annotation;
+    ArrayList<LyricSlice> listOfSlices;
 
 
 // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-    public LyricSlice(HashMap<String,String> reference, Integer category, String annotation) {
+    public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, Integer category, String annotation) {
         coords = new HashMap<String,LyricCoords>();
         for (String lang : reference.keySet()) {
             coords.put(lang, new LyricCoords(null, null));
         }
         referenceStrings = reference;
+        listOfSlices = slices;
         this.category = category;
         this.annotation = annotation;
     }
 
-    public LyricSlice(HashMap<String,String> reference, Integer category) {
-        this(reference, category, "");
+    public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, Integer category) {
+        this(reference, slices, category, "");
     }
 
-    public LyricSlice(HashMap<String,String> reference, String annotation) {
-        this(reference, null, annotation);
+    public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, String annotation) {
+        this(reference, slices, null, annotation);
     }
 
-    public LyricSlice(HashMap<String,String> reference) {
-        this(reference, null, "");
+    public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices) {
+        this(reference, slices, null, "");
     }
 
 

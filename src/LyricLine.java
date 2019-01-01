@@ -94,7 +94,7 @@ public class LyricLine {
     }
 
     public LyricSlice createSlice(Integer category, String annotation) {
-        LyricSlice newSlice = new LyricSlice(bracketedtexts, category, annotation);
+        LyricSlice newSlice = new LyricSlice(bracketedtexts, slices, category, annotation);
         slices.add(newSlice);
         return newSlice;
     }
