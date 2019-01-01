@@ -177,9 +177,17 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
     public String toString() {
         String result = "";
         for (String lang : referenceStrings.keySet()) {
-            result += lang + " " + coords.get(lang) + ": \"" + referenceStrings.get(lang).substring(coords.get(lang).getStart(), coords.get(lang).getEnd()) + "\"\n";
+            result += lang + " " + coords.get(lang) + ": \"" + getEnclosedPlaintext(lang) + "\"\n";
         }
         return result;
+    }
+
+    public String getEnclosedPlaintext(String key) {
+        return getEnclosedBracketedText(key).replace("[", "").replace("]", "");
+    }
+
+    public String getEnclosedBracketedText(String key) {
+        return referenceStrings.get(key).substring(coords.get(key).getStart()+1, coords.get(key).getEnd());
     }
 
     // // TODO: Double check that this logic works!
