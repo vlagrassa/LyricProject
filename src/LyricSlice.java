@@ -118,24 +118,36 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
 
     public LyricSlice setStartEnd(String key, Integer start, Integer end) {
         LyricCoords coordSet = coords.get(key);
-        Integer oldstart = coordSet.getStart();
-        Integer oldend = coordSet.getEnd();
+        StringBuilder newReference = new StringBuilder(referenceStrings.get(key));
         Integer newstart = Math.min(start, end);
-        Integer newend = Math.max(start, end);
+        Integer newend = Math.max(start, end) + 1;
 
-        if (newstart < 0) {
-            coordSet.setStart(0);
-        } else {
-            coordSet.setStart(newstart);
+        // Remove current closing bracket, if it exists
+        if (coordSet.getEnd() != null) {
+            if (newReference.charAt(coordSet.getEnd()) == ']') {
+                newReference.deleteCharAt(coordSet.getEnd());
+            } else {
+                System.out.println("Character " + coordSet.getEnd() + " of string \"" + newReference + " does not match close bracket \"]\" ");
+            }
         }
 
-        if (newend > referenceStrings.get(key).length()) {
-            coordSet.setEnd(referenceStrings.get(key).length());
-        } else {
-            coordSet.setEnd(newend);
+        // Remove current opening bracket, if it exists
+        if (coordSet.getStart() != null) {
+            if (newReference.charAt(coordSet.getStart()) == '[') {
+                newReference.deleteCharAt(coordSet.getStart());
+            } else {
+                System.out.println("Character " + coordSet.getStart() + " of string \"" + newReference + " does not match open bracket \"[\" ");
+            }
         }
 
-        // return (new LyricCoords(oldstart, oldend));
+        // Set new start and new end safely
+        coordSet.setCoordsBound(newstart, newend, newReference.length()+1);
+
+        // Re-insert brackets into the reference string and save it to the HashMap
+        newReference.insert(coordSet.getStart(), "[");
+        newReference.insert(coordSet.getEnd(), "]");
+        referenceStrings.put(key, newReference.toString());
+
         return this;
     }
 

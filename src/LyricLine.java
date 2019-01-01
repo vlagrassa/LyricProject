@@ -8,6 +8,7 @@ public class LyricLine {
     // so it doesn't have them ordered - to produce them in proper order,
     // have to invoke each one manually from a higher class.
     private HashMap<String,String> plaintexts;
+    private HashMap<String,String> bracketedtexts;
     private ArrayList<LyricSlice> slices;
 
 
@@ -15,8 +16,10 @@ public class LyricLine {
 
     public LyricLine(String[] languages) {
         plaintexts = new HashMap<String,String>();
+        bracketedtexts = new HashMap<String,String>();
         for (String lang : languages) {
             plaintexts.put(lang, "");
+            bracketedtexts.put(lang, "");
         }
         slices = new ArrayList<LyricSlice>();
     }
@@ -29,7 +32,12 @@ public class LyricLine {
         return plaintexts.get(key);
     }
 
+    public String getBracketedText(String key) {
+        return bracketedtexts.get(key);
+    }
+
     public String setPlainText(String key, String val) {
+        bracketedtexts.put(key, val);
         return plaintexts.put(key, val);
     }
 
@@ -48,21 +56,28 @@ public class LyricLine {
         return plaintexts.keySet();
     }
 
-    public void addToPlainText(String key, String str, Integer index) {
-        String origtext = plaintexts.get(key);
-        plaintexts.put(key, origtext.substring(0, index) + str + origtext.substring(index));
+    public void addToBracketedText(String key, String str, Integer index) {
+        String origtext = bracketedtexts.get(key);
+        bracketedtexts.put(key, origtext.substring(0, index) + str + origtext.substring(index));
         for (LyricSlice slice : slices) {
             slice.updateReference(key, index, str.length());
         }
     }
 
-    public void deleteFromPlainText(String key, Integer length, Integer index) {
-        String origtext = plaintexts.get(key);
-        if (index + length > origtext.length()) {
-            plaintexts.put(key, origtext.substring(0, index));
-        } else {
-            plaintexts.put(key, origtext.substring(0, index) + origtext.substring(index + length));
+    public String removeUnlessBrackets(String origtext, Integer length, Integer index) {
+        while (length > 0 || index > origtext.length()) {
+            if ("[]".contains(origtext.substring(index,index+1))) {
+                index++;
+            } else {
+                origtext = origtext.substring(0, index) + origtext.substring(index+1);
+                length--;
+            }
         }
+        return origtext;
+    }
+
+    public void deleteFromBracketedText(String key, Integer length, Integer index) {
+        bracketedtexts.put(key, removeUnlessBrackets(bracketedtexts.get(key), length, index));
         for (LyricSlice slice : slices) {
             slice.updateReference(key, index, -length);
         }
@@ -98,7 +113,7 @@ public class LyricLine {
     }
 
     public LyricSlice createSlice(Integer category, String annotation) {
-        LyricSlice newSlice = new LyricSlice(plaintexts, category, annotation);
+        LyricSlice newSlice = new LyricSlice(bracketedtexts, category, annotation);
         slices.add(newSlice);
         return newSlice;
     }
