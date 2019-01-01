@@ -4,10 +4,10 @@ public class LyricMain {
   {
     String[] languages = {"English", "Japanese"};
     LyricLine testLine = new LyricLine(languages);
-    testLine.setPlainText("Japanese", "honbun tesuto");
-    testLine.setPlainText("English", "test text");
-    System.out.println(testLine.getPlainText("Japanese"));
-    System.out.println(testLine.getPlainText("English"));
+    testLine.setBracketedText("Japanese", "honbun tesuto");
+    testLine.setBracketedText("English", "test text");
+    System.out.println(testLine.getAsPlaintext("Japanese"));
+    System.out.println(testLine.getAsPlaintext("English"));
 
     LyricSlice testSlice = testLine.createSlice(1);
     testSlice.setStartEnd("Japanese", -5, 6);
@@ -54,6 +54,7 @@ public class LyricMain {
     System.out.println(testLine.getBracketedText("English"));
     testLine.deleteFromBracketedText("English", 5, 0);
     System.out.println(testLine.getBracketedText("English"));
+    System.out.println(testLine.getAsPlaintext("English"));
 
     String thing = "a[b[]c[d]]e";
     System.out.println(testLine.removeUnlessBrackets(thing, 3, 1));

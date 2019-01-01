@@ -7,7 +7,6 @@ public class LyricLine {
     // Note that the Line doesn't explicitly store the list of languages,
     // so it doesn't have them ordered - to produce them in proper order,
     // have to invoke each one manually from a higher class.
-    private HashMap<String,String> plaintexts;
     private HashMap<String,String> bracketedtexts;
     private ArrayList<LyricSlice> slices;
 
@@ -15,10 +14,8 @@ public class LyricLine {
 // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public LyricLine(String[] languages) {
-        plaintexts = new HashMap<String,String>();
         bracketedtexts = new HashMap<String,String>();
         for (String lang : languages) {
-            plaintexts.put(lang, "");
             bracketedtexts.put(lang, "");
         }
         slices = new ArrayList<LyricSlice>();
@@ -28,32 +25,27 @@ public class LyricLine {
 // =-=-= Plain Text =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     // Get the plain text from texts for the given language
-    public String getPlainText(String key) {
-        return plaintexts.get(key);
-    }
-
     public String getBracketedText(String key) {
         return bracketedtexts.get(key);
     }
 
-    public String setPlainText(String key, String val) {
-        bracketedtexts.put(key, val);
-        return plaintexts.put(key, val);
+    public String setBracketedText(String key, String val) {
+        return bracketedtexts.put(key, val);
     }
 
-    // Get the full plaintext map
-    public HashMap<String,String> getPlainTextMap() {
-        return plaintexts;
+    // // Get the full bracketedtext map
+    public HashMap<String,String> getBracketedTextMap() {
+        return bracketedtexts;
     }
 
-    public HashMap<String,String> setPlainTextMap(HashMap<String,String> newmap) {
-        HashMap<String,String> temp = plaintexts;
-        plaintexts = newmap;
+    public HashMap<String,String> setBracketedTextMap(HashMap<String,String> newmap) {
+        HashMap<String,String> temp = bracketedtexts;
+        bracketedtexts = newmap;
         return temp;
     }
 
     public Set<String> getLanguages() {
-        return plaintexts.keySet();
+        return bracketedtexts.keySet();
     }
 
     public void addToBracketedText(String key, String str, Integer index) {
@@ -135,10 +127,14 @@ public class LyricLine {
 
     public String toString() {
         String result = ">Line<\n";
-        for (String lang : plaintexts.keySet()) {
-            result += "\t@" + lang + ": " + plaintexts.get(lang) + "\n";
+        for (String lang : getLanguages()) {
+            result += "\t@" + lang + ": " + getAsPlaintext(lang) + "\n";
         }
         return result;
+    }
+
+    public String getAsPlaintext(String key) {
+        return bracketedtexts.get(key).replace("[", "").replace("]", "");
     }
 
     public String getAsBracketed(String key) {
@@ -176,7 +172,7 @@ public class LyricLine {
     }
 
     public String insertSliceBounds(String key, String headerTemplate, ArrayList<String> headers, String closerTemplate, ArrayList<String> closers) {
-        StringBuilder textSB = new StringBuilder(plaintexts.get(key));
+        StringBuilder textSB = new StringBuilder(getAsPlaintext(key));
         ArrayList<LyricCoords> coordsList = getCoordsList(key);
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
