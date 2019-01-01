@@ -93,17 +93,6 @@ public class LyricLine {
         return result;
     }
 
-    public ArrayList<LyricSlice> setSlices(ArrayList<LyricSlice> newlist) {
-        ArrayList<LyricSlice> temp = slices;
-        slices = newlist;
-        return temp;
-    }
-
-    public LyricSlice addSlice(LyricSlice slice) {
-        slices.add(slice);
-        return slice;
-    }
-
     public LyricSlice createSlice(Integer category, String annotation) {
         LyricSlice newSlice = new LyricSlice(bracketedtexts, category, annotation);
         slices.add(newSlice);
