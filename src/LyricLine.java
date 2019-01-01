@@ -161,15 +161,14 @@ public class LyricLine {
     }
 
     public String insertSliceBounds(String key, String headerTemplate, ArrayList<String> headers, String closerTemplate, ArrayList<String> closers) {
-        StringBuilder textSB = new StringBuilder(getAsPlaintext(key));
+        StringBuilder textSB = new StringBuilder(getBracketedText(key));
         ArrayList<LyricCoords> coordsList = getCoordsList(key);
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
             String bracketHeader = String.format(headerTemplate, headers != null ? headers.get(i) + i : "");
             String bracketCloser = String.format(closerTemplate, closers != null ? closers.get(i) + i : "");
-            textSB.insert(currentCoords.getStart(), bracketHeader);
-            textSB.insert(currentCoords.getEnd() + bracketHeader.length(), bracketCloser);
-            // System.out.println((i) + ": " + currentCoords);
+            textSB.replace(currentCoords.getStart(), currentCoords.getStart()+1, bracketHeader);
+            textSB.replace(currentCoords.getEnd() + bracketHeader.length(), currentCoords.getEnd() + bracketHeader.length() + 1, bracketCloser);
             for (int j = i+1; j < coordsList.size(); j++) {
                 coordsList.get(j).updateReference(currentCoords.getStart(), bracketHeader.length(), textSB.length());
                 coordsList.get(j).updateReference(currentCoords.getEnd()+bracketHeader.length(), bracketCloser.length(), textSB.length());

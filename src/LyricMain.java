@@ -60,6 +60,6 @@ public class LyricMain {
     System.out.println(testLine.removeUnlessBrackets(thing, 3, 1));
     System.out.println("Test thing: " + thing);
     System.out.println("\n" + testLine.getSlices());
-    // System.out.println("\n" + testLine.getAsHTML());
+    System.out.println("\n" + testLine.getAsHTML());
   }
 }
