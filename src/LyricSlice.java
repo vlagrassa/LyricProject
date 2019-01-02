@@ -856,11 +856,11 @@ class LyricCoords {
         return result;
     }
 
-    public LyricSlice setStartEnd(String key, Integer start, Integer end) {
+    public String setStartEnd(String key, Integer start, Integer end, String referenceString) {
         // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
 
         // Initialize the new reference string to be a copy of the current one
-        StringBuilder newReference = new StringBuilder(referenceStrings.get(key));
+        StringBuilder newReference = new StringBuilder(referenceString);
 
         // Correct for start and end being entered in reverse order
         // Note that if newstart has not yet been set, newend must be increased by 1 to adjust for the
@@ -906,7 +906,6 @@ class LyricCoords {
         // Re-insert brackets into the reference string and save it to the HashMap
         newReference.insert(start, "[");
         newReference.insert(end, "]");
-        referenceStrings.put(key, newReference.toString());
 
         // Change other slices to match reinserted brackets
         for (LyricSlice slice : listOfSlices) {
@@ -916,7 +915,7 @@ class LyricCoords {
             }
         }
 
-        return this;
+        return newReference.toString();
     }
 
     /**
