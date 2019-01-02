@@ -231,30 +231,85 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
 }
 
 class LyricCoords {
+
+    /**
+     * An {@code Integer} instance storing the start coordinate.
+     */
     private Integer start;
+
+    /**
+     * An {@code Integer} instance storing the end coordinate.
+     */
     private Integer end;
 
+    /**
+     * Constructs a newly allocated {@code LyricCoords} object that
+     * stores the two specified coordinates.
+     * 
+     * @param start The first coordinate in the pair, representing
+     *              the starting index.
+     * @param end   The second coordinate in the pair, representing
+     *              the ending index.
+     */
     public LyricCoords(Integer start, Integer end) {
         this.start = start;
         this.end = end;
     }
 
+    /**
+     * Copy constructor allocating a new {@code LyricCoords} object
+     * that stores the same coordinates as the passed {@code LyricCoords}.
+     * 
+     * @param orig The original {@code LyricCoords} object to copy.
+     */
     public LyricCoords(LyricCoords orig) {
         this(orig.getStart(), orig.getEnd());
     }
 
+    /**
+     * Get the first coordinate, representing the start.
+     * 
+     * @return An {@code Integer} representing the start coordinate.
+     */
     public Integer getStart() {
         return start;
     }
 
+    /**
+     * Get the second coordinate, representing the end.
+     * 
+     * @return An {@code Integer} representing the end coordinate.
+     */
     public Integer getEnd() {
         return end;
     }
 
+    /**
+     * Directly set the start coordinate to the passed argument, with no
+     * checks or adjustments made.
+     * 
+     * @param newstart The new start coordinate.
+     * @return The original start coordinate.
+     */
     public Integer setStart(Integer newstart) {
         return setStartBound(newstart, null);
     }
 
+    /**
+     * Safely set the start coordinate by capping it at 0 and the given
+     * maxlength. That is, if the new coordinate is less than 0 or greater
+     * than maxlength, start will instead be set to that value; otherwise,
+     * it will be set to the passed value. If maxlength is null, there will
+     * be no bounds, and start will be set to newstart regardless of its
+     * value.
+     * 
+     * TODO: Allow a lower bound to be passed, as well
+     * TODO: Make setting upper and/or lower bound to null to mean that specific bound doesn't exist, rather than no bound existing.
+     * 
+     * @param newstart  The new start coordinate.
+     * @param maxlength The maximum allowed value for the new starting coordinate.
+     * @return The original start coordinate.
+     */
     public Integer setStartBound(Integer newstart, Integer maxlength) {
         Integer oldstart = start;
         if (maxlength == null)
@@ -268,10 +323,28 @@ class LyricCoords {
         return oldstart;
     }
 
+    /**
+     * Directly set the end coordinate to the passed argument, with no
+     * checks or adjustments made.
+     * 
+     * @param newend The new end coordinate.
+     * @return The original end coordinate.
+     */
     public Integer setEnd(Integer newend) {
         return setEndBound(newend, null);
     }
 
+    /**
+     * Safely set the end coordinate by capping it at 0 and the given
+     * maxlength. That is, if the new coordinate is less than 0 or greater
+     * than maxlength, end will instead be set to that value; otherwise,
+     * it will be set to the passed value. If maxlength is null, there will
+     * be no bounds, and end will be set to newend regardless of its value.
+     * 
+     * @param newend  The new end coordinate.
+     * @param maxlength The maximum allowed value for the new ending coordinate.
+     * @return The original end coordinate.
+     */
     public Integer setEndBound(Integer newend, Integer maxlength) {
         Integer oldend = end;
         if (maxlength == null)
@@ -285,23 +358,70 @@ class LyricCoords {
         return oldend;
     }
 
+    /**
+     * Directly set the start and end coordinates to the passed arguments,
+     * with no checks or adjustments made.
+     * 
+     * @param newstart The new start coordinate.
+     * @param newend   The new end coordinate.
+     */
     public void setCoords(Integer newstart, Integer newend) {
         setCoordsBound(newstart, newend, null);
     }
 
+    /**
+     * Safely set both coordinates by capping them at 0 and the given
+     * maxlength. That is, if the new coordinate is less than 0 or greater
+     * than maxlength, it will instead be set to that value; otherwise,
+     * it will be set to the passed value. If maxlength is null, there will
+     * be no bounds, and the coordinates will be set directly regardless of
+     * the new values.
+     * 
+     * @param newstart The new start coordinate.
+     * @param newend   The new end coordinate.
+     * @param maxlength The maximum allowed value for the new coordinates.
+     */
     public void setCoordsBound(Integer newstart, Integer newend, Integer maxlength) {
         setStartBound(newstart, maxlength);
         setEndBound(newend, maxlength);
     }
 
+    /**
+     * Directly shift the start and end coordinates by  the passed values,
+     * with no checks or adjustments made. The new coordinates will be
+     * start + startoffset and end + endoffset.
+     * 
+     * @param startoffset The amount to change the start coordinate by.
+     * @param endoffset   The amount to change the end coordinate by.
+     */
     public void moveCoords(Integer startoffset, Integer endoffset) {
         moveCoordsBound(startoffset, endoffset, null);
     }
 
+    /**
+     * Safely shift both coordinates by capping them at 0 and the given
+     * maxlength. That is, if the new coordinate is less than 0 or greater
+     * than maxlength, it will instead be set to that value; otherwise, it
+     * will be adjusted by the passed value. If maxlength is null, there will
+     * be no bounds, and the coordinates will be set directly regardless of
+     * the new values.
+     * 
+     * @param startoffset The amount to change the start coordinate by.
+     * @param endoffset   The amount to change the end coordinate by.
+     * @param maxlength The maximum allowed value for the new coordinates.
+     */
     public void moveCoordsBound(Integer startoffset, Integer endoffset, Integer maxlength) {
         setCoordsBound(start + startoffset, end + endoffset, maxlength);
     }
 
+    /**
+     * Adjust the start and end coordinates to reflect some change to the 
+     * string they are meant to represent.
+     * 
+     * @param index           The index in the string where the change takes place.
+     * @param length          The number of characters inserted or deleted.
+     * @param referenceLength The length of the full reference string after the transformation.
+     */
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
         if (!hasNull()) {
             Integer startOffset = 0, endOffset = 0;
@@ -317,10 +437,22 @@ class LyricCoords {
         }
     }
 
+    /**
+     * Return true if either the start or end coordinate is currently
+     * set to null.
+     * 
+     * @return whether one coordinate is null.
+     */
     public Boolean hasNull() {
         return start == null || end == null;
     }
 
+    /**
+     * Return true if both the start and end coordinates are currently
+     * set to null.
+     * 
+     * @return whether both coordinates are null.
+     */
     public Boolean isNull() {
         return start == null && end == null;
     }
