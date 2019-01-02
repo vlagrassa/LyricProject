@@ -1,8 +1,7 @@
 import java.util.*;
 
 public class LyricSlice {
-
-// =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * A map from a {@code String} representing a given language to a set of
@@ -36,7 +35,7 @@ public class LyricSlice {
     ArrayList<LyricSlice> listOfSlices;
 
 
-// =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Constructs a newly allocated {@Code LyricSlice} object.
@@ -138,7 +137,7 @@ public class LyricSlice {
     }
 
 
-// =-=-= Reference String Map =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Reference String Map =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Get the {@code HashMap} of reference strings directly. This is a
@@ -163,7 +162,7 @@ public class LyricSlice {
     }
 
 
-// =-=-= Category =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Category =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Get the category of the slice. Note that this may have the default
@@ -219,7 +218,7 @@ public class LyricSlice {
     }
 
 
-// =-=-= Annotation =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Annotation =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Get the annotation associated with this slice.
@@ -243,7 +242,7 @@ public class LyricSlice {
     }
 
 
-// =-=-= Full Coordinates =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Full Coordinates =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Get the full map from a {@code String} representing a given language to a set of
@@ -297,7 +296,7 @@ public class LyricSlice {
     }
 
 
-// =-=-= Coordinate Start and End =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Coordinate Start and End =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Get the first coordinate, representing the start of the interval, for the
@@ -485,7 +484,7 @@ public class LyricSlice {
     }
 
 
-// =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
         String result = "";
