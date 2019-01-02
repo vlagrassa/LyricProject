@@ -846,6 +846,12 @@ class LyricCoords {
         }
     }
 
+    public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
+        LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
+        result.addCoords(start, end);
+        return result;
+    }
+
     /**
      * Return true if either the start or end coordinate is currently
      * set to null.
@@ -868,5 +874,35 @@ class LyricCoords {
 
     public String toString() {
         return "(" + start + ", " + end + ")";
+    }
+}
+
+class LyricCoordsDiscontinuous extends LyricCoords {
+    private ArrayList<LyricCoords> coordsList;
+
+    public LyricCoordsDiscontinuous(Integer start, Integer end) {
+        super(start, end);
+        coordsList = new ArrayList<LyricCoords>();
+        coordsList.add(new LyricCoords(start, end));
+    }
+
+    public LyricCoordsDiscontinuous(LyricCoords orig) {
+        this(orig.getStart(), orig.getEnd());
+    }
+
+    public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
+        coordsList.add(new LyricCoords(start, end));
+        return this;
+    }
+
+    public String toString() {
+        String result = "[";
+        for (LyricCoords coords : coordsList) {
+            result += coords;
+            result += ", ";
+        }
+        result = result.substring(0, result.length()-2);
+        result += "]";
+        return result;
     }
 }

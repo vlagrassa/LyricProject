@@ -42,6 +42,33 @@ public class LyricMain {
     System.out.println(testLine.getSlices());
     // System.out.println(testLine.getAsBracketed("English"));
 
+// =-= Test Discontinuous Lyric Coords with
+//       - plain coordinates (testCoordsOrig)
+//       - polymorphic discontinuous coordinates (testCoordsCast)
+//       - discontinuous coordinates (testCoordsDisc)
+    LyricCoords              testCoordsOrig = new LyricCoords             (1, 3);
+    LyricCoords              testCoordsCast = new LyricCoordsDiscontinuous(1, 3);
+    LyricCoordsDiscontinuous testCoordsDisc = new LyricCoordsDiscontinuous(1, 3);
+
+    // Plain Coordinates
+    System.out.println(testCoordsOrig);
+    testCoordsOrig = testCoordsOrig.addCoords(5, 7);
+    System.out.println(testCoordsOrig);
+
+    // Polymorphic Discontinuous Coordinates
+    System.out.println(testCoordsCast);
+    testCoordsCast = testCoordsCast.addCoords(5, 7);
+    System.out.println(testCoordsCast);
+
+    // Plain Discontinuous Coordinates
+    System.out.println(testCoordsDisc);
+    testCoordsDisc = testCoordsDisc.addCoords(5, 7);
+    System.out.println(testCoordsDisc);
+
+    LyricSlice testSliceDisc = testLine.createSlice();
+    testSliceDisc.getCoordsMap().put("English", testCoordsDisc);
+    System.out.println(testSliceDisc);
+
 
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 6-i; j++) {
