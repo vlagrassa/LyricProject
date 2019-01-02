@@ -205,13 +205,14 @@ public class LyricSlice {
      * Return {@code true} if the category of the slice matches the
      * given category, and false otherwise.
      * 
-     * TODO: Handle case where category is null
      * TODO: New function to check if category is null
      * 
      * @param matchcat Value to compare category with.
      * @return Whether the slice's category matches the passed category.
      */
     public Boolean isCategory(Integer matchcat) {
+        if (category == null)
+            return false;
         return category == matchcat;
     }
 
