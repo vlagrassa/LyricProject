@@ -151,7 +151,7 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         }
 
         // Set new start and new end safely
-        coordSet.setCoordsBound(newstart, newend, newReference.length()+1);
+        coordSet.setCoordsBound(newstart, newend, 0, newReference.length()+1);
 
         // Re-insert brackets into the reference string and save it to the HashMap
         newReference.insert(coordSet.getStart(), "[");
@@ -292,7 +292,7 @@ class LyricCoords {
      * @return The original start coordinate.
      */
     public Integer setStart(Integer newstart) {
-        return setStartBound(newstart, null);
+        return setStartBound(newstart, null, null);
     }
 
     /**
@@ -303,21 +303,16 @@ class LyricCoords {
      * be no bounds, and start will be set to newstart regardless of its
      * value.
      * 
-     * TODO: Allow a lower bound to be passed, as well
-     * TODO: Make setting upper and/or lower bound to null to mean that specific bound doesn't exist, rather than no bound existing.
-     * 
      * @param newstart  The new start coordinate.
      * @param maxlength The maximum allowed value for the new starting coordinate.
      * @return The original start coordinate.
      */
-    public Integer setStartBound(Integer newstart, Integer maxlength) {
+    public Integer setStartBound(Integer newstart, Integer minval, Integer maxval) {
         Integer oldstart = start;
-        if (maxlength == null)
-            start = newstart;
-        else if (newstart < 0)
-            start = 0;
-        else if (newstart > maxlength)
-            start = maxlength;
+        if (maxval != null && newstart > maxval)
+            start = maxval;
+        else if (minval != null && newstart < minval)
+            start = minval;
         else
             start = newstart;
         return oldstart;
@@ -331,7 +326,7 @@ class LyricCoords {
      * @return The original end coordinate.
      */
     public Integer setEnd(Integer newend) {
-        return setEndBound(newend, null);
+        return setEndBound(newend, null, null);
     }
 
     /**
@@ -345,14 +340,12 @@ class LyricCoords {
      * @param maxlength The maximum allowed value for the new ending coordinate.
      * @return The original end coordinate.
      */
-    public Integer setEndBound(Integer newend, Integer maxlength) {
+    public Integer setEndBound(Integer newend, Integer minval, Integer maxval) {
         Integer oldend = end;
-        if (maxlength == null)
-            end = newend;
-        else if (newend < 0)
-            end = 0;
-        else if (newend > maxlength)
-            end = maxlength;
+        if (maxval != null && newend > maxval)
+            end = maxval;
+        else if (minval != null && newend < minval)
+            end = minval;
         else
             end = newend;
         return oldend;
@@ -366,7 +359,7 @@ class LyricCoords {
      * @param newend   The new end coordinate.
      */
     public void setCoords(Integer newstart, Integer newend) {
-        setCoordsBound(newstart, newend, null);
+        setCoordsBound(newstart, newend, null, null);
     }
 
     /**
@@ -381,9 +374,13 @@ class LyricCoords {
      * @param newend   The new end coordinate.
      * @param maxlength The maximum allowed value for the new coordinates.
      */
-    public void setCoordsBound(Integer newstart, Integer newend, Integer maxlength) {
-        setStartBound(newstart, maxlength);
-        setEndBound(newend, maxlength);
+    public void setCoordsBound(Integer newstart, Integer minstartval, Integer maxstartval, Integer newend, Integer minendval, Integer maxendval) {
+        setStartBound(newstart, minstartval, maxstartval);
+        setEndBound(newend, minendval, maxendval);
+    }
+
+    public void setCoordsBound(Integer newstart, Integer newend, Integer minval, Integer maxval) {
+        setCoordsBound(newstart, minval, maxval, newend, minval, maxval);
     }
 
     /**
@@ -395,7 +392,7 @@ class LyricCoords {
      * @param endoffset   The amount to change the end coordinate by.
      */
     public void moveCoords(Integer startoffset, Integer endoffset) {
-        moveCoordsBound(startoffset, endoffset, null);
+        moveCoordsBound(startoffset, endoffset, null, null);
     }
 
     /**
@@ -410,8 +407,12 @@ class LyricCoords {
      * @param endoffset   The amount to change the end coordinate by.
      * @param maxlength The maximum allowed value for the new coordinates.
      */
-    public void moveCoordsBound(Integer startoffset, Integer endoffset, Integer maxlength) {
-        setCoordsBound(start + startoffset, end + endoffset, maxlength);
+    public void moveCoordsBound(Integer startoffset, Integer minstartval, Integer maxstartval, Integer endoffset, Integer minendval, Integer maxendval) {
+        setCoordsBound(start + startoffset, minstartval, maxstartval, end + endoffset, minendval, maxendval);
+    }
+
+    public void moveCoordsBound(Integer startoffset, Integer endoffset, Integer minval, Integer maxval) {
+        moveCoordsBound(startoffset, minval, maxval, endoffset, minval, maxval);
     }
 
     /**
@@ -433,7 +434,7 @@ class LyricCoords {
                 if (start >= index) startOffset = length;
                 if (end   >  index) endOffset   = length;
             }
-            moveCoordsBound(startOffset, endOffset, referenceLength);
+            moveCoordsBound(startOffset, endOffset, 0, referenceLength);
         }
     }
 
