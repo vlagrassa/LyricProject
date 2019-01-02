@@ -249,7 +249,7 @@ class LyricCoords {
     }
 
     /**
-     * Get the first coordinate, representing the start.
+     * Get the first coordinate, representing the start of the interval.
      * 
      * @return An {@code Integer} representing the start coordinate.
      */
@@ -258,7 +258,7 @@ class LyricCoords {
     }
 
     /**
-     * Get the second coordinate, representing the end.
+     * Get the second coordinate, representing the end of the interval.
      * 
      * @return An {@code Integer} representing the end coordinate.
      */
