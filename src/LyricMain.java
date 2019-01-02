@@ -61,5 +61,13 @@ public class LyricMain {
     System.out.println("Test thing: " + thing);
     System.out.println("\n" + testLine.getSlices());
     System.out.println("\n" + testLine.getAsHTML());
+    testSlice.moveStart("English", 1);
+    testSlice.moveEnd("English", -6);
+    testSlice.moveEnd("English", 1);
+    testSlice.moveEnd("Japanese", 1);
+    System.out.println("\n" + testLine.getAsHTML());
+    System.out.println(testLine.getBracketedText("English"));
+    System.out.println(testLine.getBracketedText("Japanese"));
+    // TODO: Fix insertion order when brackets border one another - [[]] vs [][]
   }
 }
