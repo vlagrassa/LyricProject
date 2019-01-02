@@ -161,24 +161,36 @@ public class LyricLine {
     }
 
     public String insertSliceBounds(String key, String headerTemplate, ArrayList<String> headers, String closerTemplate, ArrayList<String> closers) {
+        // Initialize final text as copy of the bracketed text
         StringBuilder textSB = new StringBuilder(getBracketedText(key));
+
+        // Initialize list of coordinates for a given language from each slice as copies, so they can be changed
         ArrayList<LyricCoords> coordsList = getCoordsList(key);
+
+        // Loop through all coordinates
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
+
+            // If one of both of the coordinates is null, skip it
             if (!currentCoords.hasNull()) {
+
+                // Define the character sequences to start and end this slice, based on the inputs
                 String bracketHeader = String.format(headerTemplate, headers != null ? headers.get(i) + i : "");
                 String bracketCloser = String.format(closerTemplate, closers != null ? closers.get(i) + i : "");
+
+                // Insert the opening and closing character sequences into the string
                 textSB.replace(currentCoords.getStart(), currentCoords.getStart()+1, bracketHeader);
                 textSB.replace(currentCoords.getEnd() + bracketHeader.length() - 1, currentCoords.getEnd() + bracketHeader.length(), bracketCloser);
+
+                // Update each subsequent coordinate set in the (copy) list, to reflect that the new openers and closers have shifted them
                 for (int j = i+1; j < coordsList.size(); j++) {
                     coordsList.get(j).updateReference(currentCoords.getStart(), bracketHeader.length() - 1, textSB.length());
                     coordsList.get(j).updateReference(currentCoords.getEnd()+bracketHeader.length(), bracketCloser.length() - 1, textSB.length());
                 }
-                // System.out.println(i + ": " + currentCoords + " -> " + textSB);
-                // System.out.println(textSB);
-                // System.out.println();
             }
         }
+
+        // Return the final, built up string
         return textSB.toString();
     }
 
