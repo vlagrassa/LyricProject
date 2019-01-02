@@ -165,7 +165,7 @@ public class LyricLine {
         StringBuilder textSB = new StringBuilder(getBracketedText(key));
 
         // Initialize list of coordinates for a given language from each slice as copies, so they can be changed
-        ArrayList<LyricCoords> coordsList = getCoordsList(key);
+        ArrayList<LyricCoords> coordsList = getCoordsListCopy(key);
 
         // Loop through all coordinates
         for (int i = 0; i < coordsList.size(); i++) {
@@ -194,7 +194,7 @@ public class LyricLine {
         return textSB.toString();
     }
 
-    private ArrayList<LyricCoords> getCoordsList(String key) {
+    private ArrayList<LyricCoords> getCoordsListCopy(String key) {
         ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
         for (LyricSlice slice : slices) {
             coordsList.add(new LyricCoords(slice.getCoords(key)));
