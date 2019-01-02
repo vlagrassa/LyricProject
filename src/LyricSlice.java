@@ -277,8 +277,15 @@ public class LyricSlice {
     }
 
     public LyricSlice setStartEnd(String key, Integer start, Integer end) {
+
+        // Get the coordinates for the given language
         LyricCoords coordSet = coords.get(key);
+
+        // Initialize the new reference string to be a copy of the current one
         StringBuilder newReference = new StringBuilder(referenceStrings.get(key));
+
+        // Correct for start and end being entered in reverse order
+        // Note that newend must be increased by 1 to adjust for the bracket inserted at newstart
         Integer newstart = Math.min(start, end);
         Integer newend = Math.max(start, end) + 1;
 
@@ -287,6 +294,7 @@ public class LyricSlice {
             if (newReference.charAt(coordSet.getEnd()) == ']') {
                 newReference.deleteCharAt(coordSet.getEnd());
             } else {
+                // TODO: Make this throw an actual error
                 System.out.println("Character " + coordSet.getEnd() + " of string \"" + newReference + " does not match close bracket \"]\" ");
             }
         }
@@ -296,6 +304,7 @@ public class LyricSlice {
             if (newReference.charAt(coordSet.getStart()) == '[') {
                 newReference.deleteCharAt(coordSet.getStart());
             } else {
+                // TODO: Make this throw an actual error
                 System.out.println("Character " + coordSet.getStart() + " of string \"" + newReference + " does not match open bracket \"[\" ");
             }
         }
