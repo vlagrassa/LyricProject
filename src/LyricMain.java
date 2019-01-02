@@ -64,11 +64,12 @@ public class LyricMain {
     // testSlice.moveStart("English", 1);
     // testSlice.moveEnd("English", -6);
 
+// =-= Moving end to same position as start =-=
     System.out.println(testLine.getBracketedText("English"));
     testSlice.moveEnd("English", -7);
     System.out.println(testLine.getBracketedText("English"));
 
-
+// =-= Incrementing end toward start with -1, then moving past with -2 =-=
     // System.out.println(testLine.getBracketedText("English"));
     // for (int i = 0; i < 15; i++) {
     //   testSlice.moveEnd("English", -1);
@@ -83,9 +84,6 @@ public class LyricMain {
     // testSlice.moveStart("English", 2);
     // System.out.println(testLine.getBracketedText("English"));
 
-    // System.out.println("\n" + testLine.getAsHTML());
-
-    // System.out.println(testLine.getBracketedText("English"));
-    // System.out.println(testLine.getBracketedText("Japanese"));
+    System.out.println("\n" + testLine.getAsHTML());
   }
 }

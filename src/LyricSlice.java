@@ -377,13 +377,14 @@ public class LyricSlice {
         // Set new start and new end safely
         coordSet.setCoordsBound(newstart, newend, 0, newReference.length()+1);
 
-        // Re-insert brackets into the reference string and save it to the HashMap
+        // Increment end by 1 if both bounds end up at the same point
         if (coordSet.getStart() == coordSet.getEnd()) {
-            newReference.insert(coordSet.getStart(), "[]");
-        } else {
-            newReference.insert(coordSet.getStart(), "[");
-            newReference.insert(coordSet.getEnd(), "]");
+            coordSet.moveEnd(1);
         }
+
+        // Re-insert brackets into the reference string and save it to the HashMap
+        newReference.insert(coordSet.getStart(), "[");
+        newReference.insert(coordSet.getEnd(), "]");
         referenceStrings.put(key, newReference.toString());
 
         // Change other slices to match reinserted brackets
