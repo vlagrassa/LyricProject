@@ -2,6 +2,8 @@ public class LyricMain {
   
   public static void main(String[] args)
   {
+
+// =-= Initializing test LyricLine =-=
     String[] languages = {"English", "Japanese"};
     LyricLine testLine = new LyricLine(languages);
     testLine.setBracketedText("Japanese", "honbun tesuto");
@@ -9,6 +11,8 @@ public class LyricMain {
     System.out.println(testLine.getAsPlaintext("Japanese"));
     System.out.println(testLine.getAsPlaintext("English"));
 
+
+// =-= Initializing test LyricSlice =-=
     LyricSlice testSlice = testLine.createSlice(1);
     testSlice.setStartEnd("Japanese", -5, 6);
     testSlice.setStartEnd("English", 5, 18);
@@ -16,6 +20,8 @@ public class LyricMain {
     System.out.println("Test Slice:\n" + testSlice);
     System.out.println("Test Line:\n" + testLine);
 
+
+// =-= Adding more slices, with categories =-=
     testLine.createSlice(2).setStartEnd("English", 8, 9);
     testLine.createSlice(1).setStartEnd("English", 0, 4).setStartEnd("Japanese", 9, 17);
     /*
@@ -24,28 +30,28 @@ public class LyricMain {
     testLine.createSlice(3).setStartEnd("English", 3, 4).setStartEnd("Japanese", 11, 13);
     */
 
-    /*
-    System.out.println("\nNo filter:");
+
+// =-= Filtering slices by category =-=
+    System.out.println("\nFiltering slices by category:");
+    System.out.println("No filter:");
     System.out.println(testLine.getSlices());
-    System.out.println("\nFiltered by category 1:");
+    System.out.println("Filtered by category 1:");
     System.out.println(testLine.getSlices(1));
-    */
 
+
+// =-= Modifying the text =-=
     // System.out.println(testLine.getAsHTML());
-
     // System.out.println(testLine.getSlices());
     // testLine.deleteFromPlainText("English", 1, 4);
     // testLine.addToPlainText("English", "___", 8);
 
     // testLine.modifyPlainText("English", " thing", 4);
     // System.out.println(testLine.getAsHTML());
-    System.out.println(testLine.getSlices());
+    // System.out.println(testLine.getSlices());
     // System.out.println(testLine.getAsBracketed("English"));
 
-// =-= Test Discontinuous Lyric Coords with
-//       - plain coordinates (testCoordsOrig)
-//       - polymorphic discontinuous coordinates (testCoordsCast)
-//       - discontinuous coordinates (testCoordsDisc)
+
+// =-= Test Discontinuous Lyric Coords =-=
     LyricCoords              testCoordsOrig = new LyricCoords             (1, 3);
     LyricCoords              testCoordsCast = new LyricCoordsDiscontinuous(1, 3);
     LyricCoordsDiscontinuous testCoordsDisc = new LyricCoordsDiscontinuous(1, 3);
@@ -92,12 +98,16 @@ public class LyricMain {
     System.out.println(testSliceDisc);
 
 
+// =-= Test removing non-bracket characers =-=
+    System.out.println("\nRemove non-bracket characters:");
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 6-i; j++) {
         System.out.println("Remove " + j + " at index " + i + ": " + testLine.removeUnlessBrackets("a[b[]c[d]]e", j, i));
       }
     }
 
+// =-= Add and remove from bracketed text =-=
+    System.out.println("\nAdd to and remove from bracketed text:");
     System.out.println(testLine.getBracketedText("English"));
     testLine.addToBracketedText("English", "abcde", 1);
     System.out.println(testLine.getBracketedText("English"));
@@ -105,6 +115,9 @@ public class LyricMain {
     System.out.println(testLine.getBracketedText("English"));
     System.out.println(testLine.getAsPlaintext("English"));
 
+
+// =-= Test removing non-bracket characters
+    System.out.println("\nRemove non-bracket characters from sample string:");
     String thing = "a[b[]c[d]]e";
     System.out.println(testLine.removeUnlessBrackets(thing, 3, 1));
     System.out.println("Test thing: " + thing);
@@ -113,7 +126,9 @@ public class LyricMain {
     // testSlice.moveStart("English", 1);
     // testSlice.moveEnd("English", -6);
 
+
 // =-= Moving end to same position as start =-=
+    System.out.println("\nMove end position to same as start position:");
     System.out.println(testLine.getBracketedText("English"));
     testSlice.moveEnd("English", -7);
     System.out.println(testLine.getBracketedText("English"));
