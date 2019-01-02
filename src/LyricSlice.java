@@ -924,9 +924,8 @@ class LyricCoordsDiscontinuous extends LyricCoords {
 
     public Boolean isNull() {
         for (LyricCoords coords : coordsList) {
-            if (!coords.isNull()) {
+            if (!coords.isNull())
                 return false;
-            }
         }
         return true;
     }
