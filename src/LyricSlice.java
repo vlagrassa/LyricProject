@@ -517,8 +517,7 @@ public class LyricSlice {
         if (coords.get(key).hasNull()) {
             return "";
         }
-        // TODO: Use coords methods to allow for discontinuous coords
-        return referenceStrings.get(key).substring(coords.get(key).getStart()+1, coords.get(key).getEnd());
+        return coords.get(key).getBoundCharacters(referenceStrings.get(key));
     }
 }
 
