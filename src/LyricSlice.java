@@ -245,37 +245,94 @@ public class LyricSlice {
 
 // =-=-= Full Coordinates =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Get the full map from a {@code String} representing a given language to a set of
+     * {@code LyricCoords} storing the position of the slice for that language.
+     * 
+     * @return HashMap from language to slice coordinates.
+     */
     public HashMap<String,LyricCoords> getCoordsMap() {
         return coords;
     }
 
+    /**
+     * Get the {@code LyricCoords} storing the position of the slice for the given
+     * language.
+     * 
+     * @param key The language to get coordinates for.
+     * @return The coordinates for that language.
+     */
     public LyricCoords getCoords(String key) {
         return coords.get(key);
     }
 
+    /**
+     * Replace the full map from a {@code String} representing a given language to a set of
+     * {@code LyricCoords} storing the position of the slice for that language. Note that
+     * this will not correct the bounds of the coordinates if they are outside the range of
+     * the current reference string.
+     * 
+     * @param newcoords The new coordinate map.
+     * @return The original coordinate map.
+     */
     public HashMap<String,LyricCoords> setCoordsMap(HashMap<String,LyricCoords> newcoords) {
         HashMap<String,LyricCoords> oldcoords = coords;
         coords = newcoords;
         return oldcoords;
     }
 
-    public LyricCoords setCoords(String key, LyricCoords newcoord) {
-        LyricCoords oldcoord = coords.get(key);
-        coords.put(key, newcoord);
-        return oldcoord;
+    /**
+     * Directly set the {@code LyricCoords} storing the position of the slice for the
+     * given language. Note that this will not correct the bounds of the coordinates
+     * if they are outside the range of the current reference string.
+     * 
+     * @param key       The language to set the coordinates for.
+     * @param newcoords The new set of coordinates.
+     * @return The original set of coordinates.
+     */
+    public LyricCoords setCoords(String key, LyricCoords newcoords) {
+        LyricCoords oldcoords = coords.get(key);
+        coords.put(key, newcoords);
+        return oldcoords;
     }
 
 
 // =-=-= Coordinate Start and End =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Get the first coordinate, representing the start of the interval, for the
+     * given language.
+     * 
+     * @param key The language to get the coordinate from.
+     * @return An {@code Integer} representing the start coordinate.
+     */
     public Integer getStart(String key) {
         return coords.get(key).getStart();
     }
 
+    /**
+     * Get the second coordinate, representing the end of the interval, for the
+     * given language.
+     * 
+     * @param key The language to get the coordinate from.
+     * @return An {@code Integer} representing the end coordinate.
+     */
     public Integer getEnd(String key) {
         return coords.get(key).getEnd();
     }
 
+    /**
+     * Move the start and end coordinates of the slice, adjusting the coordinates of the
+     * other slices in the line to match the change. Note that the coordinates are bound
+     * by 0 and the length of the reference string -- that is, if they are outside this
+     * range, they will be adjusted to fit within it. They may also be entered in either
+     * order.
+     * 
+     * @param key   The language to set the coordinates for.
+     * @param start The new start coordinate.
+     * @param end   The new end coordinate.
+     * @return The {@code LyricSlice} itself.
+     */
     public LyricSlice setStartEnd(String key, Integer start, Integer end) {
         // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
 
@@ -337,26 +394,88 @@ public class LyricSlice {
         return this;
     }
 
+    /**
+     * Move the start coordinate of the slice, adjusting the coordinates of the other
+     * slices in the line to match the change. The new start coordinate will be bound
+     * by 0 and the length of the reference string -- that is, if it is outside this
+     * range, it will be adjusted to fit within it.
+     * 
+     * @param key      The language to set the coordinates for.
+     * @param newstart The new start coordinate.
+     * @return The {@code LyricSlice} itself.
+     */
     public LyricSlice setStart(String key, Integer newstart) {
         return setStartEnd(key, newstart, coords.get(key).getEnd());
     }
 
+    /**
+     * Move the end coordinate of the slice, adjusting the coordinates of the other
+     * slices in the line to match the change. The new end coordinate will be bound
+     * by 0 and the length of the reference string -- that is, if it is outside this
+     * range, it will be adjusted to fit within it.
+     * 
+     * @param key    The language to set the coordinates for.
+     * @param newend The new end coordinate.
+     * @return The {@code LyricSlice} itself.
+     */
     public LyricSlice setEnd(String key, Integer newend) {
         return setStartEnd(key, coords.get(key).getStart(), newend);
     }
 
+    /**
+     * Shift the start and end coordinates of the slice with reference to their current
+     * values, adjusting the coordinates of the other slices in the line to match the
+     * change. Note that the coordinates are bound by 0 and the length of the reference
+     * string -- that is, if they are outside this range, they will be adjusted to fit
+     * within it.
+     * 
+     * @param key         The language to set the coordinates for.
+     * @param startoffset The amount to change the start coordinate by.
+     * @param endoffset   The amount to change the end coordinate by.
+     * @return The {@code LyricSlice} itself.
+     */
     public LyricSlice moveStartEnd(String key, Integer startoffset, Integer endoffset) {
         return setStartEnd(key, coords.get(key).getStart() + offset, coords.get(key).getEnd() + offset);
     }
 
+    /**
+     * Shift the start coordinate of the slice with reference to its current value,
+     * adjusting the coordinates of the other slices in the line to match the change.
+     * The new start coordinate will be bound by 0 and the length of the reference
+     * string -- that is, if it is outside this range, it will be adjusted to fit
+     * within it.
+     * 
+     * @param key         The language to set the coordinates for.
+     * @param startoffset The amount to change the start coordinate by.
+     * @return The {@code LyricSlice} itself.
+     */
     public LyricSlice moveStart(String key, Integer startoffset) {
         return setStart(key, coords.get(key).getStart() + offset);
     }
 
+    /**
+     * Shift the end coordinate of the slice with reference to its current value,
+     * adjusting the coordinates of the other slices in the line to match the change.
+     * The new end coordinate will be bound by 0 and the length of the reference
+     * string -- that is, if it is outside this range, it will be adjusted to fit
+     * within it.
+     * 
+     * @param key       The language to set the coordinates for.
+     * @param endoffset The amount to change the end coordinate by.
+     * @return The {@code LyricSlice} itself.
+     */
     public LyricSlice moveEnd(String key, Integer endoffset) {
         return setEnd(key, coords.get(key).getEnd() + offset);
     }
 
+    /**
+     * Adjust the start and end coordinates for the given language to reflect
+     * a change to the reference string.
+     * 
+     * @param key    The language to change the coordinates of.
+     * @param index  The index in the string where the change takes place.
+     * @param length The number of characters inserted or deleted.
+     */
     public void updateReference(String key, Integer index, Integer length) {
         coords.get(key).updateReference(index, length, referenceStrings.get(key).length());
     }
@@ -372,10 +491,24 @@ public class LyricSlice {
         return result;
     }
 
+    /**
+     * Get the characters inside the slice for the given language, without any brackets
+     * from other slices.
+     * 
+     * @param key The language to take the substring from.
+     * @return The substring contained in the slice.
+     */
     public String getEnclosedPlaintext(String key) {
         return getEnclosedBracketedText(key).replace("[", "").replace("]", "");
     }
 
+    /**
+     * Get the characters inside the slice for the given language, including brackets
+     * from other slices.
+     * 
+     * @param key The language to take the substring from.
+     * @return The substring contained in the slice.
+     */
     public String getEnclosedBracketedText(String key) {
         if (coords.get(key).hasNull()) {
             return "";
