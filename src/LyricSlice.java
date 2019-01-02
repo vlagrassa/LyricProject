@@ -252,14 +252,14 @@ class LyricCoords {
     }
 
     public Integer setStart(Integer newstart) {
-        Integer oldstart = start;
-        start = newstart;
-        return oldstart;
+        return setStartBound(newstart, null);
     }
 
     public Integer setStartBound(Integer newstart, Integer maxlength) {
         Integer oldstart = start;
-        if (newstart < 0)
+        if (maxlength == null)
+            start = newstart;
+        else if (newstart < 0)
             start = 0;
         else if (newstart > maxlength)
             start = maxlength;
@@ -269,14 +269,14 @@ class LyricCoords {
     }
 
     public Integer setEnd(Integer newend) {
-        Integer oldend = end;
-        end = newend;
-        return oldend;
+        return setEndBound(newend, null);
     }
 
     public Integer setEndBound(Integer newend, Integer maxlength) {
         Integer oldend = end;
-        if (newend < 0)
+        if (maxlength == null)
+            end = newend;
+        else if (newend < 0)
             end = 0;
         else if (newend > maxlength)
             end = maxlength;
@@ -286,8 +286,7 @@ class LyricCoords {
     }
 
     public void setCoords(Integer newstart, Integer newend) {
-        setStart(newstart);
-        setEnd(newend);
+        setCoordsBound(newstart, newend, null);
     }
 
     public void setCoordsBound(Integer newstart, Integer newend, Integer maxlength) {
@@ -296,7 +295,7 @@ class LyricCoords {
     }
 
     public void moveCoords(Integer startoffset, Integer endoffset) {
-        setCoords(start + startoffset, end + endoffset);
+        moveCoordsBound(startoffset, endoffset, null);
     }
 
     public void moveCoordsBound(Integer startoffset, Integer endoffset, Integer maxlength) {
