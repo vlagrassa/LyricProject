@@ -165,17 +165,19 @@ public class LyricLine {
         ArrayList<LyricCoords> coordsList = getCoordsList(key);
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
-            String bracketHeader = String.format(headerTemplate, headers != null ? headers.get(i) + i : "");
-            String bracketCloser = String.format(closerTemplate, closers != null ? closers.get(i) + i : "");
-            textSB.replace(currentCoords.getStart(), currentCoords.getStart()+1, bracketHeader);
-            textSB.replace(currentCoords.getEnd() + bracketHeader.length() - 1, currentCoords.getEnd() + bracketHeader.length(), bracketCloser);
-            for (int j = i+1; j < coordsList.size(); j++) {
-                coordsList.get(j).updateReference(currentCoords.getStart(), bracketHeader.length() - 1, textSB.length());
-                coordsList.get(j).updateReference(currentCoords.getEnd()+bracketHeader.length(), bracketCloser.length() - 1, textSB.length());
+            if (!currentCoords.hasNull()) {
+                String bracketHeader = String.format(headerTemplate, headers != null ? headers.get(i) + i : "");
+                String bracketCloser = String.format(closerTemplate, closers != null ? closers.get(i) + i : "");
+                textSB.replace(currentCoords.getStart(), currentCoords.getStart()+1, bracketHeader);
+                textSB.replace(currentCoords.getEnd() + bracketHeader.length() - 1, currentCoords.getEnd() + bracketHeader.length(), bracketCloser);
+                for (int j = i+1; j < coordsList.size(); j++) {
+                    coordsList.get(j).updateReference(currentCoords.getStart(), bracketHeader.length() - 1, textSB.length());
+                    coordsList.get(j).updateReference(currentCoords.getEnd()+bracketHeader.length(), bracketCloser.length() - 1, textSB.length());
+                }
+                // System.out.println(i + ": " + currentCoords + " -> " + textSB);
+                // System.out.println(textSB);
+                // System.out.println();
             }
-            // System.out.println(i + ": " + currentCoords + " -> " + textSB);
-            // System.out.println(textSB);
-            // System.out.println();
         }
         return textSB.toString();
     }
