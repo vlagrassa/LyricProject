@@ -345,10 +345,10 @@ public class LyricSlice {
         // Note that if newstart has not yet been set, newend must be increased by 1 to adjust for the
         // bracket that will be inserted there
         Integer newstart = Math.min(start, end);
-        Integer newend = Math.max(start, end) + (coordSet.getStart() == null ? 1 : 0);
+        Integer newend = Math.max(start, end) + (coordSet.hasStart() ? 0 : 1);
 
         // Remove current closing bracket, if it exists
-        if (coordSet.getEnd() != null) {
+        if (coordSet.hasEnd()) {
             if (newReference.charAt(coordSet.getEnd()) == ']') {
                 newReference.deleteCharAt(coordSet.getEnd());
             } else {
@@ -357,7 +357,7 @@ public class LyricSlice {
         }
 
         // Remove current opening bracket, if it exists
-        if (coordSet.getStart() != null) {
+        if (coordSet.hasStart()) {
             if (newReference.charAt(coordSet.getStart()) == '[') {
                 newReference.deleteCharAt(coordSet.getStart());
             } else {
@@ -368,8 +368,8 @@ public class LyricSlice {
         // Change other slices to match removal of brackets
         for (LyricSlice slice : listOfSlices) {
             if (slice != this) {
-                if (coordSet.getStart() != null) slice.updateReference(key, coordSet.getStart(), -1);
-                if (coordSet.getEnd() != null) slice.updateReference(key, coordSet.getEnd(), -1);
+                if (coordSet.hasStart()) slice.updateReference(key, coordSet.getStart(), -1);
+                if (coordSet.hasEnd()) slice.updateReference(key, coordSet.getEnd(), -1);
             }
         }
 
@@ -389,8 +389,8 @@ public class LyricSlice {
         // Change other slices to match reinserted brackets
         for (LyricSlice slice : listOfSlices) {
             if (slice != this) {
-                if (coordSet.getStart() != null) slice.updateReference(key, coordSet.getStart(), 1);
-                if (coordSet.getEnd() != null) slice.updateReference(key, coordSet.getEnd(), 1);
+                if (coordSet.hasStart()) slice.updateReference(key, coordSet.getStart(), 1);
+                if (coordSet.hasEnd()) slice.updateReference(key, coordSet.getEnd(), 1);
             }
         }
 
@@ -869,10 +869,10 @@ class LyricCoords {
         // Note that if newstart has not yet been set, newend must be increased by 1 to adjust for the
         // bracket that will be inserted there
         Integer newstart = Math.min(start, end);
-        Integer newend = Math.max(start, end) + (coordSet.getStart() == null ? 1 : 0);
+        Integer newend = Math.max(start, end) + (coordSet.hasStart() ? 0 : 1);
 
         // Remove current closing bracket, if it exists
-        if (coordSet.getEnd() != null) {
+        if (coordSet.hasEnd()) {
             if (newReference.charAt(coordSet.getEnd()) == ']') {
                 newReference.deleteCharAt(coordSet.getEnd());
             } else {
@@ -881,7 +881,7 @@ class LyricCoords {
         }
 
         // Remove current opening bracket, if it exists
-        if (coordSet.getStart() != null) {
+        if (coordSet.hasStart()) {
             if (newReference.charAt(coordSet.getStart()) == '[') {
                 newReference.deleteCharAt(coordSet.getStart());
             } else {
@@ -892,8 +892,8 @@ class LyricCoords {
         // Change other slices to match removal of brackets
         for (LyricSlice slice : listOfSlices) {
             if (slice != this) {
-                if (coordSet.getStart() != null) slice.updateReference(key, coordSet.getStart(), -1);
-                if (coordSet.getEnd() != null) slice.updateReference(key, coordSet.getEnd(), -1);
+                if (coordSet.hasStart()) slice.updateReference(key, coordSet.getStart(), -1);
+                if (coordSet.hasEnd()) slice.updateReference(key, coordSet.getEnd(), -1);
             }
         }
 
@@ -913,8 +913,8 @@ class LyricCoords {
         // Change other slices to match reinserted brackets
         for (LyricSlice slice : listOfSlices) {
             if (slice != this) {
-                if (coordSet.getStart() != null) slice.updateReference(key, coordSet.getStart(), 1);
-                if (coordSet.getEnd() != null) slice.updateReference(key, coordSet.getEnd(), 1);
+                if (coordSet.hasStart()) slice.updateReference(key, coordSet.getStart(), 1);
+                if (coordSet.hasEnd()) slice.updateReference(key, coordSet.getEnd(), 1);
             }
         }
 
@@ -939,6 +939,14 @@ class LyricCoords {
      */
     public Boolean isNull() {
         return start == null && end == null;
+    }
+
+    public Boolean hasStart() {
+        return start != null;
+    }
+
+    public Boolean hasEnd() {
+        return end != null;
     }
 
     public Boolean isDiscontinuous() {
