@@ -519,6 +519,10 @@ public class LyricSlice {
 
 class LyricCoords {
 
+    // Note that nearly all the logic for this class lives setCoordsBound, which is 
+    // called by most of the other functions. This uses setValBound to determine the
+    // new values for start and end.
+
     /**
      * An {@code Integer} instance storing the start coordinate.
      */
