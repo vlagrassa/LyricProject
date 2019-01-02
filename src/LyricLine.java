@@ -127,7 +127,7 @@ public class LyricLine {
     }
 
     public String getAsBracketed(String key) {
-        return insertSliceBounds(key, "[", "]");
+        return getBracketedText(key);
     }
 
     public String getAsHTML() {
