@@ -285,6 +285,15 @@ class LyricCoords {
     }
 
     /**
+     * Get the difference between the start and end coordinates.
+     * 
+     * @return The length of the interval.
+     */
+    public Integer length() {
+        return end - start;
+    }
+
+    /**
      * Directly set the start coordinate to the passed argument, with no
      * checks or adjustments made.
      * 
