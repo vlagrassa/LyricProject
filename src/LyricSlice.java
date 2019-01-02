@@ -856,7 +856,7 @@ class LyricCoords {
         return result;
     }
 
-    public String setStartEnd(String key, Integer start, Integer end, String referenceString) {
+    public String setStartEnd(Integer start, Integer end, String referenceString, ArrayList<LyricCoords> listOfCoords) {
         // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
 
         // Initialize the new reference string to be a copy of the current one
@@ -886,11 +886,12 @@ class LyricCoords {
             }
         }
 
-        // Change other slices to match removal of brackets
-        for (LyricSlice slice : listOfSlices) {
-            if (slice != this) {
-                if (hasStart()) slice.updateReference(key, start, -1);
-                if (hasEnd()) slice.updateReference(key, end, -1);
+        // Change other coords to match removal of brackets
+        for (LyricCoords coords : listOfCoords) {
+            if (coords != this) {
+                // TODO: Accept null or no argument if end bound isn't necessary here
+                if (hasStart()) coords.updateReference(start, -1, newReference.length());
+                if (hasEnd()) coords.updateReference(end, -1, newReference.length());
             }
         }
 
@@ -908,10 +909,10 @@ class LyricCoords {
         newReference.insert(end, "]");
 
         // Change other slices to match reinserted brackets
-        for (LyricSlice slice : listOfSlices) {
-            if (slice != this) {
-                if (hasStart()) slice.updateReference(key, start, 1);
-                if (hasEnd()) slice.updateReference(key, end, 1);
+        for (LyricCoords coords : listOfCoords) {
+            if (coords != this) {
+                if (hasStart()) coords.updateReference(start, 1, newReference.length());
+                if (hasEnd()) coords.updateReference(end, 1, newReference.length());
             }
         }
 
