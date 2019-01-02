@@ -394,6 +394,66 @@ class LyricCoords {
     }
 
     /**
+     * Directly shift the start coordinate by the passed, with no
+     * checks or adjustments made.
+     * 
+     * @param startoffset The amount to change the start coordinate by.
+     * @return The original start coordinate.
+     */
+    public Integer moveStart(Integer startoffset) {
+        return moveStartBound(startoffset, null, null);
+    }
+
+    /**
+     * Safely shift the start coordinate by capping it with the given values.
+     * That is, if the new coordinate is less than minval or greater than
+     * maxval, start will instead be set to the appropriate min or max value,
+     * respectively; otherwise, it will be set to the passed value. If either
+     * of the bounding values is null, it will be treated as if that bound
+     * doesn't exist.
+     * 
+     * @param startoffset The amount to change the start coordinate by.
+     * @param minval      The minimum allowed value for the new starting coordinate.
+     * @param maxval      The maximum allowed value for the new starting coordinate.
+     * @return The original start coordinate.
+     */
+    public Integer moveStartBound(Integer startoffset, Integer minval, Integer maxval) {
+        Integer oldstart = end;
+        moveCoordsBound(startoffset, 0, minval, maxval);
+        return oldstart;
+    }
+
+    /**
+     * Directly shift the end coordinate by the passed value, with no
+     * checks or adjustments made.
+     * 
+     * @param endoffset The amount to change the end coordinate by.
+     * @return The original end coordinate.
+     */
+    public Integer moveEnd(Integer endoffset) {
+        return moveEndBound(endoffset, null, null);
+    }
+
+    /**
+     * Safely shift the end coordinate by capping it with the given values.
+     * That is, if the new coordinate is less than minval or greater than
+     * maxval, end will instead be set to the appropriate min or max value,
+     * respectively; otherwise, it will be set to the passed value. If either
+     * of the bounding values is null, it will be treated as if that bound
+     * doesn't exist.
+     * 
+     * @param endoffset The amount to change the end coordinate by.
+     * @param minval    The minimum allowed value for the new end coordinate.
+     * @param maxval    The maximum allowed value for the new end coordinate.
+     * @return The original end coordinate.
+     */
+    public Integer moveEndBound(Integer endoffset, Integer minval, Integer maxval) {
+        Integer oldend = end;
+        moveCoordsBound(0, endoffset, minval, maxval);
+        return oldend;
+    }
+
+    /**
      * Directly shift the start and end coordinates by  the passed values,
      * with no checks or adjustments made. The new coordinates will be
      * start + startoffset and end + endoffset.
