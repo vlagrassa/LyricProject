@@ -277,6 +277,7 @@ public class LyricSlice {
     }
 
     public LyricSlice setStartEnd(String key, Integer start, Integer end) {
+        // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
 
         // Get the coordinates for the given language
         LyricCoords coordSet = coords.get(key);
