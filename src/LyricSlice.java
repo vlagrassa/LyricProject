@@ -296,15 +296,16 @@ class LyricCoords {
     }
 
     /**
-     * Safely set the start coordinate by capping it at 0 and the given
-     * maxlength. That is, if the new coordinate is less than 0 or greater
-     * than maxlength, start will instead be set to that value; otherwise,
-     * it will be set to the passed value. If maxlength is null, there will
-     * be no bounds, and start will be set to newstart regardless of its
-     * value.
+     * Safely set the start coordinate by capping it with the given values.
+     * That is, if the new coordinate is less than minval or greater than
+     * maxval, start will instead be set to the appropriate min or max value,
+     * respectively; otherwise, it will be set to the passed value. If either
+     * of the bounding values is null, it will be treated as if that bound
+     * doesn't exist.
      * 
-     * @param newstart  The new start coordinate.
-     * @param maxlength The maximum allowed value for the new starting coordinate.
+     * @param newstart The new start coordinate.
+     * @param minval   The minimum allowed value for the new starting coordinate.
+     * @param maxval   The maximum allowed value for the new starting coordinate.
      * @return The original start coordinate.
      */
     public Integer setStartBound(Integer newstart, Integer minval, Integer maxval) {
@@ -330,15 +331,17 @@ class LyricCoords {
     }
 
     /**
-     * Safely set the end coordinate by capping it at 0 and the given
-     * maxlength. That is, if the new coordinate is less than 0 or greater
-     * than maxlength, end will instead be set to that value; otherwise,
-     * it will be set to the passed value. If maxlength is null, there will
-     * be no bounds, and end will be set to newend regardless of its value.
+     * Safely set the end coordinate by capping it with the given values.
+     * That is, if the new coordinate is less than minval or greater than
+     * maxval, end will instead be set to the appropriate min or max value,
+     * respectively; otherwise, it will be set to the passed value. If either
+     * of the bounding values is null, it will be treated as if that bound
+     * doesn't exist.
      * 
-     * @param newend  The new end coordinate.
-     * @param maxlength The maximum allowed value for the new ending coordinate.
-     * @return The original end coordinate.
+     * @param newend The new start coordinate.
+     * @param minval The minimum allowed value for the new starting coordinate.
+     * @param maxval The maximum allowed value for the new starting coordinate.
+     * @return The original start coordinate.
      */
     public Integer setEndBound(Integer newend, Integer minval, Integer maxval) {
         Integer oldend = end;
@@ -363,22 +366,38 @@ class LyricCoords {
     }
 
     /**
-     * Safely set both coordinates by capping them at 0 and the given
-     * maxlength. That is, if the new coordinate is less than 0 or greater
-     * than maxlength, it will instead be set to that value; otherwise,
-     * it will be set to the passed value. If maxlength is null, there will
-     * be no bounds, and the coordinates will be set directly regardless of
-     * the new values.
+     * Safely set both coordinates by capping them with the given values.
+     * That is, if the new coordinate is less than the associated minval or
+     * greater than the associated maxval, the coordinate will instead be
+     * set to the appropriate min or max value, respectively; otherwise, it
+     * will be set to the passed value. If either of the bounding values is
+     * null, it will be treated as if that bound doesn't exist.
      * 
-     * @param newstart The new start coordinate.
-     * @param newend   The new end coordinate.
-     * @param maxlength The maximum allowed value for the new coordinates.
+     * @param newstart    The new start coordinate.
+     * @param minstartval The minimum allowed value for the new starting coordinate.
+     * @param maxstartval The maximum allowed value for the new starting coordinate.
+     * @param newend      The new end coordinate.
+     * @param minendval   The minimum allowed value for the new ending coordinate.
+     * @param maxendval   The maximum allowed value for the new ending coordinate.
      */
     public void setCoordsBound(Integer newstart, Integer minstartval, Integer maxstartval, Integer newend, Integer minendval, Integer maxendval) {
         setStartBound(newstart, minstartval, maxstartval);
         setEndBound(newend, minendval, maxendval);
     }
 
+    /**
+     * Safely set both coordinates by capping them with the given values.
+     * That is, if the new coordinate is less than the given minval or
+     * greater than the given maxval, the coordinate will instead be set to
+     * the appropriate min or max value, respectively; otherwise, it will
+     * be set to the passed value. If either of the bounding values is null,
+     * it will be treated as if that bound doesn't exist.
+     * 
+     * @param newstart The new start coordinate.
+     * @param newend   The new end coordinate.
+     * @param minval   The minimum allowed value for the new coordinates.
+     * @param maxval   The maximum allowed value for the new coordinates.
+     */
     public void setCoordsBound(Integer newstart, Integer newend, Integer minval, Integer maxval) {
         setCoordsBound(newstart, minval, maxval, newend, minval, maxval);
     }
@@ -396,21 +415,37 @@ class LyricCoords {
     }
 
     /**
-     * Safely shift both coordinates by capping them at 0 and the given
-     * maxlength. That is, if the new coordinate is less than 0 or greater
-     * than maxlength, it will instead be set to that value; otherwise, it
-     * will be adjusted by the passed value. If maxlength is null, there will
-     * be no bounds, and the coordinates will be set directly regardless of
-     * the new values.
+     * Safely shift both coordinates by capping them with the given values.
+     * That is, if the new coordinate is less than the associated minval or
+     * greater than the associated maxval, the coordinate will instead be
+     * set to the appropriate min or max value, respectively; otherwise, it
+     * will be set to the passed value. If either of the bounding values is
+     * null, it will be treated as if that bound doesn't exist.
      * 
      * @param startoffset The amount to change the start coordinate by.
+     * @param minstartval The minimum allowed value for the new starting coordinate.
+     * @param maxstartval The maximum allowed value for the new starting coordinate.
      * @param endoffset   The amount to change the end coordinate by.
-     * @param maxlength The maximum allowed value for the new coordinates.
+     * @param minendval   The minimum allowed value for the new ending coordinate.
+     * @param maxendval   The maximum allowed value for the new ending coordinate.
      */
     public void moveCoordsBound(Integer startoffset, Integer minstartval, Integer maxstartval, Integer endoffset, Integer minendval, Integer maxendval) {
         setCoordsBound(start + startoffset, minstartval, maxstartval, end + endoffset, minendval, maxendval);
     }
 
+    /**
+     * Safely shift both coordinates by capping them with the given values.
+     * That is, if the new coordinate is less than the given minval or
+     * greater than the given maxval, the coordinate will instead be set to
+     * the appropriate min or max value, respectively; otherwise, it will
+     * be set to the passed value. If either of the bounding values is null,
+     * it will be treated as if that bound doesn't exist.
+     * 
+     * @param startoffset The amount to change the start coordinate by.
+     * @param endoffset   The amount to change the end coordinate by.
+     * @param minval   The minimum allowed value for the new coordinates.
+     * @param maxval   The maximum allowed value for the new coordinates.
+     */
     public void moveCoordsBound(Integer startoffset, Integer endoffset, Integer minval, Integer maxval) {
         moveCoordsBound(startoffset, minval, maxval, endoffset, minval, maxval);
     }
