@@ -171,7 +171,7 @@ public class LyricLine {
         for (int i = 0; i < coordsList.size(); i++) {
             LyricCoords currentCoords = coordsList.get(i);
 
-            // If one of both of the coordinates is null, skip it
+            // If one or both of the coordinates is null, skip it
             if (!currentCoords.hasNull()) {
 
                 // Define the character sequences to start and end this slice, based on the inputs
