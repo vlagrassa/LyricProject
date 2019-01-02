@@ -517,6 +517,7 @@ public class LyricSlice {
         if (coords.get(key).hasNull()) {
             return "";
         }
+        // TODO: Use coords methods to allow for discontinuous coords
         return referenceStrings.get(key).substring(coords.get(key).getStart()+1, coords.get(key).getEnd());
     }
 }
@@ -875,6 +876,10 @@ class LyricCoords {
     public String toString() {
         return "(" + start + ", " + end + ")";
     }
+
+    public String getBoundCharacters(String text) {
+        return text.substring(getStart()+1, getEnd());
+    }
 }
 
 class LyricCoordsDiscontinuous extends LyricCoords {
@@ -903,6 +908,17 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         }
         result = result.substring(0, result.length()-2);
         result += "]";
+        return result;
+    }
+
+    public String getBoundCharacters(String text) {
+        String result = "";
+        String intercalate = " (...) ";
+        for (LyricCoords coords : coordsList) {
+            result += coords.getBoundCharacters(text);
+            result += intercalate;
+        }
+        result = result.substring(0, result.length() - intercalate.length());
         return result;
     }
 }

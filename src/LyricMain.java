@@ -49,22 +49,34 @@ public class LyricMain {
     LyricCoords              testCoordsOrig = new LyricCoords             (1, 3);
     LyricCoords              testCoordsCast = new LyricCoordsDiscontinuous(1, 3);
     LyricCoordsDiscontinuous testCoordsDisc = new LyricCoordsDiscontinuous(1, 3);
+    String testText = "abcdefghij";
 
     // Plain Coordinates
-    System.out.println(testCoordsOrig);
+    System.out.println("\nPlain Coordinates:");
+    System.out.print(testCoordsOrig + " -> ");
+    System.out.println(testCoordsOrig.getBoundCharacters(testText));
     testCoordsOrig = testCoordsOrig.addCoords(5, 7);
-    System.out.println(testCoordsOrig);
+    System.out.print(testCoordsOrig + " -> ");
+    System.out.println(testCoordsOrig.getBoundCharacters(testText));
 
     // Polymorphic Discontinuous Coordinates
-    System.out.println(testCoordsCast);
+    System.out.println("\nPolymorphic Discontinuous Coordinates:");
+    System.out.print(testCoordsCast + " -> ");
+    System.out.println(testCoordsCast.getBoundCharacters(testText));
     testCoordsCast = testCoordsCast.addCoords(5, 7);
-    System.out.println(testCoordsCast);
+    System.out.print(testCoordsCast + " -> ");
+    System.out.println(testCoordsCast.getBoundCharacters(testText));
 
     // Plain Discontinuous Coordinates
-    System.out.println(testCoordsDisc);
+    System.out.println("\nPlain Discontinuous Coordinates:");
+    System.out.print(testCoordsDisc + " -> ");
+    System.out.println(testCoordsDisc.getBoundCharacters(testText));
     testCoordsDisc = testCoordsDisc.addCoords(5, 7);
-    System.out.println(testCoordsDisc);
+    System.out.print(testCoordsDisc + " -> ");
+    System.out.println(testCoordsDisc.getBoundCharacters(testText));
 
+    // Using Discontinuous Coordinates in a LyricSlice
+    System.out.println("\nDiscontinuous Coordinates in a LyricSlice:");
     LyricSlice testSliceDisc = testLine.createSlice();
     testSliceDisc.getCoordsMap().put("English", testCoordsDisc);
     System.out.println(testSliceDisc);
