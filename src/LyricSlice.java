@@ -4,15 +4,60 @@ public class LyricSlice {
 
 // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * A map from a {@code String} representing a given language to a set of
+     * {@code LyricCoords} storing the position of the slice for that language.
+     */
     HashMap<String,LyricCoords> coords;
+
+    /**
+     * A map from a {@code String} representing a given language to the text
+     * associated with the overarching {@code LyricLine} in that language.
+     */
     HashMap<String,String> referenceStrings;
+
+    /**
+     * An {@code Integer} storing the category of the slice -- generally part of
+     * speech, type of phrase, etc. This is important for organizing slices in the
+     * final product, and determines what color to use to highlight it.
+     */
     Integer category;
+
+    /**
+     * A {@code String} storing information about the text contained in the slice,
+     * generally relating to how it is translated or used.
+     */
     String annotation;
+
+    /**
+     * The {@code ArrayList} stored by a {@code LyricLine} to which this {@code LyricSlice}
+     * belongs. Used to update other slices when the bounds of this slice are changed.
+     */
     ArrayList<LyricSlice> listOfSlices;
 
 
 // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Constructs a newly allocated {@Code LyricSlice} object.
+     * 
+     * The {@code reference} and {@code slices} arguments are necessary, and will be
+     * saved directly to the fields {@code referenceStrings} and {@code listOfSlices},
+     * respectively.
+     * 
+     * If not provided, the argument {@code category} will default to {@code null},
+     * and the argument {@code annotation} will default to the empty string {@code ""}.
+     * 
+     * The field {@code coords} will be constructed as a newly allocated {@code HashMap},
+     * and a newly allocated, default {@code LyricCoords} object will be added to it for
+     * each language string in {@code reference}. Each {@code LyricCoords} will start out
+     * storing {@code null} for its {@code start} and {@code end} values.
+     * 
+     * @param reference  HashMap of languages to reference strings.
+     * @param slices     Reference to list of slices to which this slice belongs.
+     * @param category   The category of this slice.
+     * @param annotation The annotation associated with this slice.
+     */
     public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, Integer category, String annotation) {
         coords = new HashMap<String,LyricCoords>();
         for (String lang : reference.keySet()) {
@@ -24,14 +69,70 @@ public class LyricSlice {
         this.annotation = annotation;
     }
 
+    /**
+     * Constructs a newly allocated {@Code LyricSlice} object.
+     * 
+     * The {@code reference} and {@code slices} arguments are necessary, and will be
+     * saved directly to the fields {@code referenceStrings} and {@code listOfSlices},
+     * respectively.
+     * 
+     * If not provided, the argument {@code category} will default to {@code null},
+     * and the argument {@code annotation} will default to the empty string {@code ""}.
+     * 
+     * The field {@code coords} will be constructed as a newly allocated {@code HashMap},
+     * and a newly allocated, default {@code LyricCoords} object will be added to it for
+     * each language string in {@code reference}. Each {@code LyricCoords} will start out
+     * storing {@code null} for its {@code start} and {@code end} values.
+     * 
+     * @param reference  HashMap of languages to reference strings.
+     * @param slices     Reference to list of slices to which this slice belongs.
+     * @param category   The category of this slice.
+     */
     public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, Integer category) {
         this(reference, slices, category, "");
     }
 
+    /**
+     * Constructs a newly allocated {@Code LyricSlice} object.
+     * 
+     * The {@code reference} and {@code slices} arguments are necessary, and will be
+     * saved directly to the fields {@code referenceStrings} and {@code listOfSlices},
+     * respectively.
+     * 
+     * If not provided, the argument {@code category} will default to {@code null},
+     * and the argument {@code annotation} will default to the empty string {@code ""}.
+     * 
+     * The field {@code coords} will be constructed as a newly allocated {@code HashMap},
+     * and a newly allocated, default {@code LyricCoords} object will be added to it for
+     * each language string in {@code reference}. Each {@code LyricCoords} will start out
+     * storing {@code null} for its {@code start} and {@code end} values.
+     * 
+     * @param reference  HashMap of languages to reference strings.
+     * @param slices     Reference to list of slices to which this slice belongs.
+     * @param annotation The annotation associated with this slice.
+     */
     public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, String annotation) {
         this(reference, slices, null, annotation);
     }
 
+    /**
+     * Constructs a newly allocated {@Code LyricSlice} object.
+     * 
+     * The {@code reference} and {@code slices} arguments are necessary, and will be
+     * saved directly to the fields {@code referenceStrings} and {@code listOfSlices},
+     * respectively.
+     * 
+     * If not provided, the argument {@code category} will default to {@code null},
+     * and the argument {@code annotation} will default to the empty string {@code ""}.
+     * 
+     * The field {@code coords} will be constructed as a newly allocated {@code HashMap},
+     * and a newly allocated, default {@code LyricCoords} object will be added to it for
+     * each language string in {@code reference}. Each {@code LyricCoords} will start out
+     * storing {@code null} for its {@code start} and {@code end} values.
+     * 
+     * @param reference  HashMap of languages to reference strings.
+     * @param slices     Reference to list of slices to which this slice belongs.
+     */
     public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices) {
         this(reference, slices, null, "");
     }
@@ -39,10 +140,24 @@ public class LyricSlice {
 
 // =-=-= Reference String Map =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Get the {@code HashMap} of reference strings directly. This is a
+     * map from a {@code String} representing a given language to the text
+     * associated with the overarching {@code LyricLine} in that language.
+     * 
+     * @return The map of reference strings.
+     */
     public HashMap<String,String> getReferenceStrings() {
         return referenceStrings;
     }
 
+    /**
+     * Get the reference string for the given language -- the text
+     * associated with the overarching {@code LyricLine} in that language.
+     * 
+     * @param key The language of the reference string
+     * @return The reference string associated with that language.
+     */
     public String getReferenceString(String key) {
         return referenceStrings.get(key);
     }
@@ -50,10 +165,23 @@ public class LyricSlice {
 
 // =-=-= Category =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Get the category of the slice. Note that this may have the default
+     * value {@code null}.
+     * 
+     * @return The category of the slice.
+     */
     public Integer getCategory() {
         return category;
     }
 
+    /**
+     * Get the category of the slice as a String. Note that if the category
+     * has the default value {@code null}, this will return the empty string
+     * {@code ""}.
+     * 
+     * @return The category as a {@code String}.
+     */
     public String getCategoryStr() {
         if (category == null) {
             return "";
@@ -61,12 +189,28 @@ public class LyricSlice {
         return Integer.toString(category);
     }
 
+    /**
+     * Change the category of the slice to the given value.
+     * 
+     * @param newcat The new category of the slice.
+     * @return The original category of the slice.
+     */
     public Integer setCategory(Integer newcat) {
         Integer oldcat = category;
         category = newcat;
         return oldcat;
     }
 
+    /**
+     * Return {@code true} if the category of the slice matches the
+     * given category, and false otherwise.
+     * 
+     * TODO: Handle case where category is null
+     * TODO: New function to check if category is null
+     * 
+     * @param matchcat Value to compare category with.
+     * @return Whether the slice's category matches the passed category.
+     */
     public Boolean isCategory(Integer matchcat) {
         return category == matchcat;
     }
@@ -74,10 +218,21 @@ public class LyricSlice {
 
 // =-=-= Annotation =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Get the annotation associated with this slice.
+     * 
+     * @return The annotation.
+     */
     public String getAnnotation() {
         return annotation;
     }
 
+    /**
+     * Change the annotation associated with this slice.
+     * 
+     * @param newAnnotation The new annotation.
+     * @return The original annotation.
+     */
     public String setAnnotation(String newAnnotation) {
         String oldAnnotation = annotation;
         annotation = newAnnotation;
