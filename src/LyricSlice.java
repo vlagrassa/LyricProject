@@ -659,6 +659,7 @@ class LyricCoords {
      * 
      * @param newstart The new start coordinate.
      * @param newend   The new end coordinate.
+     * @return The original coordinates.
      */
     public LyricCoords setCoords(Integer newstart, Integer newend) {
         return setCoordsBound(newstart, newend, null, null);
@@ -678,6 +679,7 @@ class LyricCoords {
      * @param newend      The new end coordinate.
      * @param minendval   The minimum allowed value for the new ending coordinate.
      * @param maxendval   The maximum allowed value for the new ending coordinate.
+     * @return The original coordinates.
      */
     public LyricCoords setCoordsBound(Integer newstart, Integer minstartval, Integer maxstartval, Integer newend, Integer minendval, Integer maxendval) {
         LyricCoords oldcoords = new LyricCoords(this);
@@ -700,6 +702,7 @@ class LyricCoords {
      * @param newend   The new end coordinate.
      * @param minval   The minimum allowed value for the new coordinates.
      * @param maxval   The maximum allowed value for the new coordinates.
+     * @return The original coordinates.
      */
     public LyricCoords setCoordsBound(Integer newstart, Integer newend, Integer minval, Integer maxval) {
         return setCoordsBound(newstart, minval, maxval, newend, minval, maxval);
@@ -768,6 +771,7 @@ class LyricCoords {
      * 
      * @param startoffset The amount to change the start coordinate by.
      * @param endoffset   The amount to change the end coordinate by.
+     * @return The original coordinates.
      */
     public LyricCoords moveCoords(Integer startoffset, Integer endoffset) {
         return moveCoordsBound(startoffset, endoffset, null, null);
@@ -787,6 +791,7 @@ class LyricCoords {
      * @param endoffset   The amount to change the end coordinate by.
      * @param minendval   The minimum allowed value for the new ending coordinate.
      * @param maxendval   The maximum allowed value for the new ending coordinate.
+     * @return The original coordinates.
      */
     public LyricCoords moveCoordsBound(Integer startoffset, Integer minstartval, Integer maxstartval, Integer endoffset, Integer minendval, Integer maxendval) {
         return setCoordsBound(start + startoffset, minstartval, maxstartval, end + endoffset, minendval, maxendval);
@@ -804,6 +809,7 @@ class LyricCoords {
      * @param endoffset   The amount to change the end coordinate by.
      * @param minval   The minimum allowed value for the new coordinates.
      * @param maxval   The maximum allowed value for the new coordinates.
+     * @return The original coordinates.
      */
     public LyricCoords moveCoordsBound(Integer startoffset, Integer endoffset, Integer minval, Integer maxval) {
         return moveCoordsBound(startoffset, minval, maxval, endoffset, minval, maxval);
