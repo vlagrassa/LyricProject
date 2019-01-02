@@ -343,9 +343,10 @@ public class LyricSlice {
         StringBuilder newReference = new StringBuilder(referenceStrings.get(key));
 
         // Correct for start and end being entered in reverse order
-        // Note that newend must be increased by 1 to adjust for the bracket inserted at newstart
+        // Note that if newstart has not yet been set, newend must be increased by 1 to adjust for the
+        // bracket that will be inserted there
         Integer newstart = Math.min(start, end);
-        Integer newend = Math.max(start, end) + 1;
+        Integer newend = Math.max(start, end) + (coordSet.getStart() == null ? 1 : 0);
 
         // Remove current closing bracket, if it exists
         if (coordSet.getEnd() != null) {
@@ -377,8 +378,12 @@ public class LyricSlice {
         coordSet.setCoordsBound(newstart, newend, 0, newReference.length()+1);
 
         // Re-insert brackets into the reference string and save it to the HashMap
-        newReference.insert(coordSet.getStart(), "[");
-        newReference.insert(coordSet.getEnd(), "]");
+        if (coordSet.getStart() == coordSet.getEnd()) {
+            newReference.insert(coordSet.getStart(), "[]");
+        } else {
+            newReference.insert(coordSet.getStart(), "[");
+            newReference.insert(coordSet.getEnd(), "]");
+        }
         referenceStrings.put(key, newReference.toString());
 
         // Change other slices to match reinserted brackets
