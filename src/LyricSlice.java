@@ -885,7 +885,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     private ArrayList<LyricCoords> coordsList;
 
     public LyricCoordsDiscontinuous(Integer start, Integer end) {
-        super(start, end);
+        super(null, null);
         coordsList = new ArrayList<LyricCoords>();
         coordsList.add(new LyricCoords(start, end));
     }
@@ -893,6 +893,15 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     public LyricCoordsDiscontinuous(LyricCoords orig) {
         this(orig.getStart(), orig.getEnd());
     }
+
+    // TODO: Constructor taking variable number of LyricCoords
+    // public LyricCoordsDiscontinuous(LyricCoords... coordsList) {
+    //     super(null, null);
+    //     coordsList = new ArrayList<LyricCoords>();
+    //     for (LyricCoords coords : coordsList) {
+    //         this.coordsList.add(new LyricCoords(coordsList));
+    //     }
+    // }
 
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
         for (LyricCoords coords : coordsList) {
@@ -903,6 +912,23 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
         coordsList.add(new LyricCoords(start, end));
         return this;
+    }
+
+    public Boolean hasNull() {
+        for (LyricCoords coords : coordsList) {
+            if (coords.hasNull())
+                return true;
+        }
+        return false;
+    }
+
+    public Boolean isNull() {
+        for (LyricCoords coords : coordsList) {
+            if (!coords.isNull()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String toString() {
