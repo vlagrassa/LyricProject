@@ -349,11 +349,11 @@ public class LyricSlice {
         return setStartEnd(key, coords.get(key).getStart() + offset, coords.get(key).getEnd() + offset);
     }
 
-    public LyricSlice moveStart(String key, Integer offset) {
+    public LyricSlice moveStart(String key, Integer startoffset) {
         return setStart(key, coords.get(key).getStart() + offset);
     }
 
-    public LyricSlice moveEnd(String key, Integer offset) {
+    public LyricSlice moveEnd(String key, Integer endoffset) {
         return setEnd(key, coords.get(key).getEnd() + offset);
     }
 
