@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class LyricSlice /*implements Comparable<LyricSlice>*/ {
+public class LyricSlice {
 
 // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -210,24 +210,6 @@ public class LyricSlice /*implements Comparable<LyricSlice>*/ {
         }
         return referenceStrings.get(key).substring(coords.get(key).getStart()+1, coords.get(key).getEnd());
     }
-
-    // // TODO: Double check that this logic works!
-    // public int compareTo(LyricSlice b) {
-    //     // If the slices have different starting points, order by those
-    //     if (getStart() != b.getStart()) {
-    //         return getStart.compareTo(b.getStart());
-    //     }
-
-    //     // If they have the same starting point, order by the end points
-    //     else if (getEnd() != b.getEnd()) {
-    //         return getEnd.compareTo(b.getEnd())
-    //     }
-
-    //     // If both are the same, order by category
-    //     else {
-    //         return category.compareTo(b.getCategory());
-    //     }
-    // }
 }
 
 class LyricCoords {
