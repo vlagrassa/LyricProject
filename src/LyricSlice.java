@@ -329,10 +329,10 @@ class LyricCoords {
      * of the bounding values is null, it will be treated as if that bound
      * doesn't exist.
      * 
-     * @param newend The new start coordinate.
-     * @param minval The minimum allowed value for the new starting coordinate.
-     * @param maxval The maximum allowed value for the new starting coordinate.
-     * @return The original start coordinate.
+     * @param newend The new end coordinate.
+     * @param minval The minimum allowed value for the new ending coordinate.
+     * @param maxval The maximum allowed value for the new ending coordinate.
+     * @return The original end coordinate.
      */
     public Integer setEndBound(Integer newend, Integer minval, Integer maxval) {
         Integer oldend = end;
