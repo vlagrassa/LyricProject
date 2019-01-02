@@ -894,6 +894,12 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         this(orig.getStart(), orig.getEnd());
     }
 
+    public void updateReference(Integer index, Integer length, Integer referenceLength) {
+        for (LyricCoords coords : coordsList) {
+            coords.updateReference(index, length, referenceLength);
+        }
+    }
+
     public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
         coordsList.add(new LyricCoords(start, end));
         return this;
