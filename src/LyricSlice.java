@@ -352,8 +352,7 @@ public class LyricSlice {
             if (newReference.charAt(coordSet.getEnd()) == ']') {
                 newReference.deleteCharAt(coordSet.getEnd());
             } else {
-                // TODO: Make this throw an actual error
-                System.out.println("Character " + coordSet.getEnd() + " of string \"" + newReference + " does not match close bracket \"]\" ");
+                throw new RuntimeException("Character " + coordSet.getEnd() + " of string \"" + newReference + " does not match close bracket \"]\" ");
             }
         }
 
@@ -362,8 +361,7 @@ public class LyricSlice {
             if (newReference.charAt(coordSet.getStart()) == '[') {
                 newReference.deleteCharAt(coordSet.getStart());
             } else {
-                // TODO: Make this throw an actual error
-                System.out.println("Character " + coordSet.getStart() + " of string \"" + newReference + " does not match open bracket \"[\" ");
+                throw new RuntimeException("Character " + coordSet.getStart() + " of string \"" + newReference + " does not match open bracket \"[\" ");
             }
         }
 
