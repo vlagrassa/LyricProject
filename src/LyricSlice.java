@@ -234,9 +234,9 @@ class LyricCoords {
     private Integer start;
     private Integer end;
 
-    public LyricCoords(Integer s, Integer e) {
-        start = s;
-        end = e;
+    public LyricCoords(Integer start, Integer end) {
+        this.start = start;
+        this.end = end;
     }
 
     public LyricCoords(LyricCoords orig) {
@@ -285,22 +285,22 @@ class LyricCoords {
         return oldend;
     }
 
-    public void setCoords(Integer s, Integer e) {
-        setStart(s);
-        setEnd(e);
+    public void setCoords(Integer newstart, Integer newend) {
+        setStart(newstart);
+        setEnd(newend);
     }
 
-    public void setCoordsBound(Integer s, Integer e, Integer maxlength) {
-        setStartBound(s, maxlength);
-        setEndBound(e, maxlength);
+    public void setCoordsBound(Integer newstart, Integer newend, Integer maxlength) {
+        setStartBound(newstart, maxlength);
+        setEndBound(newend, maxlength);
     }
 
-    public void moveCoords(Integer offsetS, Integer offsetE) {
-        setCoords(start + offsetS, end + offsetE);
+    public void moveCoords(Integer startoffset, Integer endoffset) {
+        setCoords(start + startoffset, end + endoffset);
     }
 
-    public void moveCoordsBound(Integer offsetS, Integer offsetE, Integer maxlength) {
-        setCoordsBound(start + offsetS, end + offsetE, maxlength);
+    public void moveCoordsBound(Integer startoffset, Integer endoffset, Integer maxlength) {
+        setCoordsBound(start + startoffset, end + endoffset, maxlength);
     }
 
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
