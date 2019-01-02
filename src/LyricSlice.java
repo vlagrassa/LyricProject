@@ -435,7 +435,7 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice moveStartEnd(String key, Integer startoffset, Integer endoffset) {
-        return setStartEnd(key, coords.get(key).getStart() + offset, coords.get(key).getEnd() + offset);
+        return setStartEnd(key, coords.get(key).getStart() + startoffset, coords.get(key).getEnd() + endoffset);
     }
 
     /**
@@ -450,7 +450,7 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice moveStart(String key, Integer startoffset) {
-        return setStart(key, coords.get(key).getStart() + offset);
+        return setStart(key, coords.get(key).getStart() + startoffset);
     }
 
     /**
@@ -465,7 +465,7 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice moveEnd(String key, Integer endoffset) {
-        return setEnd(key, coords.get(key).getEnd() + offset);
+        return setEnd(key, coords.get(key).getEnd() + endoffset);
     }
 
     /**
