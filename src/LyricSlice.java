@@ -872,6 +872,10 @@ class LyricCoords {
         return start == null && end == null;
     }
 
+    public Boolean isDiscontinuous() {
+        return false;
+    }
+
     public String toString() {
         return "(" + start + ", " + end + ")";
     }
@@ -927,6 +931,10 @@ class LyricCoordsDiscontinuous extends LyricCoords {
             if (!coords.isNull())
                 return false;
         }
+        return true;
+    }
+
+    public Boolean isDiscontinuous() {
         return true;
     }
 
