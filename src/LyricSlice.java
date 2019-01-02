@@ -483,6 +483,11 @@ public class LyricSlice {
         coords.get(key).updateReference(index, length, referenceStrings.get(key).length());
     }
 
+    public LyricSlice addCoords(String key, Integer start, Integer end) {
+        coords.put(key, coords.get(key).addCoords(start, end));
+        return this;
+    }
+
 
   // =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

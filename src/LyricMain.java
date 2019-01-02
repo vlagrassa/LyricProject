@@ -28,6 +28,7 @@ public class LyricMain {
     testLine.createSlice(3).setStartEnd("English", 2, 3).setStartEnd("Japanese", 9, 11);
     testLine.createSlice(3).setStartEnd("English", 3, 4).setStartEnd("Japanese", 11, 13);
     */
+    testLine.createSlice(3).setStartEnd("Japanese", 3, 4).addCoords("Japanese", 8, 9);
 
 
 // =-= Filtering slices by category =-=
