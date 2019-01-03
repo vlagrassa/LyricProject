@@ -609,7 +609,9 @@ class LyricCoords implements Comparable<LyricCoords> {
     }
 
     /**
-     * Get the difference between the start and end coordinates.
+     * Get the difference between the start and end coordinates. If the
+     * coords are discontinuous, returns the sum of the lengths of all
+     * the sections.
      * 
      * @return The length of the interval.
      */
@@ -1111,6 +1113,21 @@ class LyricCoordsDiscontinuous extends LyricCoords {
      */
     public ArrayList<LyricCoords> getCoordsList() {
         return coordsList;
+    }
+
+    /**
+     * Get the difference between the start and end coordinates. If the
+     * coords are discontinuous, returns the sum of the lengths of all
+     * the sections.
+     * 
+     * @return The length of the interval.
+     */
+    public Integer length() {
+        Integer result = 0;
+        for (LyricCoords coords : coordsList) {
+            result += coords.length();
+        }
+        return result;
     }
 
     /**
