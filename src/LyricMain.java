@@ -155,5 +155,31 @@ public class LyricMain {
     System.out.println("\n" + testLine.getAsHTML());
     System.out.println(testLine.getBracketedText("English"));
     System.out.println(testLine.getSlices());
+
+// =-= Test variable argument Constructor for discontinuous Lyric coords =-=
+    System.out.println("\nLyricCoordsDiscontinuous Constructor:");
+    LyricCoordsDiscontinuous test0 = new LyricCoordsDiscontinuous();
+    LyricCoordsDiscontinuous test1 = new LyricCoordsDiscontinuous(new LyricCoords(1, 2));
+    LyricCoordsDiscontinuous test2 = new LyricCoordsDiscontinuous(new LyricCoords(1, 2), new LyricCoords(3, 4));
+    LyricCoordsDiscontinuous test3a = new LyricCoordsDiscontinuous(new LyricCoords(5, 6), test2);
+    LyricCoordsDiscontinuous test3b = new LyricCoordsDiscontinuous(new LyricCoords(5, 6), new LyricCoords(test2));
+    LyricCoordsDiscontinuous test3c = new LyricCoordsDiscontinuous(new LyricCoords(5, 6), new LyricCoordsDiscontinuous(test2));
+    LyricCoordsDiscontinuous test3d = new LyricCoordsDiscontinuous(new LyricCoords(5, 6));
+    test3d.addCoords(test2);
+
+    System.out.println("Test 0: " + test0);
+    System.out.println("Test 1: " + test1);
+    System.out.println("Test 2: " + test2);
+    System.out.println("Test 3a: " + test3a);
+    System.out.println("Test 3b: " + test3b);
+    System.out.println("Test 3c: " + test3c);
+    System.out.println("Test 3d: " + test3d);
+    System.out.println("Changing second test coords...");
+    test2.getCoordsList().get(0).moveCoords(5, 7);
+    System.out.println("Test 2: " + test2);
+    System.out.println("Test 3a: " + test3a);
+    System.out.println("Test 3b: " + test3b);
+    System.out.println("Test 3c: " + test3c);
+    System.out.println("Test 3d: " + test3d);
   }
 }
