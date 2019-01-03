@@ -621,18 +621,6 @@ class LyricCoords implements Comparable<LyricCoords> {
     }
 
     /**
-     * Return {@code true} if the object is a discontinuous {@code LyricCoordsDiscontinuous}
-     * object, and {@code false} if it is a continuous {@code LyricCoords} object. Useful to
-     * distinguish between the superclass {@code LyricCoords} and its subclass
-     * {@code LyricCoordsDiscontinuous} without explicit casting.
-     * 
-     * @return Whether this is a {@code LyricCoordsDiscontinuous} object.
-     */
-    public Boolean isDiscontinuous() {
-        return !isContinuous();
-    }
-
-    /**
      * Return {@code true} if the object is a continuous {@code LyricCoords} object, and
      * {@code false} if it is a discontinuous {@code LyricCoordsDiscontinuous} object.
      * Useful to distinguish between the superclass {@code LyricCoords} and its subclass
@@ -642,6 +630,18 @@ class LyricCoords implements Comparable<LyricCoords> {
      */
     public Boolean isContinuous() {
         return true;
+    }
+
+    /**
+     * Return {@code true} if the object is a discontinuous {@code LyricCoordsDiscontinuous}
+     * object, and {@code false} if it is a continuous {@code LyricCoords} object. Useful to
+     * distinguish between the superclass {@code LyricCoords} and its subclass
+     * {@code LyricCoordsDiscontinuous} without explicit casting.
+     * 
+     * @return Whether this is a {@code LyricCoordsDiscontinuous} object.
+     */
+    public Boolean isDiscontinuous() {
+        return !isContinuous();
     }
 
 
@@ -1180,18 +1180,6 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     }
 
     /**
-     * Return {@code true} if the object is a discontinuous {@code LyricCoordsDiscontinuous}
-     * object, and {@code false} if it is a continuous {@code LyricCoords} object. Useful to
-     * distinguish between the superclass {@code LyricCoords} and its subclass
-     * {@code LyricCoordsDiscontinuous} without explicit casting.
-     * 
-     * @return Whether this is a {@code LyricCoordsDiscontinuous} object.
-     */
-    public Boolean isDiscontinuous() {
-        return !isContinuous();
-    }
-
-    /**
      * Return {@code true} if the object is a continuous {@code LyricCoords} object, and
      * {@code false} if it is a discontinuous {@code LyricCoordsDiscontinuous} object.
      * Useful to distinguish between the superclass {@code LyricCoords} and its subclass
@@ -1201,6 +1189,18 @@ class LyricCoordsDiscontinuous extends LyricCoords {
      */
     public Boolean isContinuous() {
         return false;
+    }
+
+    /**
+     * Return {@code true} if the object is a discontinuous {@code LyricCoordsDiscontinuous}
+     * object, and {@code false} if it is a continuous {@code LyricCoords} object. Useful to
+     * distinguish between the superclass {@code LyricCoords} and its subclass
+     * {@code LyricCoordsDiscontinuous} without explicit casting.
+     * 
+     * @return Whether this is a {@code LyricCoordsDiscontinuous} object.
+     */
+    public Boolean isDiscontinuous() {
+        return !isContinuous();
     }
 
 
