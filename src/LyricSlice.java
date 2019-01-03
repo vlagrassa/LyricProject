@@ -629,7 +629,7 @@ class LyricCoords implements Comparable<LyricCoords> {
      * @return Whether this is a {@code LyricCoordsDiscontinuous} object.
      */
     public Boolean isDiscontinuous() {
-        return false;
+        return !isContinuous();
     }
 
     /**
@@ -1188,7 +1188,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
      * @return Whether this is a {@code LyricCoordsDiscontinuous} object.
      */
     public Boolean isDiscontinuous() {
-        return true;
+        return !isContinuous();
     }
 
     /**
