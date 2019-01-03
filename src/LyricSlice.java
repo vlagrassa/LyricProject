@@ -1132,7 +1132,9 @@ class LyricCoordsDiscontinuous extends LyricCoords {
             result += coords;
             result += ", ";
         }
-        result = result.substring(0, result.length()-2);
+        if (result.length() > 2) {
+            result = result.substring(0, result.length()-2);
+        }
         result += "]";
         return result;
     }
@@ -1144,7 +1146,9 @@ class LyricCoordsDiscontinuous extends LyricCoords {
             result += coords.getBoundCharacters(text);
             result += intercalate;
         }
-        result = result.substring(0, result.length() - intercalate.length());
+        if (result.length() > intercalate.length()) {
+            result = result.substring(0, result.length() - intercalate.length());
+        }
         return result;
     }
 }
