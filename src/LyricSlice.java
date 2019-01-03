@@ -1042,18 +1042,14 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         coordsList.add(new LyricCoords(start, end));
     }
 
-    public LyricCoordsDiscontinuous(LyricCoords orig) {
-        this(orig.getStart(), orig.getEnd());
+    public LyricCoordsDiscontinuous(LyricCoords... newCoordsList) {
+        super(null, null);
+        coordsList = new ArrayList<LyricCoords>();
+        for (LyricCoords coords : newCoordsList) {
+            coordsList.add(new LyricCoords(coords));
+        }
+        System.out.println("1");
     }
-
-    // TODO: Constructor taking variable number of LyricCoords
-    // public LyricCoordsDiscontinuous(LyricCoords... coordsList) {
-    //     super(null, null);
-    //     coordsList = new ArrayList<LyricCoords>();
-    //     for (LyricCoords coords : coordsList) {
-    //         this.coordsList.add(new LyricCoords(coordsList));
-    //     }
-    // }
 
     /**
      * Return an {@code ArrayList} of {@code LyricCoords}. If the coords
