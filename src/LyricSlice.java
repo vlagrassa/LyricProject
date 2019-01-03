@@ -474,6 +474,7 @@ public class LyricSlice {
     }
 }
 
+// TODO: Method to remove LyricCoords
 class LyricCoords {
 
     // Note that nearly all the logic for this class lives setCoordsBound, which is 
@@ -944,6 +945,11 @@ class LyricCoords {
                 if (hasStart()) coords.updateReference(start, -1, newReference.length());
                 if (hasEnd()) coords.updateReference(end, -1, newReference.length());
             }
+        }
+
+        if (newstart == null && newend == null) {
+            setCoordsToNull();
+            return newReference.toString();
         }
 
         // Correct for start and end being entered in reverse order
