@@ -1092,8 +1092,14 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     }
 
     public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
-        coordsList.add(orig);
-        Collections.sort(coordsList);
+        if (orig.isDiscontinuous()) {
+            for (LyricCoords newcoords : orig.getCoordsList()) {
+                addCoords(newcoords);
+            }
+        } else {
+            coordsList.add(orig);
+            Collections.sort(coordsList);
+        }
         return this;
     }
 
