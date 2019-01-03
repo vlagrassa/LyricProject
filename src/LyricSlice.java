@@ -908,6 +908,12 @@ class LyricCoords implements Comparable<LyricCoords> {
         return result;
     }
 
+    public LyricCoordsDiscontinuous addCoordsAsCopy(LyricCoords... origList) {
+        LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
+        result.addCoordsAsCopy(origList);
+        return result;
+    }
+
     public String setStartEnd(Integer newstart, Integer newend, String referenceString, ArrayList<LyricCoords> listOfCoords) {
         // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
 
@@ -1039,7 +1045,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     public LyricCoordsDiscontinuous(LyricCoords... newCoordsList) {
         super(null, null);
         coordsList = new ArrayList<LyricCoords>();
-        addCoords(newCoordsList);
+        addCoordsAsCopy(newCoordsList);
     }
 
     /**
@@ -1091,6 +1097,19 @@ class LyricCoordsDiscontinuous extends LyricCoords {
             } else {
                 coordsList.add(orig);
                 Collections.sort(coordsList);
+            }
+        }
+        return this;
+    }
+
+    public LyricCoordsDiscontinuous addCoordsAsCopy(LyricCoords... origList) {
+        for (LyricCoords orig : origList) {
+            if (orig.isDiscontinuous()) {
+                for (LyricCoords newcoords : orig.getCoordsList()) {
+                    addCoordsAsCopy(newcoords);
+                }
+            } else {
+                addCoords(new LyricCoords(orig));
             }
         }
         return this;
