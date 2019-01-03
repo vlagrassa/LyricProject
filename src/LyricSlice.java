@@ -807,13 +807,47 @@ class LyricCoords {
         }
     }
 
-    //TODO: Call other addCoords to reduce duplicate code
+    /**
+     * Returns a new {@code LyricCoordsDiscontinuous} object representing a set
+     * of discontinuous coordinates -- two or more sections of the text with
+     * characters between them.
+     * 
+     * Note that it is not enough to just run addCoords() on an existing
+     * {@code LyricCoords} object; the result must be saved to the variable name
+     * itself. This is possible because {@code LyricCoordsDiscontinuous} is a
+     * subclass of {@code LyricCoords}.
+     * 
+     * Note that this must be defined independently from the other overloaded
+     * version of addCoords, since both must call their respective analogues
+     * in LyricCoordsDiscontinuous to function properly.
+     * 
+     * @param start The starting coordinate for the new set.
+     * @param end   The ending coordinate for the new set.
+     * @return New discontinuous set of Lyric coords.
+     */
     public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
         LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
         result.addCoords(start, end);
         return result;
     }
 
+    /**
+     * Returns a new {@code LyricCoordsDiscontinuous} object representing a set
+     * of discontinuous coordinates -- two or more sections of the text with
+     * characters between them.
+     * 
+     * Note that it is not enough to just run addCoords() on an existing
+     * {@code LyricCoords} object; the result must be saved to the variable name
+     * itself. This is possible because {@code LyricCoordsDiscontinuous} is a
+     * subclass of {@code LyricCoords}.
+     * 
+     * Note that this must be defined independently from the other overloaded
+     * version of addCoords, since both must call their respective analogues
+     * in LyricCoordsDiscontinuous to function properly.
+     * 
+     * @param orig A preexisting set of LyricCoords to combine with this set.
+     * @return New discontinuous set of Lyric coords.
+     */
     public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
         LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
         result.addCoords(orig);
