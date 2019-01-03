@@ -902,9 +902,9 @@ class LyricCoords implements Comparable<LyricCoords> {
      * @param orig A preexisting set of LyricCoords to combine with this set.
      * @return New discontinuous set of Lyric coords.
      */
-    public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
+    public LyricCoordsDiscontinuous addCoords(LyricCoords... origList) {
         LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
-        result.addCoords(orig);
+        result.addCoords(origList);
         return result;
     }
 
@@ -1039,9 +1039,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     public LyricCoordsDiscontinuous(LyricCoords... newCoordsList) {
         super(null, null);
         coordsList = new ArrayList<LyricCoords>();
-        for (LyricCoords coords : newCoordsList) {
-            addCoords(coords);
-        }
+        addCoords(newCoordsList);
     }
 
     /**
@@ -1084,14 +1082,16 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return addCoords(new LyricCoords(start, end));
     }
 
-    public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
-        if (orig.isDiscontinuous()) {
-            for (LyricCoords newcoords : orig.getCoordsList()) {
-                addCoords(newcoords);
+    public LyricCoordsDiscontinuous addCoords(LyricCoords... origList) {
+        for (LyricCoords orig : origList) {
+            if (orig.isDiscontinuous()) {
+                for (LyricCoords newcoords : orig.getCoordsList()) {
+                    addCoords(newcoords);
+                }
+            } else {
+                coordsList.add(orig);
+                Collections.sort(coordsList);
             }
-        } else {
-            coordsList.add(orig);
-            Collections.sort(coordsList);
         }
         return this;
     }
