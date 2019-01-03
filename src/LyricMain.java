@@ -91,8 +91,8 @@ public class LyricMain {
     System.out.println("\nDiscontinuous Coordinates in a LyricSlice:");
     LyricSlice testSliceDisc = testLine.createSlice();
     LyricCoordsDiscontinuous testCoordsDisc_ = new LyricCoordsDiscontinuous(0, 5);
-    testCoordsDisc_.addCoords(7, 14);
     testCoordsDisc_.addCoords(10, 12);
+    testCoordsDisc_.addCoords(7, 14);
     testSliceDisc.getCoordsMap().put("English", testCoordsDisc_);
     System.out.println(testSliceDisc.getReferenceString("English"));
     System.out.println(testSliceDisc);

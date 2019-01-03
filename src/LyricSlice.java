@@ -1097,6 +1097,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
 
     public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
         coordsList.add(orig);
+        Collections.sort(coordsList);
         return this;
     }
 
