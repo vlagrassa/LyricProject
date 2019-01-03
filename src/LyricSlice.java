@@ -431,8 +431,7 @@ public class LyricSlice {
     }
 
     public LyricSlice addCoords(String key, Integer start, Integer end) {
-        // TODO: Make default constructor that sets both coords to null
-        LyricCoords newCoords = new LyricCoords(null, null);
+        LyricCoords newCoords = new LyricCoords();
         referenceStrings.put(key, newCoords.setStartEnd(start, end, referenceStrings.get(key), getListOfCoords(key)));
         coords.put(key, coords.get(key).addCoords(newCoords));
         return this;
@@ -513,6 +512,14 @@ class LyricCoords {
      */
     public LyricCoords(LyricCoords orig) {
         this(orig.getStart(), orig.getEnd());
+    }
+
+    /**
+     * Default constructor allocating a new {@code LyricCoords} object
+     * where both coordinates are set to {@code null}.
+     */
+    public LyricCoords() {
+        this(null, null);
     }
 
     /**
