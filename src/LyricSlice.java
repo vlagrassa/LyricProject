@@ -295,6 +295,13 @@ public class LyricSlice {
         return oldcoords;
     }
 
+    /**
+     * Return an {@code ArrayList} of all sets of coordinates associated
+     * with the specified language in the overarching {@code LyricLine}.
+     * 
+     * @param key The language to get coordinates for.
+     * @return A list of all coordinates on that language string.
+     */
     public ArrayList<LyricCoords> getListOfCoords(String key) {
         ArrayList<LyricCoords> result = new ArrayList<LyricCoords>();
         for (LyricSlice slice : listOfSlices) {
