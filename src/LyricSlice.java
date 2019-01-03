@@ -475,7 +475,7 @@ public class LyricSlice {
 }
 
 // TODO: Method to remove LyricCoords
-class LyricCoords {
+class LyricCoords implements Comparable<LyricCoords> {
 
     // Note that nearly all the logic for this class lives setCoordsBound, which is 
     // called by most of the other functions. This uses setValBound to determine the
@@ -1020,6 +1020,16 @@ class LyricCoords {
 
     public String getBoundCharacters(String text) {
         return text.substring(getStart()+1, getEnd());
+    }
+
+    public int compareTo(LyricCoords e2) {
+        if (!this.hasStart() && !e2.hasStart())
+            return 0;
+        if (!this.hasStart())
+            return -1;
+        if (!e2.hasStart())
+            return 1;
+        return this.getStart().compareTo(e2.getStart());
     }
 }
 
