@@ -869,7 +869,13 @@ class LyricCoords {
      */
     public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
         LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
-        result.addCoords(orig);
+        if (orig.isDiscontinuous()) {
+            for (LyricCoords coords : orig.getCoordsList()) {
+                result.addCoords(coords);
+            }
+        } else {
+            result.addCoords(orig);
+        }
         return result;
     }
 
