@@ -430,12 +430,53 @@ public class LyricSlice {
         coords.get(key).updateReference(index, length, referenceStrings.get(key).length());
     }
 
+    /**
+     * Create or extend a discontinuous coordinate set by adding more than one pair of
+     * coordinates for a given language. Used to mark two separate sections of text as
+     * part of the same Lyric slice.
+     * 
+     * Analogous to {@code LyricCoords.addCoords()}, but modifies the reference string
+     * as well.
+     * 
+     * @see {@code LyricCoords.addCoords(Integer start, Integer end)}
+     * 
+     * @param key   The language to change the coordinates of.
+     * @param start The start coordinate for the new pair.
+     * @param end   The end coordinate for the new pair.
+     * @return The {@code LyricSlice} itself.
+     */
     public LyricSlice addCoords(String key, Integer start, Integer end) {
         LyricCoords newCoords = new LyricCoords();
         referenceStrings.put(key, newCoords.setStartEnd(start, end, referenceStrings.get(key), getListOfCoords(key)));
         coords.put(key, coords.get(key).addCoords(newCoords));
         return this;
     }
+
+    /**
+     * Create or extend a discontinuous coordinate set by adding more than one pair of
+     * coordinates for a given language. Used to mark two separate sections of text as
+     * part of the same Lyric slice.
+     * 
+     * Note that this is analogous to {@code LyricCoords.addCoordsAsCopy()}, NOT to 
+     * {@code LyricCoords.addCoords()}. To add a {@code LyricCoords} object directly
+     * without formatting the reference string, consider using
+     * {@code LyricSlice.get(key).addCoords(...)} instead.
+     * 
+     * @see {@code LyricCoords.addCoords(LyricCoords... origList)}
+     * @see {@code LyricCoords.addCoordsAsCopy(LyricCoords... origList)}
+     * 
+     * @param key      The language to change the coordinates of.
+     * @param origList A list of coordinates to add to this slice.
+     * @return The {@code LyricSlice} itself.
+     */
+    public LyricSlice addCoords(String key, LyricCoords... origList) {
+        for (LyricCoords orig : origList) {
+            addCoords(key, orig.getStart(), orig.getEnd());
+        }
+        return this;
+    }
+
+    // TODO: Merge method for two LyricSlices -- possibly in LyricLine
 
 
   // =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
