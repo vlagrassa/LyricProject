@@ -295,6 +295,13 @@ public class LyricSlice {
         return oldcoords;
     }
 
+    public ArrayList<LyricCoords> getListOfCoords(String key) {
+        ArrayList<LyricCoords> result = new ArrayList<LyricCoords>();
+        for (LyricSlice slice : listOfSlices) {
+            result.add(slice.getCoords(key));
+        }
+        return result;
+    }
 
   // =-=-= Coordinate Start and End =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -333,67 +340,7 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice setStartEnd(String key, Integer start, Integer end) {
-        // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
-
-        // Get the coordinates for the given language
-        LyricCoords coordSet = coords.get(key);
-
-        // Initialize the new reference string to be a copy of the current one
-        StringBuilder newReference = new StringBuilder(referenceStrings.get(key));
-
-        // Correct for start and end being entered in reverse order
-        // Note that if newstart has not yet been set, newend must be increased by 1 to adjust for the
-        // bracket that will be inserted there
-        Integer newstart = Math.min(start, end);
-        Integer newend = Math.max(start, end) + (coordSet.hasStart() ? 0 : 1);
-
-        // Remove current closing bracket, if it exists
-        if (coordSet.hasEnd()) {
-            if (newReference.charAt(coordSet.getEnd()) == ']') {
-                newReference.deleteCharAt(coordSet.getEnd());
-            } else {
-                throw new RuntimeException("Character " + coordSet.getEnd() + " of string \"" + newReference + " does not match close bracket \"]\" ");
-            }
-        }
-
-        // Remove current opening bracket, if it exists
-        if (coordSet.hasStart()) {
-            if (newReference.charAt(coordSet.getStart()) == '[') {
-                newReference.deleteCharAt(coordSet.getStart());
-            } else {
-                throw new RuntimeException("Character " + coordSet.getStart() + " of string \"" + newReference + " does not match open bracket \"[\" ");
-            }
-        }
-
-        // Change other slices to match removal of brackets
-        for (LyricSlice slice : listOfSlices) {
-            if (slice != this) {
-                if (coordSet.hasStart()) slice.updateReference(key, coordSet.getStart(), -1);
-                if (coordSet.hasEnd()) slice.updateReference(key, coordSet.getEnd(), -1);
-            }
-        }
-
-        // Set new start and new end safely
-        coordSet.setCoordsBound(newstart, newend, 0, newReference.length()+1);
-
-        // Increment end by 1 if both bounds end up at the same point
-        if (coordSet.getStart() == coordSet.getEnd()) {
-            coordSet.moveEnd(1);
-        }
-
-        // Re-insert brackets into the reference string and save it to the HashMap
-        newReference.insert(coordSet.getStart(), "[");
-        newReference.insert(coordSet.getEnd(), "]");
-        referenceStrings.put(key, newReference.toString());
-
-        // Change other slices to match reinserted brackets
-        for (LyricSlice slice : listOfSlices) {
-            if (slice != this) {
-                if (coordSet.hasStart()) slice.updateReference(key, coordSet.getStart(), 1);
-                if (coordSet.hasEnd()) slice.updateReference(key, coordSet.getEnd(), 1);
-            }
-        }
-
+        coords.get(key).setStartEnd(start, end, referenceStrings.get(key), getListOfCoords(key));
         return this;
     }
 
