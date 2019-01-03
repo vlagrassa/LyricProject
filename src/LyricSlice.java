@@ -1399,6 +1399,14 @@ class LyricCoordsDiscontinuous extends LyricCoords {
 
   // =-=-= Update Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Adjust the start and end coordinates to reflect some change to the 
+     * string they are meant to represent.
+     * 
+     * @param index           The index in the string where the change takes place.
+     * @param length          The number of characters inserted or deleted.
+     * @param referenceLength The length of the full reference string after the transformation.
+     */
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
         for (LyricCoords coords : coordsList) {
             coords.updateReference(index, length, referenceLength);
