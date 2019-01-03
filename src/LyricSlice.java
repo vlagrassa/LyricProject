@@ -797,9 +797,16 @@ class LyricCoords {
         }
     }
 
+    //TODO: Call other addCoords to reduce duplicate code
     public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
         LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
         result.addCoords(start, end);
+        return result;
+    }
+
+    public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
+        LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
+        result.addCoords(orig);
         return result;
     }
 
@@ -929,6 +936,10 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     //     }
     // }
 
+    public ArrayList<LyricCoords> getCoordsList() {
+        return coordsList;
+    }
+
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
         for (LyricCoords coords : coordsList) {
             coords.updateReference(index, length, referenceLength);
@@ -941,6 +952,12 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return this;
     }
 
+    public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
+        coordsList.add(orig);
+        return this;
+    }
+
+    // TODO: Use to change back to a continuous LyricCoords?
     public String setStartEnd(Integer newstart, Integer newend, String referenceString, ArrayList<LyricCoords> listOfCoords) {
         String result = "";
         for (LyricCoords coords : coordsList) {
