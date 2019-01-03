@@ -937,29 +937,43 @@ class LyricCoords implements Comparable<LyricCoords> {
     }
 
     /**
-     * Return true if either the start or end coordinate is currently
-     * set to null.
+     * Return {@code true} if either the start or end coordinate is currently
+     * set to {@code null}. If coordinates are discontinuous, returns {@code true}
+     * if any start or end coordinate is set to {@code null}.
      * 
-     * @return whether one coordinate is null.
+     * @return whether any coordinate is null.
      */
     public Boolean hasNull() {
         return start == null || end == null;
     }
 
     /**
-     * Return true if both the start and end coordinates are currently
-     * set to null.
+     * Return {@code true} if both the start and end coordinates are currently
+     * set to {@code null}. If coordinates are discontinuous, returns {@code true}
+     * if all start and end coordinates are set to {@code null}.
      * 
-     * @return whether both coordinates are null.
+     * @return whether all coordinates are null.
      */
     public Boolean isNull() {
         return start == null && end == null;
     }
 
+    /**
+     * Return {@code false} if {@code start} equals {@code null}, and
+     * {@code true} otherwise.
+     * 
+     * @return Whether {@code start} has a numerical value. 
+     */
     public Boolean hasStart() {
         return start != null;
     }
 
+    /**
+     * Return {@code false} if {@code end} equals {@code null}, and
+     * {@code true} otherwise.
+     * 
+     * @return Whether {@code end} has a numerical value. 
+     */
     public Boolean hasEnd() {
         return end != null;
     }
@@ -1237,6 +1251,13 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return oldcoords;
     }
 
+    /**
+     * Return {@code true} if either the start or end coordinate is currently
+     * set to {@code null}. If coordinates are discontinuous, returns {@code true}
+     * if any start or end coordinate is set to {@code null}.
+     * 
+     * @return whether any coordinate is null.
+     */
     public Boolean hasNull() {
         for (LyricCoords coords : coordsList) {
             if (coords.hasNull())
@@ -1245,6 +1266,13 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return false;
     }
 
+    /**
+     * Return {@code true} if both the start and end coordinates are currently
+     * set to {@code null}. If coordinates are discontinuous, returns {@code true}
+     * if all start and end coordinates are set to {@code null}.
+     * 
+     * @return whether all coordinates are null.
+     */
     public Boolean isNull() {
         for (LyricCoords coords : coordsList) {
             if (!coords.isNull())
