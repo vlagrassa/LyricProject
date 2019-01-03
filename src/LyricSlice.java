@@ -524,10 +524,13 @@ public class LyricSlice {
 
 // TODO: Method to remove LyricCoords
 class LyricCoords implements Comparable<LyricCoords> {
+  // =-=-= Usage Info =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     // Note that nearly all the logic for this class lives setCoordsBound, which is 
     // called by most of the other functions. This uses setValBound to determine the
     // new values for start and end.
+
+  // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * An {@code Integer} instance storing the start coordinate.
@@ -538,6 +541,9 @@ class LyricCoords implements Comparable<LyricCoords> {
      * An {@code Integer} instance storing the end coordinate.
      */
     private Integer end;
+
+
+  // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Constructs a newly allocated {@code LyricCoords} object that
@@ -571,6 +577,9 @@ class LyricCoords implements Comparable<LyricCoords> {
         this(null, null);
     }
 
+
+  // =-=-= Basic Getter Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     /**
      * Get the first coordinate, representing the start of the interval.
      * 
@@ -588,6 +597,9 @@ class LyricCoords implements Comparable<LyricCoords> {
     public Integer getEnd() {
         return end;
     }
+
+
+  // =-=-= Continuous/Discontinuous Methods =-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Return an {@code ArrayList} of {@code LyricCoords}. If the coords
@@ -611,6 +623,9 @@ class LyricCoords implements Comparable<LyricCoords> {
     public Boolean isDiscontinuous() {
         return false;
     }
+
+
+  // =-=-= Basic Info Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Get the difference between the start and end coordinates. If the
@@ -639,6 +654,9 @@ class LyricCoords implements Comparable<LyricCoords> {
             return minval;
         return newval;
     }
+
+
+  // =-=-= Setter Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Directly set the start coordinate to the passed argument, with no
@@ -751,6 +769,9 @@ class LyricCoords implements Comparable<LyricCoords> {
         return setCoordsBound(newstart, minval, maxval, newend, minval, maxval);
     }
 
+
+  // =-=-= Move Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     /**
      * Directly shift the start coordinate by the passed, with no
      * checks or adjustments made.
@@ -858,6 +879,9 @@ class LyricCoords implements Comparable<LyricCoords> {
         return moveCoordsBound(startoffset, minval, maxval, endoffset, minval, maxval);
     }
 
+
+  // =-=-= Null Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     /**
      * Set the start coordinate to null.
      * 
@@ -920,6 +944,9 @@ class LyricCoords implements Comparable<LyricCoords> {
         return end != null;
     }
 
+
+  // =-=-= Adding Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     /**
      * Returns a new {@code LyricCoordsDiscontinuous} object representing a set
      * of discontinuous coordinates -- two or more sections of the text with
@@ -972,6 +999,9 @@ class LyricCoords implements Comparable<LyricCoords> {
         result.addCoordsAsCopy(origList);
         return result;
     }
+
+
+  // =-=-= Update Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Adjust the start and end coordinates to reflect some change to the 
@@ -1064,6 +1094,9 @@ class LyricCoords implements Comparable<LyricCoords> {
         return newReference.toString();
     }
 
+
+  // =-=-= String Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     public String toString() {
         return "(" + start + ", " + end + ")";
     }
@@ -1071,6 +1104,9 @@ class LyricCoords implements Comparable<LyricCoords> {
     public String getBoundCharacters(String text) {
         return text.substring(getStart()+1, getEnd());
     }
+
+
+  // =-=-= Comparison Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public int compareTo(LyricCoords e2) {
         if (!this.hasStart() && !e2.hasStart())
@@ -1084,7 +1120,12 @@ class LyricCoords implements Comparable<LyricCoords> {
 }
 
 class LyricCoordsDiscontinuous extends LyricCoords {
+  // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     private ArrayList<LyricCoords> coordsList;
+
+
+  // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public LyricCoordsDiscontinuous(Integer start, Integer end) {
         super(null, null);
@@ -1097,6 +1138,9 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         coordsList = new ArrayList<LyricCoords>();
         addCoordsAsCopy(newCoordsList);
     }
+
+
+  // =-=-= Continuous/Discontinuous Methods =-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Return an {@code ArrayList} of {@code LyricCoords}. If the coords
@@ -1119,6 +1163,9 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return true;
     }
 
+
+  // =-=-= Basic Info Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     /**
      * Get the difference between the start and end coordinates. If the
      * coords are discontinuous, returns the sum of the lengths of all
@@ -1133,6 +1180,9 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         }
         return result;
     }
+
+
+  // =-=-= Null Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Set both values of all coordinates to null.
@@ -1162,6 +1212,9 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         }
         return true;
     }
+
+
+  // =-=-= Adding Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
         return addCoords(new LyricCoords(start, end));
@@ -1194,6 +1247,9 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return this;
     }
 
+
+  // =-=-= Update Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
         for (LyricCoords coords : coordsList) {
             coords.updateReference(index, length, referenceLength);
@@ -1208,6 +1264,9 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         }
         return result;
     }
+
+
+  // =-=-= String Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
         String result = "[";
