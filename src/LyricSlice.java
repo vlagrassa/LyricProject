@@ -541,6 +541,25 @@ class LyricCoords {
     }
 
     /**
+     * Return an {@code ArrayList} of {@code LyricCoords}. If the coords
+     * are continuous, will be a singleton list with just the object
+     * itself; if the coords are discontinuous, will be a list of all of
+     * the coordinate pairs.
+     * 
+     * Note that this is not very important for the continuous case; it
+     * is included because it has a sensible definition, and so it may be
+     * used without having to explicitly cast a {@code LyricCoords} object
+     * to a {@code LyricCoordsDiscontinuous} one.
+     * 
+     * @return List of all coordinate pairs represented by the object.
+     */
+    public ArrayList<LyricCoords> getCoordsList() {
+        ArrayList<LyricCoords> result = new ArrayList<LyricCoords>();
+        result.add(this);
+        return result;
+    }
+
+    /**
      * Get the difference between the start and end coordinates.
      * 
      * @return The length of the interval.
@@ -980,6 +999,19 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     //     }
     // }
 
+    /**
+     * Return an {@code ArrayList} of {@code LyricCoords}. If the coords
+     * are continuous, will be a singleton list with just the object
+     * itself; if the coords are discontinuous, will be a list of all of
+     * the coordinate pairs.
+     * 
+     * Note that this is not very important for the continuous case; it
+     * is included because it has a sensible definition, and so it may be
+     * used without having to explicitly cast a {@code LyricCoords} object
+     * to a {@code LyricCoordsDiscontinuous} one.
+     * 
+     * @return List of all coordinate pairs represented by the object.
+     */
     public ArrayList<LyricCoords> getCoordsList() {
         return coordsList;
     }
