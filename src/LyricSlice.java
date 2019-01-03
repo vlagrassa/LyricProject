@@ -431,7 +431,11 @@ public class LyricSlice {
     }
 
     public LyricSlice addCoords(String key, Integer start, Integer end) {
-        coords.put(key, coords.get(key).addCoords(start, end));
+        // TODO: Needs to somehow setStartEnd for only the newly added set of coordinates
+        // TODO: Make default constructor that sets both coords to null
+        LyricCoords newCoords = new LyricCoords(null, null);
+        referenceStrings.put(key, newCoords.setStartEnd(start, end, referenceStrings.get(key), getListOfCoords(key)));
+        coords.put(key, coords.get(key).addCoords(newCoords));
         return this;
     }
 
