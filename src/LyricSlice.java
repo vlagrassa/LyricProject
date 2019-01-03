@@ -1033,7 +1033,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     public LyricCoordsDiscontinuous(Integer start, Integer end) {
         super(null, null);
         coordsList = new ArrayList<LyricCoords>();
-        coordsList.add(new LyricCoords(start, end));
+        addCoords(start, end);
     }
 
     public LyricCoordsDiscontinuous(LyricCoords... newCoordsList) {
