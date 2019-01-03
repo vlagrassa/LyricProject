@@ -803,7 +803,7 @@ class LyricCoords {
         return result;
     }
 
-    public String setStartEnd(Integer start, Integer end, String referenceString, ArrayList<LyricCoords> listOfCoords) {
+    public String setStartEnd(Integer newstart, Integer newend, String referenceString, ArrayList<LyricCoords> listOfCoords) {
         // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
 
         // Initialize the new reference string to be a copy of the current one
@@ -812,8 +812,8 @@ class LyricCoords {
         // Correct for start and end being entered in reverse order
         // Note that if newstart has not yet been set, newend must be increased by 1 to adjust for the
         // bracket that will be inserted there
-        Integer newstart = Math.min(start, end);
-        Integer newend = Math.max(start, end) + (hasStart() ? 0 : 1);
+        Integer newstart_ = Math.min(newstart, newend);
+        Integer newend_ = Math.max(newstart, newend) + (hasStart() ? 0 : 1);
 
         // Remove current closing bracket, if it exists
         if (hasEnd()) {
@@ -843,7 +843,7 @@ class LyricCoords {
         }
 
         // Set new start and new end safely
-        setCoordsBound(newstart, newend, 0, newReference.length()+1);
+        setCoordsBound(newstart_, newend_, 0, newReference.length()+1);
 
         // Increment end by 1 if both bounds end up at the same point
         if (start == end) {
