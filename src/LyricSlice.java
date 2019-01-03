@@ -804,6 +804,40 @@ class LyricCoords {
     }
 
     /**
+     * Set the start coordinate to null.
+     * 
+     * @return The original start coordinate.
+     */
+    public Integer setStartToNull() {
+        Integer oldstart = start;
+        start = null;
+        return oldstart;
+    }
+
+    /**
+     * Set the end coordinate to null.
+     * 
+     * @return The original end coordinate.
+     */
+    public Integer setEndToNull() {
+        Integer oldend = end;
+        end = null;
+        return oldend;
+    }
+
+    /**
+     * Set both coordinates to null.
+     * 
+     * @return The original coordinates.
+     */
+    public LyricCoords setCoordsToNull() {
+        LyricCoords oldcoords = new LyricCoords(this);
+        setStartToNull();
+        setEndToNull();
+        return oldcoords;
+    }
+
+    /**
      * Adjust the start and end coordinates to reflect some change to the 
      * string they are meant to represent.
      * 
@@ -1020,6 +1054,19 @@ class LyricCoordsDiscontinuous extends LyricCoords {
      */
     public ArrayList<LyricCoords> getCoordsList() {
         return coordsList;
+    }
+
+    /**
+     * Set both values of all coordinates to null.
+     * 
+     * @return The original coordinates.
+     */
+    public LyricCoords setCoordsToNull() {
+        LyricCoords oldcoords = new LyricCoords(this);
+        for (LyricCoords coords : coordsList) {
+            coords.setCoordsToNull();
+        }
+        return oldcoords;
     }
 
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
