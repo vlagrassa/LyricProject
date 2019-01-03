@@ -841,7 +841,7 @@ class LyricCoords {
         // bracket that will be inserted there
         Integer newstart_ = Math.min(newstart, newend);
         Integer newend_ = Math.max(newstart, newend) + (hasStart() ? 0 : 1);
-        
+
         // Set new start and new end safely
         setCoordsBound(newstart_, newend_, 0, newReference.length()+1);
 
@@ -939,6 +939,14 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         coordsList.add(new LyricCoords(start, end));
 
         return this;
+    }
+
+    public String setStartEnd(Integer newstart, Integer newend, String referenceString, ArrayList<LyricCoords> listOfCoords) {
+        String result = "";
+        for (LyricCoords coords : coordsList) {
+            result = coords.setStartEnd(newstart, newend, referenceString, listOfCoords);
+        }
+        return result;
     }
 
     public Boolean hasNull() {
