@@ -1046,9 +1046,8 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         super(null, null);
         coordsList = new ArrayList<LyricCoords>();
         for (LyricCoords coords : newCoordsList) {
-            coordsList.add(new LyricCoords(coords));
+            addCoords(coords);
         }
-        System.out.println("1");
     }
 
     /**
