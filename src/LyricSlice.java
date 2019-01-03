@@ -620,8 +620,28 @@ class LyricCoords implements Comparable<LyricCoords> {
         return result;
     }
 
+    /**
+     * Return {@code true} if the object is a discontinuous {@code LyricCoordsDiscontinuous}
+     * object, and {@code false} if it is a continuous {@code LyricCoords} object. Useful to
+     * distinguish between the superclass {@code LyricCoords} and its subclass
+     * {@code LyricCoordsDiscontinuous} without explicit casting.
+     * 
+     * @return Whether this is a {@code LyricCoordsDiscontinuous} object.
+     */
     public Boolean isDiscontinuous() {
         return false;
+    }
+
+    /**
+     * Return {@code true} if the object is a continuous {@code LyricCoords} object, and
+     * {@code false} if it is a discontinuous {@code LyricCoordsDiscontinuous} object.
+     * Useful to distinguish between the superclass {@code LyricCoords} and its subclass
+     * {@code LyricCoordsDiscontinuous} without explicit casting.
+     * 
+     * @return Whether this is a {@code LyricCoords} object.
+     */
+    public Boolean isContinuous() {
+        return true;
     }
 
 
@@ -1159,8 +1179,28 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return coordsList;
     }
 
+    /**
+     * Return {@code true} if the object is a discontinuous {@code LyricCoordsDiscontinuous}
+     * object, and {@code false} if it is a continuous {@code LyricCoords} object. Useful to
+     * distinguish between the superclass {@code LyricCoords} and its subclass
+     * {@code LyricCoordsDiscontinuous} without explicit casting.
+     * 
+     * @return Whether this is a {@code LyricCoordsDiscontinuous} object.
+     */
     public Boolean isDiscontinuous() {
         return true;
+    }
+
+    /**
+     * Return {@code true} if the object is a continuous {@code LyricCoords} object, and
+     * {@code false} if it is a discontinuous {@code LyricCoordsDiscontinuous} object.
+     * Useful to distinguish between the superclass {@code LyricCoords} and its subclass
+     * {@code LyricCoordsDiscontinuous} without explicit casting.
+     * 
+     * @return Whether this is a {@code LyricCoords} object.
+     */
+    public Boolean isContinuous() {
+        return false;
     }
 
 
