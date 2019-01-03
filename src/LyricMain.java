@@ -149,5 +149,11 @@ public class LyricMain {
     // System.out.println(testLine.getBracketedText("English"));
 
     System.out.println("\n" + testLine.getAsHTML());
+    System.out.println(testLine.getBracketedText("English"));
+    System.out.println(testLine.getSlices());
+    testSlice.setStartEnd("English", null, null);
+    System.out.println("\n" + testLine.getAsHTML());
+    System.out.println(testLine.getBracketedText("English"));
+    System.out.println(testLine.getSlices());
   }
 }
