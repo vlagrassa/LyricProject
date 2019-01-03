@@ -608,6 +608,10 @@ class LyricCoords implements Comparable<LyricCoords> {
         return result;
     }
 
+    public Boolean isDiscontinuous() {
+        return false;
+    }
+
     /**
      * Get the difference between the start and end coordinates. If the
      * coords are discontinuous, returns the sum of the lengths of all
@@ -889,26 +893,31 @@ class LyricCoords implements Comparable<LyricCoords> {
     }
 
     /**
-     * Adjust the start and end coordinates to reflect some change to the 
-     * string they are meant to represent.
+     * Return true if either the start or end coordinate is currently
+     * set to null.
      * 
-     * @param index           The index in the string where the change takes place.
-     * @param length          The number of characters inserted or deleted.
-     * @param referenceLength The length of the full reference string after the transformation.
+     * @return whether one coordinate is null.
      */
-    public void updateReference(Integer index, Integer length, Integer referenceLength) {
-        if (!hasNull()) {
-            Integer startOffset = 0, endOffset = 0;
-            if (length > 0) {
-                if (start >  index) startOffset = length;
-                if (end   >= index) endOffset   = length;
-            }
-            else if (length < 0) {
-                if (start >= index) startOffset = length;
-                if (end   >  index) endOffset   = length;
-            }
-            moveCoordsBound(startOffset, endOffset, 0, referenceLength);
-        }
+    public Boolean hasNull() {
+        return start == null || end == null;
+    }
+
+    /**
+     * Return true if both the start and end coordinates are currently
+     * set to null.
+     * 
+     * @return whether both coordinates are null.
+     */
+    public Boolean isNull() {
+        return start == null && end == null;
+    }
+
+    public Boolean hasStart() {
+        return start != null;
+    }
+
+    public Boolean hasEnd() {
+        return end != null;
     }
 
     /**
@@ -962,6 +971,29 @@ class LyricCoords implements Comparable<LyricCoords> {
         LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
         result.addCoordsAsCopy(origList);
         return result;
+    }
+
+    /**
+     * Adjust the start and end coordinates to reflect some change to the 
+     * string they are meant to represent.
+     * 
+     * @param index           The index in the string where the change takes place.
+     * @param length          The number of characters inserted or deleted.
+     * @param referenceLength The length of the full reference string after the transformation.
+     */
+    public void updateReference(Integer index, Integer length, Integer referenceLength) {
+        if (!hasNull()) {
+            Integer startOffset = 0, endOffset = 0;
+            if (length > 0) {
+                if (start >  index) startOffset = length;
+                if (end   >= index) endOffset   = length;
+            }
+            else if (length < 0) {
+                if (start >= index) startOffset = length;
+                if (end   >  index) endOffset   = length;
+            }
+            moveCoordsBound(startOffset, endOffset, 0, referenceLength);
+        }
     }
 
     public String setStartEnd(Integer newstart, Integer newend, String referenceString, ArrayList<LyricCoords> listOfCoords) {
@@ -1032,38 +1064,6 @@ class LyricCoords implements Comparable<LyricCoords> {
         return newReference.toString();
     }
 
-    /**
-     * Return true if either the start or end coordinate is currently
-     * set to null.
-     * 
-     * @return whether one coordinate is null.
-     */
-    public Boolean hasNull() {
-        return start == null || end == null;
-    }
-
-    /**
-     * Return true if both the start and end coordinates are currently
-     * set to null.
-     * 
-     * @return whether both coordinates are null.
-     */
-    public Boolean isNull() {
-        return start == null && end == null;
-    }
-
-    public Boolean hasStart() {
-        return start != null;
-    }
-
-    public Boolean hasEnd() {
-        return end != null;
-    }
-
-    public Boolean isDiscontinuous() {
-        return false;
-    }
-
     public String toString() {
         return "(" + start + ", " + end + ")";
     }
@@ -1115,6 +1115,10 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return coordsList;
     }
 
+    public Boolean isDiscontinuous() {
+        return true;
+    }
+
     /**
      * Get the difference between the start and end coordinates. If the
      * coords are discontinuous, returns the sum of the lengths of all
@@ -1143,10 +1147,20 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return oldcoords;
     }
 
-    public void updateReference(Integer index, Integer length, Integer referenceLength) {
+    public Boolean hasNull() {
         for (LyricCoords coords : coordsList) {
-            coords.updateReference(index, length, referenceLength);
+            if (coords.hasNull())
+                return true;
         }
+        return false;
+    }
+
+    public Boolean isNull() {
+        for (LyricCoords coords : coordsList) {
+            if (!coords.isNull())
+                return false;
+        }
+        return true;
     }
 
     public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
@@ -1180,6 +1194,12 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return this;
     }
 
+    public void updateReference(Integer index, Integer length, Integer referenceLength) {
+        for (LyricCoords coords : coordsList) {
+            coords.updateReference(index, length, referenceLength);
+        }
+    }
+
     // TODO: Use to change back to a continuous LyricCoords?
     public String setStartEnd(Integer newstart, Integer newend, String referenceString, ArrayList<LyricCoords> listOfCoords) {
         String result = "";
@@ -1187,26 +1207,6 @@ class LyricCoordsDiscontinuous extends LyricCoords {
             result = coords.setStartEnd(newstart, newend, referenceString, listOfCoords);
         }
         return result;
-    }
-
-    public Boolean hasNull() {
-        for (LyricCoords coords : coordsList) {
-            if (coords.hasNull())
-                return true;
-        }
-        return false;
-    }
-
-    public Boolean isNull() {
-        for (LyricCoords coords : coordsList) {
-            if (!coords.isNull())
-                return false;
-        }
-        return true;
-    }
-
-    public Boolean isDiscontinuous() {
-        return true;
     }
 
     public String toString() {
