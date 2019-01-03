@@ -340,7 +340,7 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice setStartEnd(String key, Integer start, Integer end) {
-        coords.get(key).setStartEnd(start, end, referenceStrings.get(key), getListOfCoords(key));
+        referenceStrings.put(key, coords.get(key).setStartEnd(start, end, referenceStrings.get(key), getListOfCoords(key)));
         return this;
     }
 
