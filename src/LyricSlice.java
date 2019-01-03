@@ -1082,8 +1082,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     }
 
     public LyricCoordsDiscontinuous addCoords(Integer start, Integer end) {
-        coordsList.add(new LyricCoords(start, end));
-        return this;
+        return addCoords(new LyricCoords(start, end));
     }
 
     public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
