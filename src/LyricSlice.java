@@ -809,12 +809,6 @@ class LyricCoords {
         // Initialize the new reference string to be a copy of the current one
         StringBuilder newReference = new StringBuilder(referenceString);
 
-        // Correct for start and end being entered in reverse order
-        // Note that if newstart has not yet been set, newend must be increased by 1 to adjust for the
-        // bracket that will be inserted there
-        Integer newstart_ = Math.min(newstart, newend);
-        Integer newend_ = Math.max(newstart, newend) + (hasStart() ? 0 : 1);
-
         // Remove current closing bracket, if it exists
         if (hasEnd()) {
             if (newReference.charAt(end) == ']') {
@@ -842,6 +836,12 @@ class LyricCoords {
             }
         }
 
+        // Correct for start and end being entered in reverse order
+        // Note that if newstart has not yet been set, newend must be increased by 1 to adjust for the
+        // bracket that will be inserted there
+        Integer newstart_ = Math.min(newstart, newend);
+        Integer newend_ = Math.max(newstart, newend) + (hasStart() ? 0 : 1);
+        
         // Set new start and new end safely
         setCoordsBound(newstart_, newend_, 0, newReference.length()+1);
 
