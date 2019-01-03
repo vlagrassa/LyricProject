@@ -904,13 +904,7 @@ class LyricCoords implements Comparable<LyricCoords> {
      */
     public LyricCoordsDiscontinuous addCoords(LyricCoords orig) {
         LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
-        if (orig.isDiscontinuous()) {
-            for (LyricCoords coords : orig.getCoordsList()) {
-                result.addCoords(coords);
-            }
-        } else {
-            result.addCoords(orig);
-        }
+        result.addCoords(orig);
         return result;
     }
 
