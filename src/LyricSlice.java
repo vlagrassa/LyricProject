@@ -486,7 +486,7 @@ public class LyricSlice {
     // TODO: Merge method for two LyricSlices -- possibly in LyricLine
 
 
-  // =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= String Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
         String result = "";
