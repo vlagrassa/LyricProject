@@ -335,6 +335,30 @@ public class LyricSlice {
     }
 
     /**
+     * Helper method which calls setStartEnd on the given {@code LyricCoords} object
+     * and handles updating the reference string with the result.
+     * 
+     * @param key            The language to change.
+     * @param start          The new start coordinate.
+     * @param end            The new end coordinate.
+     * @param coordsToUpdate The {@code LyricCoords} to run {@code setStartEnd} on.
+     * @return The altered {@code LyricCoords} object.
+     */
+    private LyricCoords callSetStartEndOnCoords(String key, Integer start, Integer end, LyricCoords coordsToUpdate) {
+        // Make a new mutable Stringbuilder to accumulate changes from setStartEnd
+        StringBuilder referenceAccum = new StringBuilder(referenceStrings.get(key));
+
+        // Run setStartEnd on the given LyricCoords, and save the result to newCoords
+        LyricCoords newCoords = coordsToUpdate.setStartEnd(start, end, referenceAccum, getListOfCoords(key));
+
+        // Convert the changed StringBuilder back to a String and save it to the map of reference strings
+        referenceStrings.put(key, referenceAccum.toString());
+
+        // Return the new LyricCoords object
+        return newCoords;
+    }
+
+    /**
      * Move the start and end coordinates of the slice, adjusting the coordinates of the
      * other slices in the line to match the change. Note that the coordinates are bound
      * by 0 and the length of the reference string -- that is, if they are outside this
@@ -347,14 +371,9 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice setStartEnd(String key, Integer start, Integer end) {
-        // Make a new mutable Stringbuilder to accumulate changes from setStartEnd
-        StringBuilder referenceAccum = new StringBuilder(referenceStrings.get(key));
 
-        // Set the new start and end of the chosen coords and save it back into the HashMap
-        coords.put(key, coords.get(key).setStartEnd(start, end, referenceAccum, getListOfCoords(key)));
-
-        // Convert the changed StringBuilder back to a String and save it to the map of reference strings
-        referenceStrings.put(key, referenceAccum.toString());
+        // Run setStartEnd on the LyricCoords at key and save the result back to the HashMap
+        coords.put(key, callSetStartEndOnCoords(key, start, end, coords.get(key)));
 
         // Return the current LyricSlice object
         return this;
@@ -462,17 +481,13 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice addCoords(String key, Integer start, Integer end) {
-        // Make a new mutable Stringbuilder to accumulate changes from setStartEnd
-        StringBuilder referenceAccum = new StringBuilder(referenceStrings.get(key));
+        // Run setStartEnd on a new set of LyricCoords and save the result to newCoords
+        LyricCoords newCoords = callSetStartEndOnCoords(key, start, end, new LyricCoords());
 
-        // Initialize a new LyricCoords object, use it to run setStartEnd, and directly add it to the chosen coords
-        LyricCoords newCoords = new LyricCoords();
-        newCoords = newCoords.setStartEnd(start, end, referenceAccum, getListOfCoords(key));
+        // Add the new coords to the current set and save the result to the HashMap
         coords.put(key, coords.get(key).addCoords(newCoords));
 
-        // Convert the changed StringBuilder back to a String and save it to the map of reference strings
-        referenceStrings.put(key, referenceAccum.toString());
-
+        // Return the current LyricSlice object
         return this;
     }
 
