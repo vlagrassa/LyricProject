@@ -1427,7 +1427,6 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         }
     }
 
-    // TODO: Use to change back to a continuous LyricCoords?
     public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
         // Initialize a new set of coords to be the new value
         LyricCoords result = new LyricCoords();
