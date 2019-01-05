@@ -347,7 +347,16 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice setStartEnd(String key, Integer start, Integer end) {
-        referenceStrings.put(key, coords.get(key).setStartEnd(start, end, referenceStrings.get(key), getListOfCoords(key)));
+        // Make a new mutable Stringbuilder to accumulate changes from setStartEnd
+        StringBuilder referenceAccum = new StringBuilder(referenceStrings.get(key));
+
+        // Set the new start and end of the chosen coords and save it back into the HashMap
+        coords.put(key, coords.get(key).setStartEnd(start, end, referenceAccum, getListOfCoords(key)));
+
+        // Convert the changed StringBuilder back to a String and save it to the map of reference strings
+        referenceStrings.put(key, referenceAccum.toString());
+
+        // Return the current LyricSlice object
         return this;
     }
 
@@ -453,9 +462,17 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice addCoords(String key, Integer start, Integer end) {
+        // Make a new mutable Stringbuilder to accumulate changes from setStartEnd
+        StringBuilder referenceAccum = new StringBuilder(referenceStrings.get(key));
+
+        // Initialize a new LyricCoords object, use it to run setStartEnd, and directly add it to the chosen coords
         LyricCoords newCoords = new LyricCoords();
-        referenceStrings.put(key, newCoords.setStartEnd(start, end, referenceStrings.get(key), getListOfCoords(key)));
+        newCoords = newCoords.setStartEnd(start, end, referenceAccum, getListOfCoords(key));
         coords.put(key, coords.get(key).addCoords(newCoords));
+
+        // Convert the changed StringBuilder back to a String and save it to the map of reference strings
+        referenceStrings.put(key, referenceAccum.toString());
+
         return this;
     }
 
@@ -1083,11 +1100,8 @@ class LyricCoords implements Comparable<LyricCoords> {
         }
     }
 
-    public String setStartEnd(Integer newstart, Integer newend, String referenceString, ArrayList<LyricCoords> listOfCoords) {
+    public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder newReference, ArrayList<LyricCoords> listOfCoords) {
         // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
-
-        // Initialize the new reference string to be a copy of the current one
-        StringBuilder newReference = new StringBuilder(referenceString);
 
         // Remove current closing bracket, if it exists
         if (hasEnd()) {
@@ -1118,7 +1132,7 @@ class LyricCoords implements Comparable<LyricCoords> {
 
         if (newstart == null && newend == null) {
             setCoordsToNull();
-            return newReference.toString();
+            return this;
         }
 
         // Correct for start and end being entered in reverse order
@@ -1148,7 +1162,7 @@ class LyricCoords implements Comparable<LyricCoords> {
             }
         }
 
-        return newReference.toString();
+        return this;
     }
 
 
@@ -1414,11 +1428,18 @@ class LyricCoordsDiscontinuous extends LyricCoords {
     }
 
     // TODO: Use to change back to a continuous LyricCoords?
-    public String setStartEnd(Integer newstart, Integer newend, String referenceString, ArrayList<LyricCoords> listOfCoords) {
-        String result = "";
+    public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+        // Initialize a new set of coords to be the new value
+        LyricCoords result = new LyricCoords();
+
+        // Set all of the current coords to null
+        // TODO: Make a delete method to manually delete them all here?
         for (LyricCoords coords : coordsList) {
-            result = coords.setStartEnd(newstart, newend, referenceString, listOfCoords);
+            coords.setStartEnd(null, null, referenceString, listOfCoords);
         }
+
+        // Run setStartEnd with the new coords and return it
+        result.setStartEnd(newstart, newend, referenceString, listOfCoords);
         return result;
     }
 

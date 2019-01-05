@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class LyricMain {
   
   public static void main(String[] args) {
@@ -5,6 +7,7 @@ public class LyricMain {
 // =-= Initializing test LyricLine =-=
     String[] languages = {"English", "Japanese"};
     LyricLine testLine = new LyricLine(languages);
+    // TODO: Allow variable number of String inputs as language, instead/also
     testLine.setBracketedText("Japanese", "honbun tesuto");
     testLine.setBracketedText("English", "test text");
     System.out.println(testLine.getAsPlaintext("Japanese"));
@@ -181,5 +184,32 @@ public class LyricMain {
     System.out.println("Test 3b: " + test3b);
     System.out.println("Test 3c: " + test3c);
     System.out.println("Test 3d: " + test3d);
+
+// =-= Editing inside a HashMap =-=
+    System.out.println("\nEditing inside a HashMap:");
+    HashMap<Integer, LyricCoords> testMap = new HashMap<Integer, LyricCoords>();
+    LyricCoords test4 = new LyricCoords(1, 2);
+    testMap.put(0, test4);
+    System.out.println(test4);
+    System.out.println(testMap.get(0));
+    System.out.println(testMap.get(0).setEnd(4));
+    System.out.println(test4);
+    System.out.println(testMap.get(0));
+
+    System.out.println("\nUsing setStartEnd to make discontinuous into continuous");
+    LyricLine testLine3 = new LyricLine(languages);
+    testLine3.setBracketedText("English", "abcdefghijklmnopqrst");
+    System.out.println(testLine3.getAsPlaintext("English"));
+    LyricSlice testSlice5 = testLine3.createSlice().setStartEnd("English", 0, 2);
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testSlice5);
+    testSlice5.addCoords("English", 5, 7);
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testSlice5);
+    testSlice5.setStartEnd("English", 10, 12);
+    // test5 = test5.setStartEnd(10, 12, new StringBuilder("[a]bc[d]efghijklmnopqrst"), );
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testSlice5);
+
   }
 }
