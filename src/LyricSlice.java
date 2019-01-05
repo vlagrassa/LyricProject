@@ -515,6 +515,56 @@ public class LyricSlice {
         return this;
     }
 
+    /**
+     * Set the coordinates associated with the given language string to store
+     * ({@code null}, {@code null}), effectively removing them from the Line.
+     * Note that the whole {@code LyricCoords} object is not set to {@code null},
+     * just its component coordinates.
+     * 
+     * @param key The language to remove the coordinates of.
+     * @return The current {@code LyricSlice} object itself.
+     */
+    public LyricSlice removeCoords(String key) {
+        setStartEnd(key, null, null);
+        return this;
+    }
+
+    /**
+     * Remove the passed {@code LyricCoords} object from the slice, if it exists in
+     * the {@code HashMap} of coordinates directly or exists as subcoordinates in a
+     * {@code LyricCoordsDiscontinuous} object.
+     * 
+     * @param coordsToRemove The {@code LyricCoords} object to remove from the {@code LyricSlice}.
+     * @return The current {@code LyricSlice} object itself.
+     */
+    public LyricSlice removeCoords(LyricCoords coordsToRemove) {
+        // Search for the passed coords in each entry to the set of coords
+        for (String key : coords.keySet()) {
+
+            // If the coords are found directly, remove them directly
+            if (coords.get(key) == coordsToRemove) {
+                removeCoords(key);
+            }
+
+            // Otherwise, if the current coords are discontinuous, search for the passed coords inside them
+            else if (coords.get(key).isDiscontinuous()) {
+                for (LyricCoords c : coords.get(key).getCoordsList()) {
+
+                    // If the coords are found...
+                    if (c == coordsToRemove) {
+
+                        // ...remove them from the reference string
+                        callSetStartEndOnCoords(key, null, null, coordsToRemove);
+
+                        // ...replace the current HashMap entry with a modified version that doesn't have them
+                        coords.put(key, coords.get(key).removeCoords(coordsToRemove));
+                    }
+                }
+            }
+        }
+        return this;
+    }
+
     // TODO: Merge method for two LyricSlices -- possibly in LyricLine
 
 
@@ -554,7 +604,6 @@ public class LyricSlice {
     }
 }
 
-// TODO: Method to remove LyricCoords
 class LyricCoords implements Comparable<LyricCoords> {
   // =-=-= Usage Info =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -1089,6 +1138,27 @@ class LyricCoords implements Comparable<LyricCoords> {
         return result;
     }
 
+    /**
+     * Return a new {@code LyricCoords} object representing the current coordinates
+     * with the specified {@code LyricCoords} object removed. If the {@code LyricCoords}
+     * object this is being called on is discontinuous, the passed object will be
+     * removed from its list of subcoordinates; if the object is continuous, it will be
+     * left unchanged. Note that if this would create a discontinuous set with only one
+     * pair of coordinates -- that is, a continuous set stored as a discontinuous set
+     *  -- then that single pair of coordinates will be returned instead, effectively
+     * "flattening" the structure down to a continuous set.
+     * 
+     * Included in {@code LyricCoords} so it may be called for {@code LyricCoordsDiscontinuous}
+     * without explicit casting.
+     * 
+     * @param coordsToRemove The {@code LyricCoords} object to be removed.
+     * @return The original {@code LyricCoords} object with the specified coordinates removed.
+     */
+    public LyricCoords removeCoords(LyricCoords coordsToRemove) {
+        // TODO: Return null coordinates if this == coordsToRemove?
+        return this;
+    }
+
 
   // =-=-= Update Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -1422,6 +1492,35 @@ class LyricCoordsDiscontinuous extends LyricCoords {
                 addCoords(new LyricCoords(orig));
             }
         }
+        return this;
+    }
+
+    /**
+     * Return a new {@code LyricCoords} object representing the current coordinates
+     * with the specified {@code LyricCoords} object removed. If the {@code LyricCoords}
+     * object this is being called on is discontinuous, the passed object will be
+     * removed from its list of subcoordinates; if the object is continuous, it will be
+     * left unchanged. Note that if this would create a discontinuous set with only one
+     * pair of coordinates -- that is, a continuous set stored as a discontinuous set
+     *  -- then that single pair of coordinates will be returned instead, effectively
+     * "flattening" the structure down to a continuous set.
+     * 
+     * Included in {@code LyricCoords} so it may be called for {@code LyricCoordsDiscontinuous}
+     * without explicit casting.
+     * 
+     * @param coordsToRemove The {@code LyricCoords} object to be removed.
+     * @return The original {@code LyricCoords} object with the specified coordinates removed.
+     */
+    public LyricCoords removeCoords(LyricCoords coordsToRemove) {
+        // Remove the specified coords from the list
+        coordsList.remove(coordsToRemove);
+
+        // If only one set of coords remains, return just that set to "flatten" the coords
+        if (coordsList.size() == 1) {
+            return coordsList.get(0);
+        }
+
+        // Otherwise, just return the current object
         return this;
     }
 

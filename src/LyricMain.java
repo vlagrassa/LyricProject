@@ -211,5 +211,19 @@ public class LyricMain {
     System.out.println(testLine3.getAsBracketed("English"));
     System.out.println(testSlice5);
 
+    System.out.println("\nRemoving Coords from a Slice:");
+    LyricCoords test6 = new LyricCoords(4, 8);
+    testSlice5.addCoords("English", test6);
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testSlice5);
+    // testSlice5.removeCoords(test6); // Fails -> The object test6 has been changed to be used by the slice
+    LyricCoords test7 = testSlice5.getCoords("English").getCoordsList().get(0);
+    testSlice5.removeCoords(test7);
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testSlice5);
+    testSlice5.removeCoords(testSlice5.getCoords("English"));
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testSlice5);
+
   }
 }
