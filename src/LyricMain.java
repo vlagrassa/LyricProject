@@ -232,5 +232,10 @@ public class LyricMain {
     testLine3.getSlices().get(1).addRange("English", 3, 8);
     System.out.println(testLine3.getAsBracketed("English"));
     System.out.println(testLine3.getSlices());
+
+    System.out.println("\nRemove Range:");
+    testLine3.getSlices().get(1).removeRange("English", 3, 5);
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getSlices());
   }
 }
