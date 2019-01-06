@@ -642,6 +642,24 @@ public class LyricSlice {
         }
     }
 
+    public void removeRange(String key, Integer start, Integer end) {
+        ArrayList<LyricCoords> overlapSet = getOverlaps(key, start, end);
+        if (!overlapSet.isEmpty()) {
+            Integer originalstart = overlapSet.get(0).getStart();
+            Integer originalend   = overlapSet.get(overlapSet.size()-1).getEnd();
+            if (originalend > end) {
+                addCoords(key, end, originalend);
+            }
+            if (originalstart < start) {
+                addCoords(key, originalstart+1, start);
+            }
+            for (int i = 0; i < overlapSet.size(); i++) {
+                removeCoords(overlapSet.get(i));
+            }
+        }
+    }
+
+
   // =-=-= String Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
