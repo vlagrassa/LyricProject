@@ -184,8 +184,8 @@ public class LyricLine {
 
                 // Update each subsequent coordinate set in the (copy) list, to reflect that the new openers and closers have shifted them
                 for (int j = i+1; j < coordsList.size(); j++) {
-                    coordsList.get(j).updateReference(currentCoords.getStart(), bracketHeader.length() - 1, textSB.length());
-                    coordsList.get(j).updateReference(currentCoords.getEnd()+bracketHeader.length(), bracketCloser.length() - 1, textSB.length());
+                    coordsList.get(j).matchUpdatedReference(currentCoords.getStart(), bracketHeader.length() - 1, textSB.length());
+                    coordsList.get(j).matchUpdatedReference(currentCoords.getEnd()+bracketHeader.length(), bracketCloser.length() - 1, textSB.length());
                 }
             }
         }

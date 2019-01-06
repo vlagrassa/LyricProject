@@ -468,7 +468,7 @@ public class LyricSlice {
      * @param length The number of characters inserted or deleted.
      */
     public void updateReference(String key, Integer index, Integer length) {
-        coords.get(key).updateReference(index, length, referenceStrings.get(key).length());
+        coords.get(key).matchUpdatedReference(index, length, referenceStrings.get(key).length());
     }
 
     /**
@@ -1408,13 +1408,13 @@ class LyricCoords implements Comparable<LyricCoords> {
      * string they are meant to represent. The third argument may be omitted if
      * no upper bound is necessary.
      * 
-     * @see {@link #updateReference(Integer, Integer)}
+     * @see {@link #matchUpdatedReference(Integer, Integer)}
      * 
      * @param index           The index in the string where the change takes place.
      * @param length          The number of characters inserted or deleted.
      * @param referenceLength The length of the full reference string after the transformation.
      */
-    public void updateReference(Integer index, Integer length, Integer referenceLength) {
+    public void matchUpdatedReference(Integer index, Integer length, Integer referenceLength) {
         if (!hasNull()) {
             Integer startOffset = (start >= index) ? length : 0;
             Integer endOffset   = (end   >= index) ? length : 0;
@@ -1428,13 +1428,13 @@ class LyricCoords implements Comparable<LyricCoords> {
      * the coordinates will be set using an unbound method, meaning there will
      * be no upper limit.
      * 
-     * @see {@link #updateReference(Integer, Integer, Integer)}
+     * @see {@link #matchUpdatedReference(Integer, Integer, Integer)}
      * 
      * @param index           The index in the string where the change takes place.
      * @param length          The number of characters inserted or deleted.
      */
-    public void updateReference(Integer index, Integer length) {
-        updateReference(index, length, null);
+    public void matchUpdatedReference(Integer index, Integer length) {
+        matchUpdatedReference(index, length, null);
     }
 
     /**
@@ -1484,8 +1484,8 @@ class LyricCoords implements Comparable<LyricCoords> {
         for (LyricCoords coords : listOfCoords) {
             if (coords != this) {
                 // No upper bound provided since change is negative anyways
-                if (hasStart()) coords.updateReference(start, -1);
-                if (hasEnd()) coords.updateReference(end, -1);
+                if (hasStart()) coords.matchUpdatedReference(start, -1);
+                if (hasEnd()) coords.matchUpdatedReference(end, -1);
             }
         }
 
@@ -1516,8 +1516,8 @@ class LyricCoords implements Comparable<LyricCoords> {
         // Change other slices to match reinserted brackets
         for (LyricCoords coords : listOfCoords) {
             if (coords != this) {
-                if (hasStart()) coords.updateReference(start, 1, referenceString.length());
-                if (hasEnd()) coords.updateReference(end, 1, referenceString.length());
+                if (hasStart()) coords.matchUpdatedReference(start, 1, referenceString.length());
+                if (hasEnd()) coords.matchUpdatedReference(end, 1, referenceString.length());
             }
         }
 
@@ -1892,15 +1892,15 @@ class LyricCoordsDiscontinuous extends LyricCoords {
      * string they are meant to represent. The third argument may be omitted if
      * no upper bound is necessary.
      * 
-     * @see {@link #updateReference(Integer, Integer)}
+     * @see {@link #matchUpdatedReference(Integer, Integer)}
      * 
      * @param index           The index in the string where the change takes place.
      * @param length          The number of characters inserted or deleted.
      * @param referenceLength The length of the full reference string after the transformation.
      */
-    public void updateReference(Integer index, Integer length, Integer referenceLength) {
+    public void matchUpdatedReference(Integer index, Integer length, Integer referenceLength) {
         for (LyricCoords coords : coordsList) {
-            coords.updateReference(index, length, referenceLength);
+            coords.matchUpdatedReference(index, length, referenceLength);
         }
     }
 
@@ -1910,13 +1910,13 @@ class LyricCoordsDiscontinuous extends LyricCoords {
      * the coordinates will be set using an unbound method, meaning there will
      * be no upper limit.
      * 
-     * @see {@link #updateReference(Integer, Integer, Integer)}
+     * @see {@link #matchUpdatedReference(Integer, Integer, Integer)}
      * 
      * @param index           The index in the string where the change takes place.
      * @param length          The number of characters inserted or deleted.
      */
-    public void updateReference(Integer index, Integer length) {
-        updateReference(index, length, null);
+    public void matchUpdatedReference(Integer index, Integer length) {
+        matchUpdatedReference(index, length, null);
     }
 
     /**
