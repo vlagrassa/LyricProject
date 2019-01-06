@@ -1419,8 +1419,30 @@ class LyricCoords implements Comparable<LyricCoords> {
         }
     }
 
+    /**
+     * Set the start and end coordinates in terms of a given reference string and list of other
+     * coords dependent on it. Removes brackets at the current start and end values and inserts
+     * new ones at the new start and end values, updating each set of {@code LyricCoords} in the
+     * provided {@code ArrayList} to reflect this change.
+     * 
+     * If the current coords are discontinuous, this will change them to a continuous set with
+     * the provided start and end values.
+     * 
+     * Note that the changes to the reference string will be accumulated in the {@code newReference}
+     * argument.
+     * 
+     * If both {@code newstart} and {@code newend} are {@code null}, both coordinates will be
+     * set to {@code null}, effectively removing them from the string.
+     * 
+     * // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
+     * 
+     * @param newstart     The new start value for the coordinates.
+     * @param newend       The new end value for the coordinates.
+     * @param newReference A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @return The updated {@code LyricCoords} object.
+     */
     public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder newReference, ArrayList<LyricCoords> listOfCoords) {
-        // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
 
         // Remove current closing bracket, if it exists
         if (hasEnd()) {
@@ -1491,6 +1513,16 @@ class LyricCoords implements Comparable<LyricCoords> {
         return "(" + start + ", " + end + ")";
     }
 
+    /**
+     * Return the characters in the passed {@code String} that are within
+     * the coordinate range of this {@code LyricCoords} object.
+     * 
+     * If the coords are discontinuous, returns the characters bound by each
+     * subset of coordinates, separated by the string {@code (...)}.
+     * 
+     * @param text The string to take characters from.
+     * @return The enclosed characters in the string.
+     */
     public String getBoundCharacters(String text) {
         return text.substring(getStart()+1, getEnd());
     }
@@ -1512,17 +1544,40 @@ class LyricCoords implements Comparable<LyricCoords> {
 class LyricCoordsDiscontinuous extends LyricCoords {
   // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * The list of {@code LyricCoords} subsets of coordinates that make
+     * up this discontinuous coordinate set.
+     */
     private ArrayList<LyricCoords> coordsList;
 
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Instantiates a new {@code LyricCoordsDiscontinuous} object with one
+     * set of coordinates storing the given values.
+     * 
+     * @param start The first start coordinate to store.
+     * @param end The first end coordinate to store.
+     */
     public LyricCoordsDiscontinuous(Integer start, Integer end) {
         super(null, null);
         coordsList = new ArrayList<LyricCoords>();
         addCoords(start, end);
     }
 
+    /**
+     * Instantiates a new {@code LyricCoordsDiscontinuous} object storing copies of the given
+     * coordinate values, copied as defined in the method {@link #addCoordsAsCopy(LyricCoords)}.
+     * 
+     * To add {@code LyricCoords} objects directly rather than as copies, consider 
+     * {@link #addCoords(LyricCoords)}.
+     * 
+     * Note that this will "flatten" any given {@code LyricCoordsDiscontinuous} objects, adding
+     * their component parts rather than the full structure.
+     * 
+     * @param newCoordsList Some number of new {@code LyricCoords} objects to store.
+     */
     public LyricCoordsDiscontinuous(LyricCoords... newCoordsList) {
         super(null, null);
         coordsList = new ArrayList<LyricCoords>();
@@ -1828,6 +1883,27 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         }
     }
 
+    /**
+     * Set the start and end coordinates in terms of a given reference string and list of other
+     * coords dependent on it. Removes brackets at the current start and end values and inserts
+     * new ones at the new start and end values, updating each set of {@code LyricCoords} in the
+     * provided {@code ArrayList} to reflect this change.
+     * 
+     * If the current coords are discontinuous, this will change them to a continuous set with
+     * the provided start and end values.
+     * 
+     * Note that the changes to the reference string will be accumulated in the {@code newReference}
+     * argument.
+     * 
+     * If both {@code newstart} and {@code newend} are {@code null}, both coordinates will be
+     * set to {@code null}, effectively removing them from the string.
+     * 
+     * @param newstart        The new start value for the coordinates.
+     * @param newend          The new end value for the coordinates.
+     * @param referenceString A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @return The updated {@code LyricCoords} object.
+     */
     public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
         // Initialize a new set of coords to be the new value
         LyricCoords result = new LyricCoords();
@@ -1859,6 +1935,16 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         return result;
     }
 
+    /**
+     * Return the characters in the passed {@code String} that are within
+     * the coordinate range of this {@code LyricCoords} object.
+     * 
+     * If the coords are discontinuous, returns the characters bound by each
+     * subset of coordinates, separated by the string {@code (...)}.
+     * 
+     * @param text The string to take characters from.
+     * @return The enclosed characters in the string.
+     */
     public String getBoundCharacters(String text) {
         String result = "";
         String intercalate = " (...) ";
