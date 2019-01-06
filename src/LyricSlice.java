@@ -467,7 +467,7 @@ public class LyricSlice {
      * @param index  The index in the string where the change takes place.
      * @param length The number of characters inserted or deleted.
      */
-    public void updateReference(String key, Integer index, Integer length) {
+    public void matchUpdatedReference(String key, Integer index, Integer length) {
         coords.get(key).matchUpdatedReference(index, length, referenceStrings.get(key).length());
     }
 

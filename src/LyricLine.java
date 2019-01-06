@@ -52,7 +52,7 @@ public class LyricLine {
         String origtext = bracketedtexts.get(key);
         bracketedtexts.put(key, origtext.substring(0, index) + str + origtext.substring(index));
         for (LyricSlice slice : slices) {
-            slice.updateReference(key, index, str.length());
+            slice.matchUpdatedReference(key, index, str.length());
         }
     }
 
@@ -71,7 +71,7 @@ public class LyricLine {
     public void deleteFromBracketedText(String key, Integer length, Integer index) {
         bracketedtexts.put(key, removeUnlessBrackets(bracketedtexts.get(key), length, index));
         for (LyricSlice slice : slices) {
-            slice.updateReference(key, index, -length);
+            slice.matchUpdatedReference(key, index, -length);
         }
     }
 
