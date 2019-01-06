@@ -350,12 +350,12 @@ public class LyricSlice {
      * @param coordsToUpdate The {@code LyricCoords} to run {@code setStartEnd} on.
      * @return The altered {@code LyricCoords} object.
      */
-    private LyricCoords callSetStartEndOnCoords(String key, Integer start, Integer end, LyricCoords coordsToUpdate) {
+    private LyricCoords callSetCoordsUpdatedOnCoords(String key, Integer start, Integer end, LyricCoords coordsToUpdate) {
         // Make a new mutable Stringbuilder to accumulate changes from setStartEnd
         StringBuilder referenceAccum = new StringBuilder(referenceStrings.get(key));
 
         // Run setStartEnd on the given LyricCoords, and save the result to newCoords
-        LyricCoords newCoords = coordsToUpdate.setStartEnd(start, end, referenceAccum, getListOfCoords(key));
+        LyricCoords newCoords = coordsToUpdate.setCoordsUpdated(start, end, referenceAccum, getListOfCoords(key));
 
         // Convert the changed StringBuilder back to a String and save it to the map of reference strings
         referenceStrings.put(key, referenceAccum.toString());
@@ -376,10 +376,10 @@ public class LyricSlice {
      * @param end   The new end coordinate.
      * @return The {@code LyricSlice} itself.
      */
-    public LyricSlice setStartEnd(String key, Integer start, Integer end) {
+    public LyricSlice setCoordsUpdated(String key, Integer start, Integer end) {
 
         // Run setStartEnd on the LyricCoords at key and save the result back to the HashMap
-        coords.put(key, callSetStartEndOnCoords(key, start, end, coords.get(key)));
+        coords.put(key, callSetCoordsUpdatedOnCoords(key, start, end, coords.get(key)));
 
         // Return the current LyricSlice object
         return this;
@@ -396,7 +396,7 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice setStart(String key, Integer newstart) {
-        return setStartEnd(key, newstart, coords.get(key).getEnd());
+        return setCoordsUpdated(key, newstart, coords.get(key).getEnd());
     }
 
     /**
@@ -410,7 +410,7 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice setEnd(String key, Integer newend) {
-        return setStartEnd(key, coords.get(key).getStart(), newend);
+        return setCoordsUpdated(key, coords.get(key).getStart(), newend);
     }
 
     /**
@@ -426,7 +426,7 @@ public class LyricSlice {
      * @return The {@code LyricSlice} itself.
      */
     public LyricSlice moveStartEnd(String key, Integer startoffset, Integer endoffset) {
-        return setStartEnd(key, coords.get(key).getStart() + startoffset, coords.get(key).getEnd() + endoffset);
+        return setCoordsUpdated(key, coords.get(key).getStart() + startoffset, coords.get(key).getEnd() + endoffset);
     }
 
     /**
@@ -488,7 +488,7 @@ public class LyricSlice {
      */
     public LyricSlice addCoords(String key, Integer start, Integer end) {
         // Run setStartEnd on a new set of LyricCoords and save the result to newCoords
-        LyricCoords newCoords = callSetStartEndOnCoords(key, start, end, new LyricCoords());
+        LyricCoords newCoords = callSetCoordsUpdatedOnCoords(key, start, end, new LyricCoords());
 
         // Add the new coords to the current set and save the result to the HashMap
         coords.put(key, coords.get(key).addCoords(newCoords));
@@ -531,7 +531,7 @@ public class LyricSlice {
      * @return The current {@code LyricSlice} object itself.
      */
     public LyricSlice removeCoords(String key) {
-        setStartEnd(key, null, null);
+        setCoordsUpdated(key, null, null);
         return this;
     }
 
@@ -560,7 +560,7 @@ public class LyricSlice {
                     if (c == coordsToRemove) {
 
                         // ...remove them from the reference string
-                        callSetStartEndOnCoords(key, null, null, coordsToRemove);
+                        callSetCoordsUpdatedOnCoords(key, null, null, coordsToRemove);
 
                         // ...replace the current HashMap entry with a modified version that doesn't have them
                         coords.put(key, coords.get(key).removeCoords(coordsToRemove));
@@ -1460,7 +1460,7 @@ class LyricCoords implements Comparable<LyricCoords> {
      * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
      * @return The updated {@code LyricCoords} object.
      */
-    public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+    public LyricCoords setCoordsUpdated(Integer newstart, Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
 
         // Remove current closing bracket, if it exists
         if (hasEnd()) {
@@ -1940,17 +1940,17 @@ class LyricCoordsDiscontinuous extends LyricCoords {
      * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
      * @return The updated {@code LyricCoords} object.
      */
-    public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+    public LyricCoords setCoordsUpdated(Integer newstart, Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
         // Initialize a new set of coords to be the new value
         LyricCoords result = new LyricCoords();
 
         // Remove all of the coordinate subsets from the reference string
         for (LyricCoords coords : coordsList) {
-            coords.setStartEnd(null, null, referenceString, listOfCoords);
+            coords.setCoordsUpdated(null, null, referenceString, listOfCoords);
         }
 
         // Run setStartEnd with the new coords and return it
-        result.setStartEnd(newstart, newend, referenceString, listOfCoords);
+        result.setCoordsUpdated(newstart, newend, referenceString, listOfCoords);
         return result;
     }
 

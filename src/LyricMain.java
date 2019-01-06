@@ -16,22 +16,22 @@ public class LyricMain {
 
 // =-= Initializing test LyricSlice =-=
     LyricSlice testSlice = testLine.createSlice(1);
-    testSlice.setStartEnd("Japanese", -5, 6);
-    testSlice.setStartEnd("English", 5, 18);
-    testSlice.setStartEnd("English", 5, 18);
+    testSlice.setCoordsUpdated("Japanese", -5, 6);
+    testSlice.setCoordsUpdated("English", 5, 18);
+    testSlice.setCoordsUpdated("English", 5, 18);
     System.out.println("Test Slice:\n" + testSlice);
     System.out.println("Test Line:\n" + testLine);
 
 
 // =-= Adding more slices, with categories =-=
-    testLine.createSlice(2).setStartEnd("English", 8, 9);
-    testLine.createSlice(1).setStartEnd("English", 0, 4).setStartEnd("Japanese", 9, 17);
+    testLine.createSlice(2).setCoordsUpdated("English", 8, 9);
+    testLine.createSlice(1).setCoordsUpdated("English", 0, 4).setCoordsUpdated("Japanese", 9, 17);
     /*
     testLine.createSlice(3).setStartEnd("English", 0, 2).setStartEnd("Japanese", 7, 9);
     testLine.createSlice(3).setStartEnd("English", 2, 3).setStartEnd("Japanese", 9, 11);
     testLine.createSlice(3).setStartEnd("English", 3, 4).setStartEnd("Japanese", 11, 13);
     */
-    testLine.createSlice(3).setStartEnd("Japanese", 3, 4).addCoords("Japanese", 8, 9);
+    testLine.createSlice(3).setCoordsUpdated("Japanese", 3, 4).addCoords("Japanese", 8, 9);
 
 
 // =-= Filtering slices by category =-=
@@ -154,7 +154,7 @@ public class LyricMain {
     System.out.println("\n" + testLine.getAsHTML());
     System.out.println(testLine.getBracketedText("English"));
     System.out.println(testLine.getSlices());
-    testSlice.setStartEnd("English", null, null);
+    testSlice.setCoordsUpdated("English", null, null);
     System.out.println("\n" + testLine.getAsHTML());
     System.out.println(testLine.getBracketedText("English"));
     System.out.println(testLine.getSlices());
@@ -200,13 +200,13 @@ public class LyricMain {
     LyricLine testLine3 = new LyricLine(languages);
     testLine3.setBracketedText("English", "abcdefghijklmnopqrst");
     System.out.println(testLine3.getAsPlaintext("English"));
-    LyricSlice testSlice5 = testLine3.createSlice().setStartEnd("English", 0, 2);
+    LyricSlice testSlice5 = testLine3.createSlice().setCoordsUpdated("English", 0, 2);
     System.out.println(testLine3.getAsBracketed("English"));
     System.out.println(testSlice5);
     testSlice5.addCoords("English", 5, 7);
     System.out.println(testLine3.getAsBracketed("English"));
     System.out.println(testSlice5);
-    testSlice5.setStartEnd("English", 10, 12);
+    testSlice5.setCoordsUpdated("English", 10, 12);
     // test5 = test5.setStartEnd(10, 12, new StringBuilder("[a]bc[d]efghijklmnopqrst"), );
     System.out.println(testLine3.getAsBracketed("English"));
     System.out.println(testSlice5);
@@ -226,7 +226,7 @@ public class LyricMain {
     System.out.println(testSlice5);
 
     System.out.println("\nAdd Range:");
-    testLine3.createSlice().setStartEnd("English", 1, 4).addCoords("English", 7, 9);
+    testLine3.createSlice().setCoordsUpdated("English", 1, 4).addCoords("English", 7, 9);
     System.out.println(testLine3.getAsBracketed("English"));
     System.out.println(testLine3.getSlices());
     testLine3.getSlices().get(1).addRange("English", 3, 8);
