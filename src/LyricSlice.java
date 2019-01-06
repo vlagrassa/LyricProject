@@ -1274,15 +1274,8 @@ class LyricCoords implements Comparable<LyricCoords> {
      */
     public void updateReference(Integer index, Integer length, Integer referenceLength) {
         if (!hasNull()) {
-            Integer startOffset = 0, endOffset = 0;
-            if (length > 0) {
-                if (start >  index) startOffset = length;
-                if (end   >= index) endOffset   = length;
-            }
-            else if (length < 0) {
-                if (start >= index) startOffset = length;
-                if (end   >  index) endOffset   = length;
-            }
+            Integer startOffset = (start >= index) ? length : 0;
+            Integer endOffset   = (end   >= index) ? length : 0;
             moveCoordsBound(startOffset, endOffset, 0, referenceLength);
         }
     }
