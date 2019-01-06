@@ -1944,8 +1944,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         // Initialize a new set of coords to be the new value
         LyricCoords result = new LyricCoords();
 
-        // Set all of the current coords to null
-        // TODO: Make a delete method to manually delete them all here?
+        // Remove all of the coordinate subsets from the reference string
         for (LyricCoords coords : coordsList) {
             coords.setStartEnd(null, null, referenceString, listOfCoords);
         }
