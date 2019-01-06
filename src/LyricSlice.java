@@ -1514,6 +1514,14 @@ class LyricCoordsDiscontinuous extends LyricCoords {
                 Collections.sort(coordsList);
             }
         }
+        // TODO: List needs to be pruned, but is this the best place to put this?
+        // Remove any coordinates that are (null, null)
+        for (int i = 0; i < coordsList.size(); i++) {
+            if (coordsList.get(i).isNull()) {
+                coordsList.remove(i);
+                i--;
+            }
+        }
         return this;
     }
 
