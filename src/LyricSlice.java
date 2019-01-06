@@ -1405,7 +1405,10 @@ class LyricCoords implements Comparable<LyricCoords> {
 
     /**
      * Adjust the start and end coordinates to reflect some change to the 
-     * string they are meant to represent.
+     * string they are meant to represent. The third argument may be omitted if
+     * no upper bound is necessary.
+     * 
+     * @see {@link #updateReference(Integer, Integer)}
      * 
      * @param index           The index in the string where the change takes place.
      * @param length          The number of characters inserted or deleted.
@@ -1417,6 +1420,21 @@ class LyricCoords implements Comparable<LyricCoords> {
             Integer endOffset   = (end   >= index) ? length : 0;
             moveCoordsBound(startOffset, endOffset, 0, referenceLength);
         }
+    }
+
+    /**
+     * Adjust the start and end coordinates to reflect some change to the 
+     * string they are meant to represent. If no reference length is provided,
+     * the coordinates will be set using an unbound method, meaning there will
+     * be no upper limit.
+     * 
+     * @see {@link #updateReference(Integer, Integer, Integer)}
+     * 
+     * @param index           The index in the string where the change takes place.
+     * @param length          The number of characters inserted or deleted.
+     */
+    public void updateReference(Integer index, Integer length) {
+        updateReference(index, length, null);
     }
 
     /**
@@ -1465,9 +1483,9 @@ class LyricCoords implements Comparable<LyricCoords> {
         // Change other coords to match removal of brackets
         for (LyricCoords coords : listOfCoords) {
             if (coords != this) {
-                // TODO: Accept null or no argument if end bound isn't necessary here
-                if (hasStart()) coords.updateReference(start, -1, referenceString.length());
-                if (hasEnd()) coords.updateReference(end, -1, referenceString.length());
+                // No upper bound provided since change is negative anyways
+                if (hasStart()) coords.updateReference(start, -1);
+                if (hasEnd()) coords.updateReference(end, -1);
             }
         }
 
@@ -1871,7 +1889,10 @@ class LyricCoordsDiscontinuous extends LyricCoords {
 
     /**
      * Adjust the start and end coordinates to reflect some change to the 
-     * string they are meant to represent.
+     * string they are meant to represent. The third argument may be omitted if
+     * no upper bound is necessary.
+     * 
+     * @see {@link #updateReference(Integer, Integer)}
      * 
      * @param index           The index in the string where the change takes place.
      * @param length          The number of characters inserted or deleted.
@@ -1881,6 +1902,21 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         for (LyricCoords coords : coordsList) {
             coords.updateReference(index, length, referenceLength);
         }
+    }
+
+    /**
+     * Adjust the start and end coordinates to reflect some change to the 
+     * string they are meant to represent. If no reference length is provided,
+     * the coordinates will be set using an unbound method, meaning there will
+     * be no upper limit.
+     * 
+     * @see {@link #updateReference(Integer, Integer, Integer)}
+     * 
+     * @param index           The index in the string where the change takes place.
+     * @param length          The number of characters inserted or deleted.
+     */
+    public void updateReference(Integer index, Integer length) {
+        updateReference(index, length, null);
     }
 
     /**
