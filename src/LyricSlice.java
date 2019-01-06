@@ -316,6 +316,9 @@ public class LyricSlice {
      * Get the first coordinate, representing the start of the interval, for the
      * given language.
      * 
+     * If coords are discontinuous, returns the earliest start coordinate of all
+     * the subsections.
+     * 
      * @param key The language to get the coordinate from.
      * @return An {@code Integer} representing the start coordinate.
      */
@@ -326,6 +329,9 @@ public class LyricSlice {
     /**
      * Get the second coordinate, representing the end of the interval, for the
      * given language.
+     * 
+     * If coords are discontinuous, returns the last end coordinate of all the
+     * subsections.
      * 
      * @param key The language to get the coordinate from.
      * @return An {@code Integer} representing the end coordinate.
@@ -1296,6 +1302,51 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         super(null, null);
         coordsList = new ArrayList<LyricCoords>();
         addCoordsAsCopy(newCoordsList);
+    }
+
+
+  // =-=-= Basic Getter Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    /**
+     * Get the first coordinate, representing the start of the interval, for the
+     * given language.
+     * 
+     * If coords are discontinuous, returns the earliest start coordinate of all
+     * the subsections.
+     * 
+     * @return An {@code Integer} representing the start coordinate.
+     */
+    public Integer getStart() {
+        Integer startCoords[] = new Integer[coordsList.size()];
+        for (int i = 0; i < coordsList.size(); i++) {
+            startCoords[i] = coordsList.get(i).getStart();
+        }
+        Integer min = startCoords[0];
+        for (Integer i : startCoords) {
+            min = i < min ? i : min;
+        }
+        return min;
+    }
+
+    /**
+     * Get the second coordinate, representing the end of the interval, for the
+     * given language.
+     * 
+     * If coords are discontinuous, returns the last end coordinate of all the
+     * subsections.
+     * 
+     * @return An {@code Integer} representing the end coordinate.
+     */
+    public Integer getEnd() {
+        Integer endCoords[] = new Integer[coordsList.size()];
+        for (int i = 0; i < coordsList.size(); i++) {
+            endCoords[i] = coordsList.get(i).getEnd();
+        }
+        Integer max = endCoords[0];
+        for (Integer i : endCoords) {
+            max = i > max ? i : max;
+        }
+        return max;
     }
 
 
