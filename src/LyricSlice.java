@@ -596,20 +596,43 @@ public class LyricSlice {
     }
 
     /**
-     * Add the specified range of characters to the specified coordinate set.
+     * Returns the set of {@code LyricCoords} that overlap with the given range.
+     * 
+     * @param key   The language to get coordinates from.
+     * @param start The start of the overlap range.
+     * @param end   The end of the overlap range.
+     * @return The set of overlapping {@code LyricCoords}.
      */
-    public void addRange(String key, Integer start, Integer end) {
-        LyricCoords currentCoordSet = coords.get(key);
+    private ArrayList<LyricCoords> getOverlaps(String key, Integer start, Integer end) {
         ArrayList<LyricCoords> overlapSet = new ArrayList<LyricCoords>();
-        for (LyricCoords currentCoords : currentCoordSet.getCoordsList()) {
+        for (LyricCoords currentCoords : coords.get(key).getCoordsList()) {
             if (!currentCoords.hasNull() && coordsOverlap(currentCoords, start, end)) {
                 overlapSet.add(currentCoords);
             }
         }
+        Collections.sort(overlapSet);
+        return overlapSet;
+    }
+
+    /**
+     * Returns the set of {@code LyricCoords} that overlap with the given range.
+     * 
+     * @param key        The language to get coordinates from.
+     * @param mainCoords A {@code LyricCoords} object representing the overlap range.
+     * @return The set of overlapping {@code LyricCoords}.
+     */
+    private ArrayList<LyricCoords> getOverlaps(String key, LyricCoords mainCoords) {
+        return getOverlaps(key, mainCoords.getStart(), mainCoords.getEnd());
+    }
+
+    /**
+     * Add the specified range of characters to the specified coordinate set.
+     */
+    public void addRange(String key, Integer start, Integer end) {
+        ArrayList<LyricCoords> overlapSet = getOverlaps(key, start, end);
         if (overlapSet.isEmpty()) {
             addCoords(key, start, end);
         } else {
-            Collections.sort(overlapSet);
             Integer newstart = Math.min(start, overlapSet.get(0).getStart());
             Integer newend = Math.max(end, overlapSet.get(overlapSet.size()-1).getEnd());
             addCoords(key, newstart, newend);
