@@ -579,18 +579,74 @@ public class LyricSlice {
 
   // =-=-= Add or Remove Ranges =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Return {@code true} if the specified ranges and/or sets of coordinates overlap
+     * with one another, and {@code false} if they do not.
+     * 
+     * @see {@link #coordsOverlap(LyricCoords, Integer, Integer)}
+     * @see {@link #coordsOverlap(Integer, Integer, LyricCoords)}
+     * @see {@link #coordsOverlap(LyricCoords, LyricCoords)}
+     * 
+     * @param start1 The start coordinate of the first set.
+     * @param end1   The end coordinate of the first set.
+     * @param start2 The start coordinate of the second set.
+     * @param end2   The end coordinate of the second set.
+     * 
+     * @return Whether the given ranges/coordinates overlap.
+     */
     private Boolean coordsOverlap(Integer start1, Integer end1, Integer start2, Integer end2) {
         return !((start1 < start2 && end1 < start2) || (start2 < start1 && end2 < start1));
     }
 
+    /**
+     * Return {@code true} if the specified ranges and/or sets of coordinates overlap
+     * with one another, and {@code false} if they do not.
+     * 
+     * @see {@link #coordsOverlap(Integer, Integer, Integer, Integer)}
+     * @see {@link #coordsOverlap(Integer, Integer, LyricCoords)}
+     * @see {@link #coordsOverlap(LyricCoords, LyricCoords)}
+     * 
+     * @param coords1 The first set of coordinates.
+     * @param start2 The start coordinate of the second set.
+     * @param end2   The end coordinate of the second set.
+     * 
+     * @return Whether the given ranges/coordinates overlap.
+     */
     private Boolean coordsOverlap(LyricCoords coords1, Integer start2, Integer end2) {
         return coordsOverlap(coords1.getStart(), coords1.getEnd(), start2, end2);
     }
 
+    /**
+     * Return {@code true} if the specified ranges and/or sets of coordinates overlap
+     * with one another, and {@code false} if they do not.
+     * 
+     * @see {@link #coordsOverlap(Integer, Integer, Integer, Integer)}
+     * @see {@link #coordsOverlap(LyricCoords, Integer, Integer)}
+     * @see {@link #coordsOverlap(LyricCoords, LyricCoords)}
+     * 
+     * @param start1 The start coordinate of the first set.
+     * @param end1   The end coordinate of the first set.
+     * @param coords2 The second set of coordinates.
+     * 
+     * @return Whether the given ranges/coordinates overlap.
+     */
     private Boolean coordsOverlap(Integer start1, Integer end1, LyricCoords coords2) {
         return coordsOverlap(start1, end1, coords2.getStart(), coords2.getEnd());
     }
 
+    /**
+     * Return {@code true} if the specified ranges and/or sets of coordinates overlap
+     * with one another, and {@code false} if they do not.
+     * 
+     * @see {@link #coordsOverlap(Integer, Integer, Integer, Integer)}
+     * @see {@link #coordsOverlap(LyricCoords, Integer, Integer)}
+     * @see {@link #coordsOverlap(Integer, Integer, LyricCoords)}
+     * 
+     * @param coords1 The first set of coordinates.
+     * @param coords2 The second set of coordinates.
+     * 
+     * @return Whether the given ranges/coordinates overlap.
+     */
     private Boolean coordsOverlap(LyricCoords coords1, LyricCoords coords2) {
         return coordsOverlap(coords1.getStart(), coords1.getEnd(), coords2.getStart(), coords2.getEnd());
     }
