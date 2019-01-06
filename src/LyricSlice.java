@@ -628,7 +628,7 @@ public class LyricSlice {
     /**
      * Add the specified range of characters to the specified coordinate set.
      */
-    public void addRange(String key, Integer start, Integer end) {
+    public LyricSlice addRange(String key, Integer start, Integer end) {
         ArrayList<LyricCoords> overlapSet = getOverlaps(key, start, end);
         if (overlapSet.isEmpty()) {
             addCoords(key, start, end);
@@ -640,9 +640,10 @@ public class LyricSlice {
                 removeCoords(overlapSet.get(i));
             }
         }
+        return this;
     }
 
-    public void removeRange(String key, Integer start, Integer end) {
+    public LyricSlice removeRange(String key, Integer start, Integer end) {
         ArrayList<LyricCoords> overlapSet = getOverlaps(key, start, end);
         if (!overlapSet.isEmpty()) {
             Integer originalstart = overlapSet.get(0).getStart();
@@ -657,6 +658,7 @@ public class LyricSlice {
                 removeCoords(overlapSet.get(i));
             }
         }
+        return this;
     }
 
 
