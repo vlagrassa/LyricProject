@@ -1436,29 +1436,29 @@ class LyricCoords implements Comparable<LyricCoords> {
      * 
      * // TODO: Allow start or end to be null to not change that coordinate (and potentially cut down on runtime)
      * 
-     * @param newstart     The new start value for the coordinates.
-     * @param newend       The new end value for the coordinates.
-     * @param newReference A {@code StringBuilder} object to accumulate changes to the reference string.
-     * @param listOfCoords A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @param newstart        The new start value for the coordinates.
+     * @param newend          The new end value for the coordinates.
+     * @param referenceString A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
      * @return The updated {@code LyricCoords} object.
      */
-    public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder newReference, ArrayList<LyricCoords> listOfCoords) {
+    public LyricCoords setStartEnd(Integer newstart, Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
 
         // Remove current closing bracket, if it exists
         if (hasEnd()) {
-            if (newReference.charAt(end) == ']') {
-                newReference.deleteCharAt(end);
+            if (referenceString.charAt(end) == ']') {
+                referenceString.deleteCharAt(end);
             } else {
-                throw new RuntimeException("Character " + end + " of string \"" + newReference + " does not match close bracket \"]\" ");
+                throw new RuntimeException("Character " + end + " of string \"" + referenceString + " does not match close bracket \"]\" ");
             }
         }
 
         // Remove current opening bracket, if it exists
         if (hasStart()) {
-            if (newReference.charAt(start) == '[') {
-                newReference.deleteCharAt(start);
+            if (referenceString.charAt(start) == '[') {
+                referenceString.deleteCharAt(start);
             } else {
-                throw new RuntimeException("Character " + start + " of string \"" + newReference + " does not match open bracket \"[\" ");
+                throw new RuntimeException("Character " + start + " of string \"" + referenceString + " does not match open bracket \"[\" ");
             }
         }
 
@@ -1466,8 +1466,8 @@ class LyricCoords implements Comparable<LyricCoords> {
         for (LyricCoords coords : listOfCoords) {
             if (coords != this) {
                 // TODO: Accept null or no argument if end bound isn't necessary here
-                if (hasStart()) coords.updateReference(start, -1, newReference.length());
-                if (hasEnd()) coords.updateReference(end, -1, newReference.length());
+                if (hasStart()) coords.updateReference(start, -1, referenceString.length());
+                if (hasEnd()) coords.updateReference(end, -1, referenceString.length());
             }
         }
 
@@ -1483,7 +1483,7 @@ class LyricCoords implements Comparable<LyricCoords> {
         Integer newend_ = Math.max(newstart, newend) + (hasStart() ? 0 : 1);
 
         // Set new start and new end safely
-        setCoordsBound(newstart_, newend_, 0, newReference.length()+1);
+        setCoordsBound(newstart_, newend_, 0, referenceString.length()+1);
 
         // Increment end by 1 if both bounds end up at the same point
         if (start == end) {
@@ -1492,14 +1492,14 @@ class LyricCoords implements Comparable<LyricCoords> {
         }
 
         // Re-insert brackets into the reference string and save it to the HashMap
-        newReference.insert(start, "[");
-        newReference.insert(end, "]");
+        referenceString.insert(start, "[");
+        referenceString.insert(end, "]");
 
         // Change other slices to match reinserted brackets
         for (LyricCoords coords : listOfCoords) {
             if (coords != this) {
-                if (hasStart()) coords.updateReference(start, 1, newReference.length());
-                if (hasEnd()) coords.updateReference(end, 1, newReference.length());
+                if (hasStart()) coords.updateReference(start, 1, referenceString.length());
+                if (hasEnd()) coords.updateReference(end, 1, referenceString.length());
             }
         }
 
