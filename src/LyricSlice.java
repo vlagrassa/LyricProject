@@ -558,6 +558,9 @@ public class LyricSlice {
 
                         // ...replace the current HashMap entry with a modified version that doesn't have them
                         coords.put(key, coords.get(key).removeCoords(coordsToRemove));
+                        
+                        // ...break out of the loop to avoid a ConcurrentModification exception
+                        break;
                     }
                 }
             }
