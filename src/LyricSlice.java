@@ -626,7 +626,26 @@ public class LyricSlice {
     }
 
     /**
-     * Add the specified range of characters to the specified coordinate set.
+     * Add the specified range of characters to the specified coordinate set, merging
+     * with other coordinate sets (continuous or not) as necessary. For example, adding
+     * the range {@code (4, 9)} to the string
+     * 
+     *      {@code a[bcd]e[fg]hi}
+     * 
+     * will produce
+     * 
+     *      {@code a[bcdefg]hi}
+     * 
+     * as opposed to
+     * 
+     *      {@code a[bc[d]e[f]g]hi}
+     * 
+     * @see {@link #removeRange(String, Integer, Integer)}
+     * 
+     * @param key   The language to add the range to.
+     * @param start The start coordinate of the range to add.
+     * @param end   The end coordinate of the range to add.
+     * @return The current {@code LyricSlice} object itself.
      */
     public LyricSlice addRange(String key, Integer start, Integer end) {
         ArrayList<LyricCoords> overlapSet = getOverlaps(key, start, end);
@@ -643,6 +662,24 @@ public class LyricSlice {
         return this;
     }
 
+    /**
+     * Remove the specified range of characters from the specified coordinate set,
+     * splitting other coordinate sets (continuous or not) as necessary. For example,
+     * removing the range {@code (5, 6)} from the string
+     * 
+     *      {@code a[bcdefg]hi}
+     * 
+     * will produce
+     * 
+     *      {@code a[bcd]e[fg]hi}.
+     * 
+     * @see {@link #addRange(String, Integer, Integer)}
+     * 
+     * @param key   The language to remove the range from.
+     * @param start The start coordinate of the range to remove.
+     * @param end   The end coordinate of the range to remove.
+     * @return The current {@code LyricSlice} object itself.
+     */
     public LyricSlice removeRange(String key, Integer start, Integer end) {
         ArrayList<LyricCoords> overlapSet = getOverlaps(key, start, end);
         if (!overlapSet.isEmpty()) {
