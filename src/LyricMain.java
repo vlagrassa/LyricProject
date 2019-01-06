@@ -225,5 +225,12 @@ public class LyricMain {
     System.out.println(testLine3.getAsBracketed("English"));
     System.out.println(testSlice5);
 
+    System.out.println("\nAdd Range:");
+    testLine3.createSlice().setStartEnd("English", 1, 4).addCoords("English", 7, 9);
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getSlices());
+    testLine3.getSlices().get(1).addRange("English", 3, 8);
+    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getSlices());
   }
 }

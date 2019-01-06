@@ -577,6 +577,48 @@ public class LyricSlice {
     // TODO: Merge method for two LyricSlices -- possibly in LyricLine
 
 
+  // =-=-= Add or Remove Ranges =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    private Boolean coordsOverlap(Integer start1, Integer end1, Integer start2, Integer end2) {
+        return !((start1 < start2 && end1 < start2) || (start2 < start1 && end2 < start1));
+    }
+
+    private Boolean coordsOverlap(LyricCoords coords1, Integer start2, Integer end2) {
+        return coordsOverlap(coords1.getStart(), coords1.getEnd(), start2, end2);
+    }
+
+    private Boolean coordsOverlap(Integer start1, Integer end1, LyricCoords coords2) {
+        return coordsOverlap(start1, end1, coords2.getStart(), coords2.getEnd());
+    }
+
+    private Boolean coordsOverlap(LyricCoords coords1, LyricCoords coords2) {
+        return coordsOverlap(coords1.getStart(), coords1.getEnd(), coords2.getStart(), coords2.getEnd());
+    }
+
+    /**
+     * Add the specified range of characters to the specified coordinate set.
+     */
+    public void addRange(String key, Integer start, Integer end) {
+        LyricCoords currentCoordSet = coords.get(key);
+        ArrayList<LyricCoords> overlapSet = new ArrayList<LyricCoords>();
+        for (LyricCoords currentCoords : currentCoordSet.getCoordsList()) {
+            if (!currentCoords.hasNull() && coordsOverlap(currentCoords, start, end)) {
+                overlapSet.add(currentCoords);
+            }
+        }
+        if (overlapSet.isEmpty()) {
+            addCoords(key, start, end);
+        } else {
+            Collections.sort(overlapSet);
+            Integer newstart = Math.min(start, overlapSet.get(0).getStart());
+            Integer newend = Math.max(end, overlapSet.get(overlapSet.size()-1).getEnd());
+            addCoords(key, newstart, newend);
+            for (int i = 0; i < overlapSet.size(); i++) {
+                removeCoords(overlapSet.get(i));
+            }
+        }
+    }
+
   // =-=-= String Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
