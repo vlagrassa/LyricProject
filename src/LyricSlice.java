@@ -1204,14 +1204,27 @@ class LyricCoords implements Comparable<LyricCoords> {
      * version of addCoords, since both must call their respective analogues
      * in LyricCoordsDiscontinuous to function properly.
      * 
+     * Note also that even though a new object will be returned by this function,
+     * the original coordinate set is still used as a subset within the new
+     * discontinuous coords. This is very important for removing/replacing sets
+     * of coordinates.
+     * 
      * @see {@code LyricCoordsDiscontinuous.addCoords(LyricCoords... origList)}
      * 
      * @param origList Some preexisting {@code LyricCoords} to directly add to this object.
      * @return A new discontinuous set of Lyric coords.
      */
     public LyricCoordsDiscontinuous addCoords(LyricCoords... origList) {
-        LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
+        // Initialize a new LyricCoordsDiscontinuous to store the coordinates
+        LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous();
+
+        // Add the current coords object to the new discontinuous one
+        result.addCoords(this);
+
+        // Add the provided coords objects to the new discontinuous one
         result.addCoords(origList);
+
+        // Return the new LyricCoordsDiscontinuous object
         return result;
     }
 
@@ -1229,14 +1242,27 @@ class LyricCoords implements Comparable<LyricCoords> {
      * version of addCoords, since both must call their respective analogues
      * in LyricCoordsDiscontinuous to function properly.
      * 
+     * Note also that even though a new object will be returned by this function,
+     * the original coordinate set is still used as a subset within the new
+     * discontinuous coords. This is very important for removing/replacing sets
+     * of coordinates.
+     * 
      * @see {@code LyricCoordsDiscontinuous.addCoordsAsCopy(LyricCoords... origList)}
      * 
      * @param origList Some {@code LyricCoords} to duplicate and add to this object.
      * @return A new discontinuous set of Lyric coords.
      */
     public LyricCoordsDiscontinuous addCoordsAsCopy(LyricCoords... origList) {
-        LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous(this);
+        // Initialize a new LyricCoordsDiscontinuous to store the coordinates
+        LyricCoordsDiscontinuous result = new LyricCoordsDiscontinuous();
+
+        // Preserve the current coords object in the new set
+        result.addCoords(this);
+
+        // Copy all the coordinates passed as arguments
         result.addCoordsAsCopy(origList);
+
+        // Return the new LyricCoordsDiscontinuous object
         return result;
     }
 
