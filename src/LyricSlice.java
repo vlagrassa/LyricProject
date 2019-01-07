@@ -34,7 +34,7 @@ public class LyricSlice {
      */
     ArrayList<LyricSlice> listOfSlices;
 
-    public String header;
+    String header;
 
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
