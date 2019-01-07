@@ -99,11 +99,29 @@ public class LyricLine {
 
   // =-=-= Lyric Slices =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-    // Get the list of Lyric slices
+    /**
+     * Get the list of {@code LyricSlice} objects associated with this
+     * line. If an {@code Integer} argument is provided, will return a
+     * list of only the slices matching that category, serving as a way
+     * to filter them.
+     * 
+     * @return The full list of {@code LyricSlice} objects.
+     */
     public ArrayList<LyricSlice> getSlices() {
         return slices;
     }
 
+    /**
+     * Get the list of {@code LyricSlice} objects associated with this
+     * line with a category matching the passed {@code Integer} value.
+     * If no argument is provided, will return a list of all the slices
+     * associated with this line, regardless of category.
+     * 
+     * @see {@link LyricSlice#isCategory(Integer)}
+     * 
+     * @param cat The category to filter by.
+     * @return The filtered list of {@code LyricSlice} objects.
+     */
     public ArrayList<LyricSlice> getSlices(Integer cat) {
         ArrayList<LyricSlice> result = new ArrayList<LyricSlice>();
         for (LyricSlice s : slices) {
@@ -114,20 +132,62 @@ public class LyricLine {
         return result;
     }
 
+    /**
+     * Create a new {@code LyricSlice} object in the line with the given
+     * category and annotation values. If either or both fields are omitted,
+     * they will be filled with their default values of {@code null} and
+     * {@code ""}, respectively.
+     * 
+     * @param category   The category of the new slice.
+     * @param annotation The annotation for the new slice.
+     * @return The newly created {@code LyricSlice}.
+     */
     public LyricSlice createSlice(Integer category, String annotation) {
         LyricSlice newSlice = new LyricSlice(bracketedtexts, slices, category, annotation);
         slices.add(newSlice);
         return newSlice;
     }
 
+    /**
+     * Create a new {@code LyricSlice} object in the line with the given
+     * category value and the default {@code ""} annotation value. If the
+     * category field is omitted, it will be filled with its default value
+     * of {@code null}.
+     * 
+     * @see {@link #createSlice(Integer, String)}
+     * 
+     * @param category The category of the new slice.
+     * @return The newly created {@code LyricSlice}.
+     */
     public LyricSlice createSlice(Integer category) {
         return createSlice(category, "");
     }
 
+    /**
+     * Create a new {@code LyricSlice} object in the line with the given
+     * annotation value and the default {@code null} category value. If the
+     * annotation field is omitted, it will be filled with its default value
+     * of {@code ""}.
+     * 
+     * @see {@link #createSlice(Integer, String)}
+     * 
+     * @param annotation The annotation for the new slice.
+     * @return The newly created {@code LyricSlice}.
+     */
     public LyricSlice createSlice(String annotation) {
         return createSlice(null, annotation);
     }
 
+    /**
+     * Create a new {@code LyricSlice} object in the line with the default
+     * category and annotation values of {@code null} and {@code ""}, respectively.
+     * Specific values for either or both of these may also be passed as
+     * arguments to the function.
+     * 
+     * @see {@link #createSlice(Integer, String)}
+     * 
+     * @return The newly created {@code LyricSlice}.
+     */
     public LyricSlice createSlice() {
         return createSlice(null, "");
     }
