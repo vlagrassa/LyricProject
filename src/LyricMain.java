@@ -235,5 +235,9 @@ public class LyricMain {
     testLine3.getSlices().get(1).removeRange("English", 3, 5);
     System.out.println(testLine3.getAsBracketed("English"));
     System.out.println(testLine3.getSlices());
+
+    System.out.println("\nGet coords list as copy:");
+    System.out.println("Original:  " + testLine.getCoordsList("English"));
+    System.out.println("Duplicate: " + testLine.getCoordsListCopy("English"));
   }
 }

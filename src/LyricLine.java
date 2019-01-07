@@ -192,10 +192,22 @@ public class LyricLine {
         return createSlice(null, "");
     }
 
-    private ArrayList<LyricCoords> getCoordsListCopy(String key) {
+    public ArrayList<LyricCoords> getCoordsListCopy(String key) {
         ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
         for (LyricSlice slice : slices) {
-            coordsList.add(new LyricCoords(slice.getCoords(key)));
+            if (slice.getCoords(key).isContinuous()) {
+                coordsList.add(new LyricCoords(slice.getCoords(key)));
+            } else {
+                coordsList.add(new LyricCoordsDiscontinuous(slice.getCoords(key)));
+            }
+        }
+        return coordsList;
+    }
+
+    public ArrayList<LyricCoords> getCoordsList(String key) {
+        ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
+        for (LyricSlice slice : slices) {
+            coordsList.add(slice.getCoords(key));
         }
         return coordsList;
     }
