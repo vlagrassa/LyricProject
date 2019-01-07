@@ -1,15 +1,14 @@
 import java.util.*;
 
 public class LyricLine {
-
-// =-=-= Usage Info =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Usage Info =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     // Note that the Line doesn't explicitly store the list of languages,
     // so it doesn't have them ordered - to produce them in proper order,
     // have to invoke each one manually from a higher class.
 
 
-// =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * A map from language strings to a bracketed text string representing
@@ -23,7 +22,7 @@ public class LyricLine {
     private ArrayList<LyricSlice> slices;
 
 
-// =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
      * Initialize a new {@code LyricLine} object with a set of languages to
@@ -44,7 +43,7 @@ public class LyricLine {
     }
 
 
-// =-=-= Plain Text =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Plain Text =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     // Get the plain text from texts for the given language
     public String getBracketedText(String key) {
@@ -98,7 +97,7 @@ public class LyricLine {
     }
 
 
-// =-=-= Lyric Slices =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Lyric Slices =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     // Get the list of Lyric slices
     public ArrayList<LyricSlice> getSlices() {
@@ -134,7 +133,7 @@ public class LyricLine {
     }
 
 
-// =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
         String result = ">Line<\n";
