@@ -1290,7 +1290,7 @@ class LyricCoords implements Comparable<LyricCoords> {
      * set to {@code null}. If coordinates are discontinuous, returns {@code true}
      * if any start or end coordinate is set to {@code null}.
      * 
-     * @return whether any coordinate is null.
+     * @return Whether any coordinate is null.
      */
     public Boolean hasNull() {
         return start == null || end == null;
@@ -1303,7 +1303,7 @@ class LyricCoords implements Comparable<LyricCoords> {
      * 
      * Equivalent to {@code hasNull() == val}.
      * 
-     * @param val The expected value of hasNull().
+     * @param val The expected value of {@code hasNull()}.
      * @return Whether the value matches or not.
      */
     public Boolean hasNull(Boolean val) {
@@ -1315,7 +1315,7 @@ class LyricCoords implements Comparable<LyricCoords> {
      * set to {@code null}. If coordinates are discontinuous, returns {@code true}
      * if all start and end coordinates are set to {@code null}.
      * 
-     * @return whether all coordinates are null.
+     * @return Whether all coordinates are null.
      */
     public Boolean isNull() {
         return start == null && end == null;
