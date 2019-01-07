@@ -306,4 +306,27 @@ public class LyricLine {
         // Return the final, built up string
         return textSB.toString();
     }
+
+    public void genHeadersAndClosers() {
+        ArrayList<String> usedHeaders = new ArrayList<String>();
+        String headerTemplate = "#%s[";
+        for (String key : getLanguages()) {
+            ArrayList<LyricCoords> coordsList = getCoordsList(key);
+            for (int i = 0; i < coordsList.size(); i++) {
+                if (coordsList.get(i).hasHeader()) {
+                    usedHeaders.add(coordsList.get(i).getHeader());
+                } else {
+                    String newHeader;
+                    for (int j = i; true; j++) {
+                        newHeader = String.format(headerTemplate, j);
+                        if (!usedHeaders.contains(newHeader)) {
+                            break;
+                        }
+                    }
+                    coordsList.get(i).setHeader(newHeader);
+                    // TODO: Add category as first digit and increment within each category
+                }
+            }
+        }
+    }
 }
