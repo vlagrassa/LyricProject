@@ -15,8 +15,8 @@ public class LyricTest {
     public void testPlaintext() {
         testLine.setBracketedText("Japanese", "honbun tesuto");
         testLine.setBracketedText("English", "test text");
-        Assert.assertEquals("honbun tesuto", testLine.getAsPlaintext("Japanese"));
-        Assert.assertEquals("test text", testLine.getAsPlaintext("English"));
+        Assert.assertEquals("honbun tesuto", testLine.getPlainText("Japanese"));
+        Assert.assertEquals("test text", testLine.getPlainText("English"));
     }
 
     // =-= Test Discontinuous Lyric Coords =-=
@@ -81,7 +81,7 @@ public class LyricTest {
     System.out.println(testLine.getBracketedText("English"));
     testLine.deleteFromBracketedText("English", 5, 0);
     System.out.println(testLine.getBracketedText("English"));
-    System.out.println(testLine.getAsPlaintext("English"));
+    System.out.println(testLine.getPlainText("English"));
 
 
 // =-= Test removing non-bracket characters
@@ -90,7 +90,7 @@ public class LyricTest {
     System.out.println(testLine.removeUnlessBrackets(thing, 3, 1));
     System.out.println("Test thing: " + thing);
     System.out.println("\n" + testLine.getSlices());
-    System.out.println("\n" + testLine.getAsHTML());
+    System.out.println("\n" + testLine.getTaggedText());
     // testSlice.moveStart("English", 1);
     // testSlice.moveEnd("English", -6);
 
@@ -116,11 +116,11 @@ public class LyricTest {
     // testSlice.moveStart("English", 2);
     // System.out.println(testLine.getBracketedText("English"));
 
-    System.out.println("\n" + testLine.getAsHTML());
+    System.out.println("\n" + testLine.getTaggedText());
     System.out.println(testLine.getBracketedText("English"));
     System.out.println(testLine.getSlices());
     testSlice.setCoordsUpdated("English", null, null);
-    System.out.println("\n" + testLine.getAsHTML());
+    System.out.println("\n" + testLine.getTaggedText());
     System.out.println(testLine.getBracketedText("English"));
     System.out.println(testLine.getSlices());
 
@@ -164,43 +164,43 @@ public class LyricTest {
     System.out.println("\nUsing setStartEnd to make discontinuous into continuous");
     LyricLine testLine3 = new LyricLine("English", "Japanese");
     testLine3.setBracketedText("English", "abcdefghijklmnopqrst");
-    System.out.println(testLine3.getAsPlaintext("English"));
+    System.out.println(testLine3.getPlainText("English"));
     LyricSlice testSlice5 = testLine3.createSlice().setCoordsUpdated("English", 0, 2);
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testSlice5);
     testSlice5.addCoords("English", 5, 7);
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testSlice5);
     testSlice5.setCoordsUpdated("English", 10, 12);
     // test5 = test5.setStartEnd(10, 12, new StringBuilder("[a]bc[d]efghijklmnopqrst"), );
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testSlice5);
 
     System.out.println("\nRemoving Coords from a Slice:");
     LyricCoords test6 = new LyricCoords(4, 8);
     testSlice5.addCoords("English", test6);
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testSlice5);
     // testSlice5.removeCoords(test6); // Fails -> The object test6 has been changed to be used by the slice
     LyricCoords test7 = testSlice5.getCoords("English").getCoordsList().get(0);
     testSlice5.removeCoords(test7);
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testSlice5);
     testSlice5.removeCoords(testSlice5.getCoords("English"));
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testSlice5);
 
     System.out.println("\nAdd Range:");
     testLine3.createSlice().setCoordsUpdated("English", 1, 4).addCoords("English", 7, 9);
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testLine3.getSlices());
     testLine3.getSlices().get(1).addRange("English", 3, 8);
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testLine3.getSlices());
 
     System.out.println("\nRemove Range:");
     testLine3.getSlices().get(1).removeRange("English", 3, 5);
-    System.out.println(testLine3.getAsBracketed("English"));
+    System.out.println(testLine3.getBracketedText("English"));
     System.out.println(testLine3.getSlices());
 
     System.out.println("\nGet coords list as copy:");

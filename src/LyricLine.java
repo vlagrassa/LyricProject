@@ -226,24 +226,20 @@ public class LyricLine {
     public String toString() {
         String result = ">Line<\n";
         for (String lang : getLanguages()) {
-            result += "\t@" + lang + ": " + getAsPlaintext(lang) + "\n";
+            result += "\t@" + lang + ": " + getPlainText(lang) + "\n";
         }
         return result;
     }
 
-    public String getAsPlaintext(String key) {
+    public String getPlainText(String key) {
         return bracketedtexts.get(key).replace("[", "").replace("]", "");
     }
 
-    public String getAsBracketed(String key) {
-        return getBracketedText(key);
+    public String getTaggedText() {
+        return getTaggedText(0);
     }
 
-    public String getAsTagged() {
-        return getAsTagged(0);
-    }
-
-    public String getAsTagged(Integer indent) {
+    public String getTaggedText(Integer indent) {
         String tabs = getTabString(indent);
         String result = tabs.substring(0, tabs.length()-1) + ">Line<";
         for (String lang : getLanguages()) {

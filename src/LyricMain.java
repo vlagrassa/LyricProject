@@ -8,8 +8,8 @@ public class LyricMain {
     LyricLine testLine = new LyricLine("English", "Japanese");
     testLine.setBracketedText("Japanese", "honbun tesuto");
     testLine.setBracketedText("English", "test text");
-    System.out.println(testLine.getAsPlaintext("Japanese"));
-    System.out.println(testLine.getAsPlaintext("English"));
+    System.out.println(testLine.getPlainText("Japanese"));
+    System.out.println(testLine.getPlainText("English"));
 
 
 // =-= Initializing test LyricSlice =-=
@@ -54,6 +54,6 @@ public class LyricMain {
 // =-=
 
     System.out.println(testLine);
-    System.out.println(testLine.getAsTagged());
+    System.out.println(testLine.getTaggedText());
   }
 }
