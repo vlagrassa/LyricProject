@@ -34,6 +34,10 @@ public class LyricSlice {
      */
     ArrayList<LyricSlice> listOfSlices;
 
+    /**
+     * An ID string for the slice that is unique within the line. It is generally inserted in
+     * a reference string at the beginning of the slice, hence the name "header".
+     */
     String header;
 
 
@@ -795,28 +799,68 @@ public class LyricSlice {
 
   // =-=-= Header =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+    /**
+     * Set the ID string for the slice. It is generally inserted in a reference
+     * string at the beginning of the slice, hence the name "header".
+     * 
+     * Note that this value should be unique to this slice within the line.
+     * 
+     * @param newheader The new value for the {@code header} field.
+     */
     public void setHeader(String newheader) {
         header = newheader;
     }
 
+    /**
+     * Set the ID string for the slice if it does not currently have a value. It
+     * is generally inserted in a reference string at the beginning of the slice,
+     * hence the name "header".
+     * 
+     * Note that this value should be unique to this slice within the line.
+     * 
+     * @param newheader The new value for the {@code header} field.
+     */
     public void setHeaderIfEmpty(String newheader) {
         if (hasHeader(false)) {
             setHeader(newheader);
         }
     }
 
+    /**
+     * Set the ID string for the slice, which should be unique within the line.
+     * 
+     * @return The header value.
+     */
     public String getHeader() {
         return header;
     }
 
+    /**
+     * Return {@code false} if the header value is currently set to {@code null},
+     * and {@code true} otherwise.
+     * 
+     * @return Whether the slice has a header value.
+     */
     public Boolean hasHeader() {
         return header != null;
     }
 
+    /**
+     * Check whether the header value is currently set to {@code null}, and return
+     * {@code true} if this value matches the passed value.
+     * 
+     * @param val The expected value of {@code hasHeader()}.
+     * @return Whether the value matches or not.
+     */
     public Boolean hasHeader(Boolean val) {
         return hasHeader() == val;
     }
 
+    /**
+     * Get a list of {@code LyricInsertion} objects representing the changes that must
+     * occur in a reference string to insert this slice's header string at the beginning
+     * of all its segments. Uses a list to account for discontinuous coordinates.
+     */
     public ArrayList<LyricInsertion> getInsertionList(String key) {
         ArrayList<LyricInsertion> result = new ArrayList<LyricInsertion>();
         for (LyricCoords currentCoords : getCoords(key).getCoordsList()) {
