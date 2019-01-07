@@ -2091,6 +2091,7 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         for (LyricCoords coords : coordsList) {
             coords.moveCoordsUpdated(startoffset, endoffset, referenceString, listOfCoords);
         }
+        return this;
     }
 
 
