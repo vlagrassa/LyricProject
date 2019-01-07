@@ -838,6 +838,8 @@ class LyricCoords implements Comparable<LyricCoords> {
      */
     public LyricCoords(LyricCoords orig) {
         this(orig.getStart(), orig.getEnd());
+        setHeader(orig.getHeader());
+        setCloser(orig.getCloser());
     }
 
     /**
