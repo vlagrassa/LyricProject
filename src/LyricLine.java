@@ -2,12 +2,24 @@ import java.util.*;
 
 public class LyricLine {
 
-// =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-= Usage Info =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     // Note that the Line doesn't explicitly store the list of languages,
     // so it doesn't have them ordered - to produce them in proper order,
     // have to invoke each one manually from a higher class.
+
+
+// =-=-= Instance Variables =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    /**
+     * A map from language strings to a bracketed text string representing
+     * the line in that language.
+     */
     private HashMap<String,String> bracketedtexts;
+
+    /**
+     * A list of the {@code LyricSlice} objects in the line.
+     */
     private ArrayList<LyricSlice> slices;
 
 
