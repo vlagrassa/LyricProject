@@ -307,6 +307,7 @@ public class LyricLine {
                 for (int i = 0; true; i++) {
                     newHeader = String.format(headerTemplate, slice.getCategoryStr() + i);
                     if (!usedHeaders.contains(newHeader)) {
+                        usedHeaders.add(newHeader);
                         break;
                     }
                 }
