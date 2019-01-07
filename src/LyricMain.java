@@ -5,9 +5,7 @@ public class LyricMain {
   public static void main(String[] args) {
 
 // =-= Initializing test LyricLine =-=
-    String[] languages = {"English", "Japanese"};
-    LyricLine testLine = new LyricLine(languages);
-    // TODO: Allow variable number of String inputs as language, instead/also
+    LyricLine testLine = new LyricLine("English", "Japanese");
     testLine.setBracketedText("Japanese", "honbun tesuto");
     testLine.setBracketedText("English", "test text");
     System.out.println(testLine.getAsPlaintext("Japanese"));
@@ -197,7 +195,7 @@ public class LyricMain {
     System.out.println(testMap.get(0));
 
     System.out.println("\nUsing setStartEnd to make discontinuous into continuous");
-    LyricLine testLine3 = new LyricLine(languages);
+    LyricLine testLine3 = new LyricLine("English", "Japanese");
     testLine3.setBracketedText("English", "abcdefghijklmnopqrst");
     System.out.println(testLine3.getAsPlaintext("English"));
     LyricSlice testSlice5 = testLine3.createSlice().setCoordsUpdated("English", 0, 2);

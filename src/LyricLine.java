@@ -14,12 +14,12 @@ public class LyricLine {
 // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
-     * Initialize a new {@code LyricLine} object with an array of languages to
+     * Initialize a new {@code LyricLine} object with a set of languages to
      * be stored.
      * 
      * @param languages List of languages used in the line.
      */
-    public LyricLine(String[] languages) {
+    public LyricLine(String... languages) {
 
         // Inititalize bracketedtext with an empty string for each of the passed languages
         bracketedtexts = new HashMap<String,String>();
