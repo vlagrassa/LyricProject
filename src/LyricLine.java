@@ -274,7 +274,16 @@ public class LyricLine {
         StringBuilder textSB = new StringBuilder(getBracketedText(key));
 
         // Initialize list of coordinates for a given language from each slice as copies, so they can be changed
-        ArrayList<LyricCoords> coordsList = getCoordsListCopy(key);
+        ArrayList<LyricCoords> coordsListTemp = getCoordsListCopy(key);
+        ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
+
+        // Set header and closer strings for each set of coords, keeping discontinuous sets together, then add
+        // all individual coords (either on their own or contained in a discontinuous set) to the final array
+        for (int i = 0; i < coordsListTemp.size(); i++) {
+            coordsListTemp.get(i).setHeader(String.format(headerTemplate, headers != null ? headers.get(i) + i : ""));
+            coordsListTemp.get(i).setCloser(String.format(closerTemplate, closers != null ? closers.get(i) + i : ""));
+            coordsList.addAll(coordsListTemp.get(i).getCoordsList());
+        }
 
         // Loop through all coordinates
         for (int i = 0; i < coordsList.size(); i++) {
@@ -283,18 +292,13 @@ public class LyricLine {
             // If one or both of the coordinates is null, skip it
             if (!currentCoords.hasNull()) {
 
-                // Define the character sequences to start and end this slice, based on the inputs
-                String bracketHeader = String.format(headerTemplate, headers != null ? headers.get(i) + i : "");
-                String bracketCloser = String.format(closerTemplate, closers != null ? closers.get(i) + i : "");
-
                 // Insert the opening and closing character sequences into the string
-                textSB.replace(currentCoords.getStart(), currentCoords.getStart()+1, bracketHeader);
-                textSB.replace(currentCoords.getEnd() + bracketHeader.length() - 1, currentCoords.getEnd() + bracketHeader.length(), bracketCloser);
+                currentCoords.insertHeaderAndCloser(textSB);
 
                 // Update each subsequent coordinate set in the (copy) list, to reflect that the new openers and closers have shifted them
                 for (int j = i+1; j < coordsList.size(); j++) {
-                    coordsList.get(j).matchUpdatedReference(currentCoords.getStart(), bracketHeader.length() - 1, textSB.length());
-                    coordsList.get(j).matchUpdatedReference(currentCoords.getEnd()+bracketHeader.length(), bracketCloser.length() - 1, textSB.length());
+                    coordsList.get(j).matchUpdatedReference(currentCoords.getStart(), currentCoords.getHeader().length() - 1, textSB.length());
+                    coordsList.get(j).matchUpdatedReference(currentCoords.getEnd() + currentCoords.getHeader().length(), currentCoords.getCloser().length() - 1, textSB.length());
                 }
             }
         }

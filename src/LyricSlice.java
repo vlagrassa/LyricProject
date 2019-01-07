@@ -810,6 +810,9 @@ class LyricCoords implements Comparable<LyricCoords> {
      */
     private Integer end;
 
+    public String header;
+    public String closer;
+
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -1661,6 +1664,31 @@ class LyricCoords implements Comparable<LyricCoords> {
         return text.substring(getStart()+1, getEnd());
     }
 
+    public void replaceAtStartEnd(StringBuilder fulltext, String newHeader, String newCloser, Integer currentHeaderLength, Integer currentCloserLength) {
+        fulltext.replace(getStart(), getStart() + currentHeaderLength, newHeader);
+        fulltext.replace(getEnd() + newHeader.length() - currentHeaderLength, getEnd() + newHeader.length() - currentHeaderLength + currentCloserLength, newCloser);
+    }
+
+    public void insertHeaderAndCloser(StringBuilder text) {
+        replaceAtStartEnd(text, header, closer, 1, 1);
+    }
+
+    public void setHeader(String newheader) {
+        header = newheader;
+    }
+
+    public void setCloser(String newcloser) {
+        closer = newcloser;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public String getCloser() {
+        return closer;
+    }
+
 
   // =-=-= Comparison Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -2131,5 +2159,19 @@ class LyricCoordsDiscontinuous extends LyricCoords {
             result = result.substring(0, result.length() - intercalate.length());
         }
         return result;
+    }
+
+    public void setHeader(String newheader) {
+        super.setHeader(newheader);
+        for (LyricCoords coords : coordsList) {
+            coords.setHeader(newheader);
+        }
+    }
+
+    public void setCloser(String newcloser) {
+        super.setCloser(newcloser);
+        for (LyricCoords coords : coordsList) {
+            coords.setCloser(newcloser);
+        }
     }
 }

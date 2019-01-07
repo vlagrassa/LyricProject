@@ -33,11 +33,11 @@ public class LyricMain {
 
 
 // =-= Filtering slices by category =-=
-    System.out.println("\nFiltering slices by category:");
-    System.out.println("No filter:");
-    System.out.println(testLine.getSlices());
-    System.out.println("Filtered by category 1:");
-    System.out.println(testLine.getSlices(1));
+    // System.out.println("\nFiltering slices by category:");
+    // System.out.println("No filter:");
+    // System.out.println(testLine.getSlices());
+    // System.out.println("Filtered by category 1:");
+    // System.out.println(testLine.getSlices(1));
 
 
 // =-= Modifying the text =-=
@@ -51,5 +51,9 @@ public class LyricMain {
     // System.out.println(testLine.getSlices());
     // System.out.println(testLine.getAsBracketed("English"));
 
+// =-=
+
+    System.out.println(testLine);
+    System.out.println(testLine.getAsHTML());
   }
 }
