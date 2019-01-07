@@ -247,29 +247,13 @@ public class LyricLine {
                 result += "\t";
             }
             result += "@" + lang + ": ";
-            result += formatLangBody(lang);
+            result += formatLangBody(lang, "#%s[");
             result += "\n";
         }
         return result;
     }
 
-    private String formatLangBody(String key) {
-        return insertSliceBounds(key, "#%s[", getCategoryStrList(), "]", null);
-    }
-
-    public String insertSliceBounds(String key, String headerTemplate, ArrayList<String> headers, String closerTemplate) {
-        return insertSliceBounds(key, headerTemplate, headers, closerTemplate, null);
-    }
-
-    public String insertSliceBounds(String key, String headerTemplate, String closerTemplate, ArrayList<String> closers) {
-        return insertSliceBounds(key, headerTemplate, null, closerTemplate, closers);
-    }
-
-    public String insertSliceBounds(String key, String headerTemplate, String closerTemplate) {
-        return insertSliceBounds(key, headerTemplate, null, closerTemplate, null);
-    }
-
-    public String insertSliceBounds(String key, String headerTemplate, ArrayList<String> headers, String closerTemplate, ArrayList<String> closers) {
+    private String formatLangBody(String key, String headerTemplate) {
         // Initialize final text as copy of the bracketed text
         StringBuilder textSB = new StringBuilder(getBracketedText(key));
 
@@ -277,7 +261,7 @@ public class LyricLine {
         ArrayList<LyricInsertion> insertions = new ArrayList<LyricInsertion>();
 
         // Make sure all slices have the proper headers
-        genHeadersAndClosers();
+        genHeadersAndClosers(headerTemplate);
 
         // Add a change for each opening bracket and closing bracket
         for (LyricSlice slice : slices) {
@@ -296,9 +280,8 @@ public class LyricLine {
         return textSB.toString();
     }
 
-    public void genHeadersAndClosers() {
+    public void genHeadersAndClosers(String headerTemplate) {
         ArrayList<String> usedHeaders = new ArrayList<String>();
-        String headerTemplate = "#%s[";
         for (LyricSlice slice : slices) {
             if (slice.hasHeader()) {
                 usedHeaders.add(slice.getHeader());
