@@ -292,7 +292,7 @@ public class LyricLine {
 
         // Add each insertion to the string
         for (LyricInsertion insertion : insertions) {
-            textSB.replace(insertion.index, insertion.index + insertion.length, insertion.text);
+            textSB.replace(insertion.getIndex(), insertion.getIndex() + insertion.getLength(), insertion.getText());
         }
 
         // Return the final, built up string
@@ -322,14 +322,38 @@ public class LyricLine {
 
 
 class LyricInsertion implements Comparable<LyricInsertion> {
-    public String text;
-    public Integer index;
-    public Integer length;
+    private String text;
+    private Integer index;
+    private Integer length;
 
     public LyricInsertion(String text, Integer index, Integer length) {
         this.text = text;
         this.index = index;
         this.length = length;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String newtext) {
+        text = newtext;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer newindex) {
+        index = newindex;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer newlength) {
+        length = newlength;
     }
 
     public String toString() {
