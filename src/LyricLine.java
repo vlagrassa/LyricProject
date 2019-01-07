@@ -192,6 +192,22 @@ public class LyricLine {
         return createSlice(null, "");
     }
 
+    private ArrayList<LyricCoords> getCoordsListCopy(String key) {
+        ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
+        for (LyricSlice slice : slices) {
+            coordsList.add(new LyricCoords(slice.getCoords(key)));
+        }
+        return coordsList;
+    }
+
+    private ArrayList<String> getCategoryStrList() {
+        ArrayList<String> categoryList = new ArrayList<String>();
+        for (LyricSlice slice : slices) {
+            categoryList.add(slice.getCategoryStr());
+        }
+        return categoryList;
+    }
+
 
   // =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -273,21 +289,5 @@ public class LyricLine {
 
         // Return the final, built up string
         return textSB.toString();
-    }
-
-    private ArrayList<LyricCoords> getCoordsListCopy(String key) {
-        ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
-        for (LyricSlice slice : slices) {
-            coordsList.add(new LyricCoords(slice.getCoords(key)));
-        }
-        return coordsList;
-    }
-
-    private ArrayList<String> getCategoryStrList() {
-        ArrayList<String> categoryList = new ArrayList<String>();
-        for (LyricSlice slice : slices) {
-            categoryList.add(slice.getCategoryStr());
-        }
-        return categoryList;
     }
 }
