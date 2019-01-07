@@ -35,7 +35,6 @@ public class LyricSlice {
     ArrayList<LyricSlice> listOfSlices;
 
     public String header;
-    public String closer;
 
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -794,7 +793,7 @@ public class LyricSlice {
     }
 
 
-  // =-=-= Header & Closer =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // =-=-= Header =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public void setHeader(String newheader) {
         header = newheader;
@@ -806,22 +805,8 @@ public class LyricSlice {
         }
     }
 
-    public void setCloser(String newcloser) {
-        closer = newcloser;
-    }
-
-    public void setCloserIfEmpty(String newcloser) {
-        if (hasCloser(false)) {
-            setCloser(newcloser);
-        }
-    }
-
     public String getHeader() {
         return header;
-    }
-
-    public String getCloser() {
-        return closer;
     }
 
     public Boolean hasHeader() {
@@ -832,24 +817,11 @@ public class LyricSlice {
         return hasHeader() == val;
     }
 
-    public Boolean hasCloser() {
-        return closer != null;
-    }
-
-    public Boolean hasCloser(Boolean val) {
-        return hasCloser() == val;
-    }
-
-    public void insertHeaderAndCloser(String key, StringBuilder text) {
-        coords.get(key).replaceAtStartEnd(text, header, closer, 1, 1);
-    }
-
     public ArrayList<LyricInsertion> getInsertionList(String key) {
         ArrayList<LyricInsertion> result = new ArrayList<LyricInsertion>();
         for (LyricCoords currentCoords : getCoords(key).getCoordsList()) {
-            if (currentCoords.hasNull(false)) {
-                result.add(new LyricInsertion(getHeader(), currentCoords.getStart(), 1));
-                result.add(new LyricInsertion(getCloser(), currentCoords.getEnd(), 1));
+            if (currentCoords.hasStart()) {
+                result.add(new LyricInsertion(getHeader(), currentCoords.getStart(), 0));
             }
         }
         return result;

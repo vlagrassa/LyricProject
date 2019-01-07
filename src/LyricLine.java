@@ -248,7 +248,7 @@ public class LyricLine {
         String result = tabs.substring(0, tabs.length()-1) + ">Line<";
         for (String lang : getLanguages()) {
             result += "\n@" + lang + ": ";
-            result += formatLangBody(lang, "#%s[");
+            result += formatLangBody(lang, "#%s");
         }
         result = result.replace("\n", "\n" + tabs);
         return result;
@@ -270,7 +270,7 @@ public class LyricLine {
         ArrayList<LyricInsertion> insertions = new ArrayList<LyricInsertion>();
 
         // Make sure all slices have the proper headers
-        genHeadersAndClosers(headerTemplate);
+        genHeaders(headerTemplate);
 
         // Add a change for each opening bracket and closing bracket
         for (LyricSlice slice : slices) {
@@ -289,7 +289,7 @@ public class LyricLine {
         return textSB.toString();
     }
 
-    public void genHeadersAndClosers(String headerTemplate) {
+    public void genHeaders(String headerTemplate) {
         ArrayList<String> usedHeaders = new ArrayList<String>();
         for (LyricSlice slice : slices) {
             if (slice.hasHeader()) {
@@ -305,7 +305,6 @@ public class LyricLine {
                 }
                 slice.setHeader(newHeader);
             }
-            slice.setCloser("]");
         }
     }
 }
