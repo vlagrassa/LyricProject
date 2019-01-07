@@ -245,11 +245,10 @@ public class LyricLine {
 
     public String getAsTagged(Integer indent) {
         String tabs = getTabString(indent);
-        String result = tabs.substring(0, tabs.length()-1) + ">Line<\n";
+        String result = tabs.substring(0, tabs.length()-1) + ">Line<";
         for (String lang : getLanguages()) {
-            result += "@" + lang + ": ";
+            result += "\n@" + lang + ": ";
             result += formatLangBody(lang, "#%s[");
-            result += "\n";
         }
         result = result.replace("\n", "\n" + tabs);
         return result;
