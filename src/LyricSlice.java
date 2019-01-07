@@ -1525,6 +1525,122 @@ class LyricCoords implements Comparable<LyricCoords> {
     }
 
 
+    /**
+     * Set the start coordinate in terms of a given reference string and list of other coords
+     * dependent on it. Removes brackets at the current start and end values and inserts new
+     * ones at the new start and end values, updating each set of {@code LyricCoords} in the
+     * provided {@code ArrayList} to reflect this change.
+     * 
+     * Equivalent to {@code setCoordsUpdated(newstart, this.getEnd(), referenceString, listOfCoords)}
+     * 
+     * If the current coords are discontinuous, this will change them to a continuous set with
+     * the provided start value and the highest end value.
+     * 
+     * Note that the changes to the reference string will be accumulated in the {@code newReference}
+     * argument.
+     * 
+     * @see {@link #setCoordsUpdated()}
+     * 
+     * @param newstart        The new start value for the coordinates.
+     * @param referenceString A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @return The updated {@code LyricCoords} object.
+     */
+    public LyricCoords setStartUpdated(Integer newstart, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+        return setCoordsUpdated(newstart, getEnd(), referenceString, listOfCoords);
+    }
+
+    /**
+     * Set the end coordinate in terms of a given reference string and list of other coords
+     * dependent on it. Removes brackets at the current start and end values and inserts new
+     * ones at the new start and end values, updating each set of {@code LyricCoords} in the
+     * provided {@code ArrayList} to reflect this change.
+     * 
+     * Equivalent to {@code setCoordsUpdated(this.getStart(), newend, referenceString, listOfCoords)}
+     * 
+     * If the current coords are discontinuous, this will change them to a continuous set with
+     * the provided end value and the lowest start value.
+     * 
+     * Note that the changes to the reference string will be accumulated in the {@code newReference}
+     * argument.
+     * 
+     * @see {@link #setCoordsUpdated()}
+     * 
+     * @param newend          The new end value for the coordinates.
+     * @param referenceString A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @return The updated {@code LyricCoords} object.
+     */
+    public LyricCoords setEndUpdated(Integer newend, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+        return setCoordsUpdated(getStart(), newend, referenceString, listOfCoords);
+    }
+
+    /**
+     * Move the start and end coordinates in terms of a given reference string and list of other
+     * coords dependent on it. Removes brackets at the current start and end values and inserts
+     * new ones at the new start and end values, updating each set of {@code LyricCoords} in the
+     * provided {@code ArrayList} to reflect this change.
+     * 
+     * If the current coords are discontinuous, each of the subsets will be moved by the same amount.
+     * 
+     * Note that the changes to the reference string will be accumulated in the {@code newReference}
+     * argument.
+     * 
+     * @param startoffset     The new start value for the coordinates.
+     * @param endoffset     The new end value for the coordinates.
+     * @param referenceString A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @return The updated {@code LyricCoords} object.
+     */
+    public LyricCoords moveCoordsUpdated(Integer startoffset, Integer endoffset, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+        return setCoordsUpdated(getStart() + startoffset, getEnd() + endoffset, referenceString, listOfCoords);
+    }
+
+    /**
+     * Move the start coordinate in terms of a given reference string and list of other coords
+     * dependent on it. Removes brackets at the current start and end values and inserts new
+     * ones at the new start and end values, updating each set of {@code LyricCoords} in the
+     * provided {@code ArrayList} to reflect this change.
+     * 
+     * Equivalent to {@code moveCoordsUpdated(startoffset, 0, referenceString, listOfCoords)}.
+     * 
+     * If the current coords are discontinuous, each of the subsets will be moved by the same amount.
+     * 
+     * Note that the changes to the reference string will be accumulated in the {@code newReference}
+     * argument.
+     * 
+     * @param startoffset     The new start value for the coordinates.
+     * @param referenceString A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @return The updated {@code LyricCoords} object.
+     */
+    public LyricCoords moveStartUpdated(Integer startoffset, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+        return moveCoordsUpdated(startoffset, 0, referenceString, listOfCoords);
+    }
+
+    /**
+     * Move the end coordinate in terms of a given reference string and list of other coords
+     * dependent on it. Removes brackets at the current start and end values and inserts new
+     * ones at the new start and end values, updating each set of {@code LyricCoords} in the
+     * provided {@code ArrayList} to reflect this change.
+     * 
+     * Equivalent to {@code moveCoordsUpdated(0, endoffset, referenceString, listOfCoords)}.
+     * 
+     * If the current coords are discontinuous, each of the subsets will be moved by the same amount.
+     * 
+     * Note that the changes to the reference string will be accumulated in the {@code newReference}
+     * argument.
+     * 
+     * @param endoffset     The new end value for the coordinates.
+     * @param referenceString A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @return The updated {@code LyricCoords} object.
+     */
+    public LyricCoords moveEndUpdated(Integer endoffset, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+        return moveCoordsUpdated(0, endoffset, referenceString, listOfCoords);
+    }
+
+
   // =-=-= String Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
@@ -1952,6 +2068,29 @@ class LyricCoordsDiscontinuous extends LyricCoords {
         // Run setStartEnd with the new coords and return it
         result.setCoordsUpdated(newstart, newend, referenceString, listOfCoords);
         return result;
+    }
+
+    /**
+     * Move the start and end coordinates in terms of a given reference string and list of other
+     * coords dependent on it. Removes brackets at the current start and end values and inserts
+     * new ones at the new start and end values, updating each set of {@code LyricCoords} in the
+     * provided {@code ArrayList} to reflect this change.
+     * 
+     * If the current coords are discontinuous, each of the subsets will be moved by the same amount.
+     * 
+     * Note that the changes to the reference string will be accumulated in the {@code newReference}
+     * argument.
+     * 
+     * @param startoffset     The new start value for the coordinates.
+     * @param endoffset     The new end value for the coordinates.
+     * @param referenceString A {@code StringBuilder} object to accumulate changes to the reference string.
+     * @param listOfCoords    A list of other {@code LyricCoords} objects that need to be updated after these changes.
+     * @return The updated {@code LyricCoords} object.
+     */
+    public LyricCoords moveCoordsUpdated(Integer startoffset, Integer endoffset, StringBuilder referenceString, ArrayList<LyricCoords> listOfCoords) {
+        for (LyricCoords coords : coordsList) {
+            coords.moveCoordsUpdated(startoffset, endoffset, referenceString, listOfCoords);
+        }
     }
 
 
