@@ -280,8 +280,8 @@ public class LyricLine {
         // Set header and closer strings for each set of coords, keeping discontinuous sets together, then add
         // all individual coords (either on their own or contained in a discontinuous set) to the final array
         for (int i = 0; i < coordsListTemp.size(); i++) {
-            coordsListTemp.get(i).setHeader(String.format(headerTemplate, headers != null ? headers.get(i) + i : ""));
-            coordsListTemp.get(i).setCloser(String.format(closerTemplate, closers != null ? closers.get(i) + i : ""));
+            coordsListTemp.get(i).setHeaderIfEmpty(String.format(headerTemplate, headers != null ? headers.get(i) + i : ""));
+            coordsListTemp.get(i).setCloserIfEmpty(String.format(closerTemplate, closers != null ? closers.get(i) + i : ""));
             coordsList.addAll(coordsListTemp.get(i).getCoordsList());
         }
 

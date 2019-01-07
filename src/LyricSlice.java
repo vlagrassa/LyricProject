@@ -1677,8 +1677,20 @@ class LyricCoords implements Comparable<LyricCoords> {
         header = newheader;
     }
 
+    public void setHeaderIfEmpty(String newheader) {
+        if (header == null) {
+            setHeader(newheader);
+        }
+    }
+
     public void setCloser(String newcloser) {
         closer = newcloser;
+    }
+
+    public void setCloserIfEmpty(String newcloser) {
+        if (closer == null) {
+            setCloser(newcloser);
+        }
     }
 
     public String getHeader() {
