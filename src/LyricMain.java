@@ -55,11 +55,5 @@ public class LyricMain {
 
     System.out.println(testLine);
     System.out.println(testLine.getAsHTML());
-    System.out.println("\nHeaders:");
-    for (LyricCoords coords : testLine.getCoordsList("English"))
-        System.out.println(coords.getHeader());
-    testLine.genHeadersAndClosers();
-    for (LyricCoords coords : testLine.getCoordsList("English"))
-        System.out.println(coords.getHeader());
   }
 }

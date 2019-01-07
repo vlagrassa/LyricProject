@@ -273,34 +273,26 @@ public class LyricLine {
         // Initialize final text as copy of the bracketed text
         StringBuilder textSB = new StringBuilder(getBracketedText(key));
 
-        // Initialize list of coordinates for a given language from each slice as copies, so they can be changed
-        ArrayList<LyricCoords> coordsListTemp = getCoordsListCopy(key);
-        ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
+        // Initialize list to accumulate all the changes to the reference string
+        ArrayList<LyricInsertion> insertions = new ArrayList<LyricInsertion>();
 
-        // Set header and closer strings for each set of coords, keeping discontinuous sets together, then add
-        // all individual coords (either on their own or contained in a discontinuous set) to the final array
-        for (int i = 0; i < coordsListTemp.size(); i++) {
-            coordsListTemp.get(i).setHeaderIfEmpty(String.format(headerTemplate, headers != null ? headers.get(i) + i : ""));
-            coordsListTemp.get(i).setCloserIfEmpty(String.format(closerTemplate, closers != null ? closers.get(i) + i : ""));
-            coordsList.addAll(coordsListTemp.get(i).getCoordsList());
+        // Make sure all slices have the proper headers
+        genHeadersAndClosers();
+
+        // Add a change for each opening bracket and closing bracket
+        for (LyricSlice slice : slices) {
+            if (slice.getCoords(key).hasNull(false)) {
+                insertions.add(new LyricInsertion(slice.getHeader(), slice.getStart(key), 1));
+                insertions.add(new LyricInsertion(slice.getCloser(), slice.getEnd(key), 1));
+            }
         }
 
-        // Loop through all coordinates
-        for (int i = 0; i < coordsList.size(); i++) {
-            LyricCoords currentCoords = coordsList.get(i);
+        // Sort the insertions in reverse order, so that adding them in order works from back to front
+        Collections.sort(insertions, Collections.reverseOrder());
 
-            // If one or both of the coordinates is null, skip it
-            if (!currentCoords.hasNull()) {
-
-                // Insert the opening and closing character sequences into the string
-                currentCoords.insertHeaderAndCloser(textSB);
-
-                // Update each subsequent coordinate set in the (copy) list, to reflect that the new openers and closers have shifted them
-                for (int j = i+1; j < coordsList.size(); j++) {
-                    coordsList.get(j).matchUpdatedReference(currentCoords.getStart(), currentCoords.getHeader().length() - 1, textSB.length());
-                    coordsList.get(j).matchUpdatedReference(currentCoords.getEnd() + currentCoords.getHeader().length(), currentCoords.getCloser().length() - 1, textSB.length());
-                }
-            }
+        // Add each insertion to the string
+        for (LyricInsertion insertion : insertions) {
+            textSB.replace(insertion.index, insertion.index + insertion.length, insertion.text);
         }
 
         // Return the final, built up string
@@ -310,23 +302,41 @@ public class LyricLine {
     public void genHeadersAndClosers() {
         ArrayList<String> usedHeaders = new ArrayList<String>();
         String headerTemplate = "#%s[";
-        for (String key : getLanguages()) {
-            ArrayList<LyricCoords> coordsList = getCoordsList(key);
-            for (int i = 0; i < coordsList.size(); i++) {
-                if (coordsList.get(i).hasHeader()) {
-                    usedHeaders.add(coordsList.get(i).getHeader());
-                } else {
-                    String newHeader;
-                    for (int j = i; true; j++) {
-                        newHeader = String.format(headerTemplate, j);
-                        if (!usedHeaders.contains(newHeader)) {
-                            break;
-                        }
+        for (LyricSlice slice : slices) {
+            if (slice.hasHeader()) {
+                usedHeaders.add(slice.getHeader());
+            } else {
+                String newHeader;
+                for (int i = 0; true; i++) {
+                    newHeader = String.format(headerTemplate, slice.getCategoryStr() + i);
+                    if (!usedHeaders.contains(newHeader)) {
+                        break;
                     }
-                    coordsList.get(i).setHeader(newHeader);
-                    // TODO: Add category as first digit and increment within each category
                 }
+                slice.setHeader(newHeader);
             }
+            slice.setCloser("]");
         }
+    }
+}
+
+
+class LyricInsertion implements Comparable<LyricInsertion> {
+    public String text;
+    public Integer index;
+    public Integer length;
+
+    public LyricInsertion(String text, Integer index, Integer length) {
+        this.text = text;
+        this.index = index;
+        this.length = length;
+    }
+
+    public String toString() {
+        return "Insert string \"" + text + "\" at index " + index;
+    }
+
+    public int compareTo(LyricInsertion e2) {
+        return index.compareTo(e2.index);
     }
 }

@@ -34,6 +34,9 @@ public class LyricSlice {
      */
     ArrayList<LyricSlice> listOfSlices;
 
+    public String header;
+    public String closer;
+
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -789,6 +792,57 @@ public class LyricSlice {
         }
         return coords.get(key).getBoundCharacters(referenceStrings.get(key));
     }
+
+
+  // =-=-= Header & Closer =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    public void setHeader(String newheader) {
+        header = newheader;
+    }
+
+    public void setHeaderIfEmpty(String newheader) {
+        if (hasHeader(false)) {
+            setHeader(newheader);
+        }
+    }
+
+    public void setCloser(String newcloser) {
+        closer = newcloser;
+    }
+
+    public void setCloserIfEmpty(String newcloser) {
+        if (hasCloser(false)) {
+            setCloser(newcloser);
+        }
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public String getCloser() {
+        return closer;
+    }
+
+    public Boolean hasHeader() {
+        return header != null;
+    }
+
+    public Boolean hasHeader(Boolean val) {
+        return hasHeader() == val;
+    }
+
+    public Boolean hasCloser() {
+        return closer != null;
+    }
+
+    public Boolean hasCloser(Boolean val) {
+        return hasCloser() == val;
+    }
+
+    public void insertHeaderAndCloser(String key, StringBuilder text) {
+        coords.get(key).replaceAtStartEnd(text, header, closer, 1, 1);
+    }
 }
 
 class LyricCoords implements Comparable<LyricCoords> {
@@ -809,9 +863,6 @@ class LyricCoords implements Comparable<LyricCoords> {
      * An {@code Integer} instance storing the end coordinate.
      */
     private Integer end;
-
-    public String header;
-    public String closer;
 
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -838,8 +889,6 @@ class LyricCoords implements Comparable<LyricCoords> {
      */
     public LyricCoords(LyricCoords orig) {
         this(orig.getStart(), orig.getEnd());
-        setHeader(orig.getHeader());
-        setCloser(orig.getCloser());
     }
 
     /**
@@ -1671,54 +1720,6 @@ class LyricCoords implements Comparable<LyricCoords> {
         fulltext.replace(getEnd() + newHeader.length() - currentHeaderLength, getEnd() + newHeader.length() - currentHeaderLength + currentCloserLength, newCloser);
     }
 
-    public void insertHeaderAndCloser(StringBuilder text) {
-        replaceAtStartEnd(text, header, closer, 1, 1);
-    }
-
-    public void setHeader(String newheader) {
-        header = newheader;
-    }
-
-    public void setHeaderIfEmpty(String newheader) {
-        if (hasHeader(false)) {
-            setHeader(newheader);
-        }
-    }
-
-    public void setCloser(String newcloser) {
-        closer = newcloser;
-    }
-
-    public void setCloserIfEmpty(String newcloser) {
-        if (hasCloser(false)) {
-            setCloser(newcloser);
-        }
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public String getCloser() {
-        return closer;
-    }
-
-    public Boolean hasHeader() {
-        return header != null;
-    }
-
-    public Boolean hasHeader(Boolean val) {
-        return hasHeader() == val;
-    }
-
-    public Boolean hasCloser() {
-        return closer != null;
-    }
-
-    public Boolean hasCloser(Boolean val) {
-        return hasCloser() == val;
-    }
-
 
   // =-=-= Comparison Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -2189,19 +2190,5 @@ class LyricCoordsDiscontinuous extends LyricCoords {
             result = result.substring(0, result.length() - intercalate.length());
         }
         return result;
-    }
-
-    public void setHeader(String newheader) {
-        super.setHeader(newheader);
-        for (LyricCoords coords : coordsList) {
-            coords.setHeader(newheader);
-        }
-    }
-
-    public void setCloser(String newcloser) {
-        super.setCloser(newcloser);
-        for (LyricCoords coords : coordsList) {
-            coords.setCloser(newcloser);
-        }
     }
 }
