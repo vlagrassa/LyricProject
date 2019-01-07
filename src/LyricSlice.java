@@ -1680,7 +1680,7 @@ class LyricCoords implements Comparable<LyricCoords> {
     }
 
     public void setHeaderIfEmpty(String newheader) {
-        if (header == null) {
+        if (hasHeader(false)) {
             setHeader(newheader);
         }
     }
@@ -1690,7 +1690,7 @@ class LyricCoords implements Comparable<LyricCoords> {
     }
 
     public void setCloserIfEmpty(String newcloser) {
-        if (closer == null) {
+        if (hasCloser(false)) {
             setCloser(newcloser);
         }
     }
@@ -1701,6 +1701,22 @@ class LyricCoords implements Comparable<LyricCoords> {
 
     public String getCloser() {
         return closer;
+    }
+
+    public Boolean hasHeader() {
+        return header != null;
+    }
+
+    public Boolean hasHeader(Boolean val) {
+        return hasHeader() == val;
+    }
+
+    public Boolean hasCloser() {
+        return closer != null;
+    }
+
+    public Boolean hasCloser(Boolean val) {
+        return hasCloser() == val;
     }
 
 
