@@ -250,6 +250,14 @@ public class LyricLine {
             result += "\n@" + lang + ": ";
             result += formatLangBody(lang, "#%s");
         }
+        // TODO: Update temporary code to insert categories
+        result += "\n";
+        for (int cat = 1; cat <= 3; cat++) {
+            result += "\n~Category " + cat + ": ";
+            for (LyricSlice slice : getSlices(cat)) {
+                result += slice.getHeader() + ", ";
+            }
+        }
         result = result.replace("\n", "\n" + tabs);
         return result;
     }
