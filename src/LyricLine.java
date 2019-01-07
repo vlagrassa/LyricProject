@@ -281,10 +281,7 @@ public class LyricLine {
 
         // Add a change for each opening bracket and closing bracket
         for (LyricSlice slice : slices) {
-            if (slice.getCoords(key).hasNull(false)) {
-                insertions.add(new LyricInsertion(slice.getHeader(), slice.getStart(key), 1));
-                insertions.add(new LyricInsertion(slice.getCloser(), slice.getEnd(key), 1));
-            }
+            insertions.addAll(slice.getInsertionList(key));
         }
 
         // Sort the insertions in reverse order, so that adding them in order works from back to front

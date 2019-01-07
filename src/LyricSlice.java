@@ -843,6 +843,17 @@ public class LyricSlice {
     public void insertHeaderAndCloser(String key, StringBuilder text) {
         coords.get(key).replaceAtStartEnd(text, header, closer, 1, 1);
     }
+
+    public ArrayList<LyricInsertion> getInsertionList(String key) {
+        ArrayList<LyricInsertion> result = new ArrayList<LyricInsertion>();
+        for (LyricCoords currentCoords : getCoords(key).getCoordsList()) {
+            if (currentCoords.hasNull(false)) {
+                result.add(new LyricInsertion(getHeader(), currentCoords.getStart(), 1));
+                result.add(new LyricInsertion(getCloser(), currentCoords.getEnd(), 1));
+            }
+        }
+        return result;
+    }
 }
 
 class LyricCoords implements Comparable<LyricCoords> {
