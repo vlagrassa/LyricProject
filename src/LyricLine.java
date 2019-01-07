@@ -240,17 +240,27 @@ public class LyricLine {
     }
 
     public String getAsHTML() {
-        Integer indent = 1;
-        String result = ">Line<\n";
+        return getAsHTML(0);
+    }
+
+    public String getAsHTML(Integer indent) {
+        String tabs = getTabString(indent);
+        String result = tabs.substring(0, tabs.length()-1) + ">Line<\n";
         for (String lang : getLanguages()) {
-            for (int i = 0; i < indent; i++) {
-                result += "\t";
-            }
             result += "@" + lang + ": ";
             result += formatLangBody(lang, "#%s[");
             result += "\n";
         }
+        result = result.replace("\n", "\n" + tabs);
         return result;
+    }
+
+    private String getTabString(Integer indent) {
+        String tabs = "";
+        for (int i = 0; i <= indent; i++) {
+            tabs += "\t";
+        }
+        return tabs;
     }
 
     private String formatLangBody(String key, String headerTemplate) {
