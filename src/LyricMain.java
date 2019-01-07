@@ -55,8 +55,8 @@ public class LyricMain {
 
     System.out.println(testLine);
     System.out.println("With indent 0:");
-    System.out.println(testLine.getAsHTML());
+    System.out.println(testLine.getAsTagged());
     System.out.println("With indent 1:");
-    System.out.println(testLine.getAsHTML(1));
+    System.out.println(testLine.getAsTagged(1));
   }
 }

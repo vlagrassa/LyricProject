@@ -239,11 +239,11 @@ public class LyricLine {
         return getBracketedText(key);
     }
 
-    public String getAsHTML() {
-        return getAsHTML(0);
+    public String getAsTagged() {
+        return getAsTagged(0);
     }
 
-    public String getAsHTML(Integer indent) {
+    public String getAsTagged(Integer indent) {
         String tabs = getTabString(indent);
         String result = tabs.substring(0, tabs.length()-1) + ">Line<\n";
         for (String lang : getLanguages()) {
