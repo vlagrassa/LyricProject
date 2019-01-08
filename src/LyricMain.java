@@ -58,7 +58,10 @@ public class LyricMain {
     System.out.println(testLine.getTaggedText());
 
     try {
-        LyricLine testLine2 = LyricLine.parseTextToLine(">Line<\n\t@English: This #04[#01[is] #02[a] #03[test]]");
+        String newLine = ">Line<\n";
+        newLine += "\t@English: #05[This] #04[#01[is] #02[a] #03[test]]\n";
+        newLine += "\t@Japanese: #05[Kore wa] #04[#03[tesuto] #01[desu yo]]";
+        LyricLine testLine2 = LyricLine.parseTextToLine(newLine);
         
         System.out.println(testLine2.getCoordsList("English"));
         System.out.println(testLine2.getSlices());
