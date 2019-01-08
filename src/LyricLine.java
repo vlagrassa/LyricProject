@@ -311,6 +311,34 @@ public class LyricLine {
             }
         }
     }
+
+
+  // =-=-= Parsing =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    public static LyricLine parseTextToLine(String orig) {
+        String[] listOfLines = orig.split("\n");
+        LyricLine result = new LyricLine();
+        for (String currentLine : listOfLines) {
+            currentLine.replace("\t", "");
+            if (currentLine.startsWith(">Line")) {
+                // Ignore it
+            }
+            else if (currentLine.startsWith("@")) {
+                Stack<LyricSlice> openSlices;
+
+                // Separate the language name and the line body
+                String[] headAndBody = currentLine.substring(1).split(":", 2);
+                for (int i = 0; i < headAndBody.length; i++) {
+                    headAndBody[i] = headAndBody[i].trim();
+                }
+
+                // Run through character by character, adding to the stack
+                // If the end is reached and something is still open on the stack, throw a parse error
+            }
+            // ...more cases below
+        }
+        return result;
+    }
 }
 
 
