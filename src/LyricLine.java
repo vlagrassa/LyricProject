@@ -69,6 +69,19 @@ public class LyricLine {
         return bracketedtexts.keySet();
     }
 
+    public void addLanguage(String newLanguage) {
+        addLanguages(newLanguage);
+    }
+
+    public void addLanguages(String... newLanguages) {
+        for (String language : newLanguages) {
+            bracketedtexts.put(language, "");
+        }
+        for (LyricSlice slice : slices) {
+            slice.addLanguages(newLanguages);
+        }
+    }
+
     public void addToBracketedText(String key, String str, Integer index) {
         String origtext = bracketedtexts.get(key);
         bracketedtexts.put(key, origtext.substring(0, index) + str + origtext.substring(index));

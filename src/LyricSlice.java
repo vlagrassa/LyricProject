@@ -65,9 +65,7 @@ public class LyricSlice {
      */
     public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, Integer category, String annotation) {
         coords = new HashMap<String,LyricCoords>();
-        for (String lang : reference.keySet()) {
-            coords.put(lang, new LyricCoords(null, null));
-        }
+        addLanguages(reference.keySet());
         referenceStrings = reference;
         listOfSlices = slices;
         this.category = category;
@@ -165,6 +163,22 @@ public class LyricSlice {
      */
     public String getReferenceString(String key) {
         return referenceStrings.get(key);
+    }
+
+    public void addLanguage(String newLanguage) {
+        addLanguages(newLanguage);
+    }
+
+    public void addLanguages(String... newLanguages) {
+        for (String language : newLanguages) {
+            coords.put(language, new LyricCoords());
+        }
+    }
+
+    public void addLanguages(Collection<String> newLanguages) {
+        for (String language : newLanguages) {
+            coords.put(language, new LyricCoords());
+        }
     }
 
 
