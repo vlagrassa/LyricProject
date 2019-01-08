@@ -328,9 +328,8 @@ public class LyricLine {
 
                 // Separate the language name and the line body
                 String[] headAndBody = currentLine.substring(1).split(":", 2);
-                for (int i = 0; i < headAndBody.length; i++) {
-                    headAndBody[i] = headAndBody[i].trim();
-                }
+                String head = headAndBody[0].trim();
+                String body = headAndBody[1].trim();
 
                 // Run through character by character, adding to the stack
                 // If the end is reached and something is still open on the stack, throw a parse error
