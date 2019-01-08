@@ -56,6 +56,12 @@ public class LyricMain {
 
     System.out.println(testLine);
     System.out.println(testLine.getTaggedText());
+    System.out.println("\nPrinting as plain:");
+    System.out.println(testLine.getText(LyricLine.textStyle.plain));
+    System.out.println("\nPrinting as bracketed:");
+    System.out.println(testLine.getText(LyricLine.textStyle.bracketed));
+    System.out.println("\nPrinting as tagged:");
+    System.out.println(testLine.getText(LyricLine.textStyle.tagged));
 
     try {
         String newLine = ">Line<\n";
@@ -63,9 +69,9 @@ public class LyricMain {
         newLine += "\t@Japanese: #05[Kore wa] #04[#03[tesuto] #01[desu yo]]";
         LyricLine testLine2 = LyricLine.parseTextToLine(newLine);
         
-        System.out.println(testLine2.getCoordsList("English"));
-        System.out.println(testLine2.getSlices());
-        System.out.println(testLine2.getTaggedText());
+        // System.out.println(testLine2.getCoordsList("English"));
+        // System.out.println(testLine2.getSlices());
+        // System.out.println(testLine2.getTaggedText());
     } catch (ParseException e) {
         e.printStackTrace();
     }

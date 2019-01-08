@@ -22,6 +22,12 @@ public class LyricLine {
      */
     private ArrayList<LyricSlice> slices;
 
+    public enum textStyle {
+        plain,
+        bracketed,
+        tagged
+    }
+
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -49,6 +55,17 @@ public class LyricLine {
     // Get the plain text from texts for the given language
     public String getBracketedText(String key) {
         return bracketedtexts.get(key);
+    }
+
+    public String getBracketedText() {
+        String result = "";
+        for (String lang : getLanguages()) {
+            result += lang + ": " + getBracketedText(lang) + "\n";
+        }
+        if (result.length() > 0) {
+            result = result.substring(0, result.length()-1);
+        }
+        return result;
     }
 
     public String setBracketedText(String key, String val) {
@@ -245,20 +262,60 @@ public class LyricLine {
         return result;
     }
 
+    public String getText(String key, textStyle style) {
+        switch (style) {
+            case bracketed:
+                return getBracketedText(key);
+            case plain:
+                return getPlainText(key);
+            case tagged:
+                return getTaggedText(key);
+            default:
+                return "";
+        }
+    }
+
+    public String getText(textStyle style) {
+        switch (style) {
+            case bracketed:
+                return getBracketedText();
+            case plain:
+                return getPlainText();
+            case tagged:
+                return getTaggedText();
+            default:
+                return "";
+        }
+    }
+
     public String getPlainText(String key) {
         return bracketedtexts.get(key).replace("[", "").replace("]", "");
+    }
+
+    public String getPlainText() {
+        String result = "";
+        for (String lang : getLanguages()) {
+            result += getPlainText(lang) + "\n";
+        }
+        if (result.length() > 0) {
+            result = result.substring(0, result.length()-1);
+        }
+        return result;
     }
 
     public String getTaggedText() {
         return getTaggedText(0);
     }
 
+    public String getTaggedText(String key) {
+        return "@" + key + ": " + formatLangBody(key, "#%s");
+    }
+
     public String getTaggedText(Integer indent) {
         String tabs = getTabString(indent);
         String result = tabs.substring(0, tabs.length()-1) + ">Line<";
         for (String lang : getLanguages()) {
-            result += "\n@" + lang + ": ";
-            result += formatLangBody(lang, "#%s");
+            result += "\n" + getTaggedText(lang);
         }
         // TODO: Update temporary code to insert categories
         result += "\n";
