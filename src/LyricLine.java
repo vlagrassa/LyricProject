@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.*;
 
 public class LyricLine {
@@ -328,24 +329,53 @@ public class LyricLine {
 
   // =-=-= Parsing =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-    public static LyricLine parseTextToLine(String orig) {
+    public static LyricLine parseTextToLine(String orig) throws ParseException {
         String[] listOfLines = orig.split("\n");
         LyricLine result = new LyricLine();
         for (String currentLine : listOfLines) {
-            currentLine.replace("\t", "");
+            currentLine = currentLine.replace("\t", "");
             if (currentLine.startsWith(">Line")) {
                 // Ignore it
             }
             else if (currentLine.startsWith("@")) {
-                Stack<LyricSlice> openSlices;
+                Stack<LyricSlice> openSlices = new Stack<LyricSlice>();
 
                 // Separate the language name and the line body
                 String[] headAndBody = currentLine.substring(1).split(":", 2);
                 String head = headAndBody[0].trim();
                 String body = headAndBody[1].trim();
+                result.addLanguages(head);
 
                 // Run through character by character, adding to the stack
+                for (int i = 0; i < body.length(); i++) {
+                    if (body.charAt(i) == '#') {
+                        int j = i+1;
+                        while (body.charAt(j) != '[') {
+                            j++;
+                        }
+                        LyricSlice newSlice = result.createSlice();
+                        newSlice.getCoords(head).setStart(i);
+                        newSlice.setHeader(body.substring(i, j));
+                        openSlices.push(newSlice);
+                        body = body.substring(0, i) + body.substring(j);
+                    }
+                    else if (body.charAt(i) == ']') {
+                        try {
+                            LyricSlice newSlice = openSlices.pop();
+                            newSlice.getCoords(head).setEnd(i);
+                        } catch (EmptyStackException e) {
+                            throw new ParseException("Unmatched closing bracket found at index " + i + " in line \"" + currentLine + "\".", i);
+                        }
+                    }
+                }
+                
                 // If the end is reached and something is still open on the stack, throw a parse error
+                if (!openSlices.isEmpty()) {
+                    LyricSlice remainder = openSlices.pop();
+                    throw new java.text.ParseException("No closing bracket found for slice \"" + remainder.getHeader() + "\" in line \"" + currentLine + "\".", remainder.getStart(head));
+                }
+
+                result.setBracketedText(head, body);
             }
             // ...more cases below
         }
