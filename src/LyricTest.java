@@ -206,4 +206,66 @@ public class LyricTest {
 //     System.out.println("\nGet coords list as copy:");
 //     System.out.println("Original:  " + testLine.getCoordsList("English"));
 //     System.out.println("Duplicate: " + testLine.getCoordsListCopy("English"));
+
+// =-= Filtering slices by category =-=
+    // System.out.println("\nFiltering slices by category:");
+    // System.out.println("No filter:");
+    // System.out.println(testLine.getSlices());
+    // System.out.println("Filtered by category 1:");
+    // System.out.println(testLine.getSlices(1));
+
+
+// =-= Modifying the text =-=
+    // System.out.println(testLine.getAsHTML());
+    // System.out.println(testLine.getSlices());
+    // testLine.deleteFromPlainText("English", 1, 4);
+    // testLine.addToPlainText("English", "___", 8);
+
+    // testLine.modifyPlainText("English", " thing", 4);
+    // System.out.println(testLine.getAsHTML());
+    // System.out.println(testLine.getSlices());
+    // System.out.println(testLine.getAsBracketed("English"));
+
+// =-= Printing text in different styles =-=
+    // System.out.println(testLine);
+    // System.out.println(testLine.getTaggedText());
+    // System.out.println("\nPrinting as plain:");
+    // System.out.println(testLine.getText(LyricLine.textStyle.plain));
+    // System.out.println("\nPrinting as bracketed:");
+    // System.out.println(testLine.getText(LyricLine.textStyle.bracketed));
+    // System.out.println("\nPrinting as tagged:");
+    // System.out.println(testLine.getText(LyricLine.textStyle.tagged));
+
+// =-= Merging slices =-=
+    // try {
+    //     System.out.println("\n\nTest Line 3:\n");
+    //     String newLine = ">Line \"Test Line 3\"<\n";
+    //     newLine += "\t@English: abcdefghijklmnop\n";
+    //     newLine += "\t@Japanese: abcdefghijklmnop\n";
+    //     LyricLine testLine_ = LyricLine.parseTextToLine(newLine);
+
+    //     LyricSlice testSlice1 = testLine_.createSlice();
+    //     testSlice1.setCoordsUpdated("English", 1, 5).setCoordsUpdated("Japanese", 7, 9).setHeader("#00");
+    //     LyricSlice testSlice2 = testLine_.createSlice();
+    //     testSlice2.setCoordsUpdated("English", 3, 7).setCoordsUpdated("Japanese", 2, 3).setHeader("#11");
+    //     LyricSlice testSlice3 = testLine_.createSlice();
+    //     testSlice3.setCoordsUpdated("English", 15, 18).setCoordsUpdated("Japanese", 15, 18).setHeader("#00");
+        
+    //     System.out.println("Original:");
+    //     System.out.println(testLine_.getSlices());
+    //     System.out.println(testLine_.getTaggedText());
+
+    //     System.out.println("\nMerge by reference:");
+    //     testLine_.mergeSlices(testSlice1, testSlice2);
+    //     System.out.println(testLine_.getSlices());
+    //     System.out.println(testLine_.getTaggedText());
+
+    //     System.out.println("\nMerge by ID:");
+    //     testLine_.mergeSlicesWithSameID();
+    //     System.out.println(testLine_.getSlices());
+    //     System.out.println(testLine_.getTaggedText());
+
+    // } catch (ParseException e) {
+    //     e.printStackTrace();
+    // }
 }

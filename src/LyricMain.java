@@ -33,57 +33,7 @@ public class LyricMain {
     testLine.createSlice(3).setCoordsUpdated("Japanese", 3, 4).addCoords("Japanese", 8, 9);
 
 
-// =-= Filtering slices by category =-=
-    // System.out.println("\nFiltering slices by category:");
-    // System.out.println("No filter:");
-    // System.out.println(testLine.getSlices());
-    // System.out.println("Filtered by category 1:");
-    // System.out.println(testLine.getSlices(1));
-
-
-// =-= Modifying the text =-=
-    // System.out.println(testLine.getAsHTML());
-    // System.out.println(testLine.getSlices());
-    // testLine.deleteFromPlainText("English", 1, 4);
-    // testLine.addToPlainText("English", "___", 8);
-
-    // testLine.modifyPlainText("English", " thing", 4);
-    // System.out.println(testLine.getAsHTML());
-    // System.out.println(testLine.getSlices());
-    // System.out.println(testLine.getAsBracketed("English"));
-
 // =-=
-
-    System.out.println(testLine);
-    System.out.println(testLine.getTaggedText());
-    System.out.println("\nPrinting as plain:");
-    System.out.println(testLine.getText(LyricLine.textStyle.plain));
-    System.out.println("\nPrinting as bracketed:");
-    System.out.println(testLine.getText(LyricLine.textStyle.bracketed));
-    System.out.println("\nPrinting as tagged:");
-    System.out.println(testLine.getText(LyricLine.textStyle.tagged));
-
-    
-    // System.out.println("Unbound Name: " + testLine.createDisplayName("English"));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 3));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 4));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 5));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 6));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 7));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 8));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 9));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 10));
-    // testLine.setName("abcdefghijklmnopqrst");
-    // System.out.println("Full Name:    " + testLine.getName());
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 7));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 8));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 9));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 10));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 15));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 17));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 18));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 19));
-    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 20));
 
     try {
         String newLine = ">Line \"Test Line 2\"<\n";
@@ -96,38 +46,6 @@ public class LyricMain {
         System.out.println(testLine2.getCoordsList("English"));
         System.out.println(testLine2.getSlices());
         System.out.println(testLine2.getTaggedText());
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
-
-    try {
-        System.out.println("\n\nTest Line 3:\n");
-        String newLine = ">Line \"Test Line 3\"<\n";
-        newLine += "\t@English: abcdefghijklmnop\n";
-        newLine += "\t@Japanese: abcdefghijklmnop\n";
-        LyricLine testLine_ = LyricLine.parseTextToLine(newLine);
-
-        LyricSlice testSlice1 = testLine_.createSlice();
-        testSlice1.setCoordsUpdated("English", 1, 5).setCoordsUpdated("Japanese", 7, 9).setHeader("#00");
-        LyricSlice testSlice2 = testLine_.createSlice();
-        testSlice2.setCoordsUpdated("English", 3, 7).setCoordsUpdated("Japanese", 2, 3).setHeader("#11");
-        LyricSlice testSlice3 = testLine_.createSlice();
-        testSlice3.setCoordsUpdated("English", 15, 18).setCoordsUpdated("Japanese", 15, 18).setHeader("#00");
-        
-        System.out.println("Original:");
-        System.out.println(testLine_.getSlices());
-        System.out.println(testLine_.getTaggedText());
-
-        System.out.println("\nMerge by reference:");
-        testLine_.mergeSlices(testSlice1, testSlice2);
-        System.out.println(testLine_.getSlices());
-        System.out.println(testLine_.getTaggedText());
-
-        System.out.println("\nMerge by ID:");
-        testLine_.mergeSlicesWithSameID();
-        System.out.println(testLine_.getSlices());
-        System.out.println(testLine_.getTaggedText());
-
     } catch (ParseException e) {
         e.printStackTrace();
     }
