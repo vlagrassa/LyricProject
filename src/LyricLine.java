@@ -228,6 +228,21 @@ public class LyricLine {
         return createSlice(null, "");
     }
 
+    public void mergeSlices(LyricSlice mainSlice, LyricSlice... otherSlices) {
+        for (LyricSlice slice : otherSlices) {
+            mainSlice.mergeSlice(slice);
+            removeSlice(slice);
+        }
+    }
+
+    public LyricSlice removeSlice(LyricSlice slice) {
+        for (String lang : getLanguages()) {
+            slice.setCoordsUpdated(lang, null, null);
+        }
+        slices.remove(slice);
+        return slice;
+    }
+
     public ArrayList<LyricCoords> getCoordsListCopy(String key) {
         ArrayList<LyricCoords> coordsList = new ArrayList<LyricCoords>();
         for (LyricSlice slice : slices) {

@@ -786,6 +786,13 @@ public class LyricSlice {
         return this;
     }
 
+    public void mergeSlice(LyricSlice newslice) {
+        for (String lang : coords.keySet()) {
+            addRange(lang, newslice.getCoords(lang).getStart(), newslice.getCoords(lang).getEnd());
+        }
+        // TODO: Do anything with category, annotation, and/or header?
+    }
+
 
   // =-=-= String Methods =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
