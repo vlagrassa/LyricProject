@@ -63,15 +63,38 @@ public class LyricMain {
     System.out.println("\nPrinting as tagged:");
     System.out.println(testLine.getText(LyricLine.textStyle.tagged));
 
+    
+    System.out.println("Unbound Name: " + testLine.createDisplayName("English"));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 3));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 4));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 5));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 6));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 7));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 8));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 9));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 10));
+    testLine.setName("abcdefghijklmnopqrst");
+    System.out.println("Full Name:    " + testLine.getName());
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 7));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 8));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 9));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 10));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 15));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 17));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 18));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 19));
+    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 20));
+
     try {
         String newLine = ">Line<\n";
         newLine += "\t@English: #05[This] #04[#01[is] #02[a] #03[test]]\n";
         newLine += "\t@Japanese: #05[Kore wa] #04[#03[tesuto] #01[desu yo]]";
         LyricLine testLine2 = LyricLine.parseTextToLine(newLine);
+        testLine2.setName("Test Line 2");
         
-        // System.out.println(testLine2.getCoordsList("English"));
-        // System.out.println(testLine2.getSlices());
-        // System.out.println(testLine2.getTaggedText());
+        System.out.println(testLine2.getCoordsList("English"));
+        System.out.println(testLine2.getSlices());
+        System.out.println(testLine2.getTaggedText());
     } catch (ParseException e) {
         e.printStackTrace();
     }

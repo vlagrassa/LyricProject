@@ -28,6 +28,11 @@ public class LyricLine {
         tagged
     }
 
+    /**
+     * A display name to identify the line by.
+     */
+    private String displayName;
+
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -252,6 +257,103 @@ public class LyricLine {
     }
 
 
+  // =-=-= Line Name =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    /**
+     * Get the line's display name, if it has one. If it doesn't, returns
+     * the empty string {@code ""}.
+     * 
+     * @return The display name.
+     */
+    public String getName() {
+        return hasName() ? displayName : "";
+    }
+
+    /**
+     * Get a name to display for the line. If the line already has a name,
+     * that name will be returned; if it does not, a temporary name will
+     * be filled in using the plaintext associated with the provided
+     * language string.
+     * 
+     * @param key The plaintext to fall back on if no name exists.
+     * 
+     * @return A non-empty name to display.
+     */
+    public String createDisplayName(String key) {
+        return hasName() ? displayName : getPlainText(key);
+    }
+
+    /**
+     * Get a name to display for the line, and cut it off to fit within
+     * the given length if necessary. If the name is cut off, an ellipsis
+     * (Unicode value {@code \u2026}) will be added to the end.
+     * 
+     * If the line already has a name, that name will be used; if it does
+     * not, a temporary name will be filled in using the plaintext
+     * associated with the provided language string.
+     * 
+     * @param key The plaintext to fall back on if no name exists.
+     * @param maxlength The maximum length of the name.
+     * 
+     * @return A non-empty name to display.
+     */
+    public String createDisplayNameClipped(String key, Integer maxlength) {
+        String result = createDisplayName(key);
+        if (result.length() > maxlength) {
+            return result.substring(0, maxlength - 1).trim() + "\u2026";
+        } else {
+            return result;
+        }
+    }
+
+    /**
+     * Return {@code true} if the line has a display name, and {@code false}
+     * otherwise. May also be called with a boolean argument to check whether
+     * the result matches that value.
+     * 
+     * @return Whether the line has a name value.
+     */
+    public Boolean hasName() {
+        return displayName != null;
+    }
+
+    /**
+     * Check whether the line currently has a display name, and return
+     * {@code true} if this value matches the passed value.
+     * 
+     * @param val The expected value of {@code hasName()}.
+     * @return Whether the value matches or not.
+     */
+    public Boolean hasName(Boolean val) {
+        return hasName() == val;
+    }
+
+    /**
+     * Set the display name of the line.
+     * 
+     * @param newname The new display name for the line.
+     */
+    public void setName(String newname) {
+        displayName = newname;
+    }
+
+    /**
+     * Set the display name of the line if it does not currently have a
+     * value; otherwise, leave it unchanged. Returns {@code true} if the
+     * name is changed, and false if it is not.
+     * 
+     * @param newname The new display name for the line.
+     * @return Whether the name is changed.
+     */
+    public Boolean setNameIfEmpty(String newname) {
+        if (hasName(false)) {
+            setName(newname);
+            return true;
+        }
+        return false;
+    }
+
+
   // =-=-= Strings =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public String toString() {
@@ -313,7 +415,8 @@ public class LyricLine {
 
     public String getTaggedText(Integer indent) {
         String tabs = getTabString(indent);
-        String result = tabs.substring(0, tabs.length()-1) + ">Line<";
+        String result = tabs.substring(0, tabs.length()-1);
+        result += String.format(">Line%s<", hasName() ? " \"" + getName() + "\"" : "");
         for (String lang : getLanguages()) {
             result += "\n" + getTaggedText(lang);
         }
