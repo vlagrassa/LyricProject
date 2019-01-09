@@ -496,7 +496,9 @@ public class LyricLine {
         for (String currentLine : originalLines.split("\n")) {
             currentLine = currentLine.replace("\t", "");
             if (currentLine.startsWith(">Line")) {
-                // Ignore it
+                int firstQuote  = currentLine.indexOf("\"") + 1;
+                int secondQuote = currentLine.indexOf("\"", firstQuote);
+                result.setName(currentLine.substring(firstQuote, secondQuote));
             }
             else if (currentLine.startsWith("@")) {
                 Stack<LyricCoords> openCoords = new Stack<LyricCoords>();

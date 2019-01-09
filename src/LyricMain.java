@@ -86,11 +86,11 @@ public class LyricMain {
     // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 20));
 
     try {
-        String newLine = ">Line<\n";
+        String newLine = ">Line \"Test Line 2\"<\n";
         newLine += "\t@English: #05[This] #04[#01[is] #02[a] #03[test]]\n";
         newLine += "\t@Japanese: #05[Kore wa] #04[#03[tesuto] #01[desu yo]]";
         LyricLine testLine2 = LyricLine.parseTextToLine(newLine);
-        testLine2.setName("Test Line 2");
+        // testLine2.setName("Test Line 2");
         
         System.out.println(testLine2.getCoordsList("English"));
         System.out.println(testLine2.getSlices());
