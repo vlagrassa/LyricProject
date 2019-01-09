@@ -165,6 +165,7 @@ public class LyricSlice {
         return referenceStrings.get(key);
     }
 
+    //TODO: Use putIfAbsent() to add language(s) to the slice?
     public void addLanguage(String newLanguage) {
         addLanguages(newLanguage);
     }
@@ -179,6 +180,17 @@ public class LyricSlice {
         for (String language : newLanguages) {
             coords.put(language, new LyricCoords());
         }
+    }
+
+    public Set<String> matchLanguages(LyricLine line) {
+        Set<String> result = new HashSet<String>();
+        for (String language : line.getLanguages()) {
+            if (!coords.containsKey(language)) {
+                addLanguage(language);
+                result.add(language);
+            }
+        }
+        return result;
     }
 
 

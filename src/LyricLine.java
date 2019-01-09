@@ -489,12 +489,11 @@ public class LyricLine {
 
   // =-=-= Parsing =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-    public static LyricLine parseTextToLine(String orig) throws ParseException {
-        String[] listOfLines = orig.split("\n");
+    public static LyricLine parseTextToLine(String originalLines) throws ParseException {
         LyricLine result = new LyricLine();
         // ID -> (language -> coords)
         HashMap<String, HashMap<String, LyricCoords>> parseMap = new HashMap<String, HashMap<String, LyricCoords>>();
-        for (String currentLine : listOfLines) {
+        for (String currentLine : originalLines.split("\n")) {
             currentLine = currentLine.replace("\t", "");
             if (currentLine.startsWith(">Line")) {
                 // Ignore it
@@ -511,25 +510,16 @@ public class LyricLine {
                 // Run through character by character, adding to the stack
                 for (int i = 0; i < body.length(); i++) {
                     if (body.charAt(i) == '#') {
-                        int j = i+1;
-                        while (body.charAt(j) != '[') {
-                            j++;
-                        }
-
                         LyricCoords newCoords = new LyricCoords(i, null);
-                        String newID = body.substring(i, j);
+                        String newID = body.substring(i, body.indexOf('[', i));
                         openCoords.push(newCoords);
-                        if (!parseMap.containsKey(newID)) {
-                            parseMap.put(newID, new HashMap<String, LyricCoords>());
-                        }
+                        parseMap.putIfAbsent(newID, new HashMap<String, LyricCoords>());
                         parseMap.get(newID).put(head, newCoords);
-
-                        body = body.substring(0, i) + body.substring(j);
+                        body = body.substring(0, i) + body.substring(i + newID.length());
                     }
                     else if (body.charAt(i) == ']') {
                         try {
-                            LyricCoords newCoords = openCoords.pop();
-                            newCoords.setEnd(i);
+                            openCoords.pop().setEnd(i);
                         } catch (EmptyStackException e) {
                             throw new ParseException("Unmatched closing bracket found at index " + i + " in line \"" + currentLine + "\".", i);
                         }
@@ -539,14 +529,12 @@ public class LyricLine {
                 // If the end is reached and something is still open on the stack, throw a parse error
                 if (!openCoords.isEmpty()) {
                     LyricCoords remainder = openCoords.pop();
-                    String unmatchedID = "";
                     for (String id : parseMap.keySet()) {
                         if (parseMap.get(id).containsValue(remainder)) {
-                            unmatchedID = id;
-                            break;
+                            throw new java.text.ParseException(String.format("No closing bracket found for slice \"%s\" in line \"%s\".", id, currentLine), remainder.getStart());
                         }
                     }
-                    throw new java.text.ParseException("No closing bracket found for slice \"" + unmatchedID + "\" in line \"" + currentLine + "\".", remainder.getStart());
+                    throw new RuntimeException("Error with open LyricCoords stack");
                 }
 
                 result.setBracketedText(head, body);
@@ -558,12 +546,7 @@ public class LyricLine {
             LyricSlice newSlice = result.createSlice();
             newSlice.setHeader(id);
             newSlice.setCoordsMap(parseMap.get(id));
-            // TODO: Move below to LyricSlice.containsLanguage() method? Or even ensureContainsLanguages()?
-            for (String lang : result.getLanguages()) {
-                if (!parseMap.get(id).containsKey(lang)) {
-                    newSlice.addLanguage(lang);
-                }
-            }
+            newSlice.matchLanguages(result);
         }
 
         return result;
