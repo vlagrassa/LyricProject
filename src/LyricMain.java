@@ -88,7 +88,8 @@ public class LyricMain {
     try {
         String newLine = ">Line \"Test Line 2\"<\n";
         newLine += "\t@English: #05[This] #04[#01[is] #02[a] #03[test]]\n";
-        newLine += "\t@Japanese: #05[Kore wa] #04[#03[tesuto] #01[desu yo]]";
+        newLine += "\t@Japanese: #05[Kore wa] #04[#03[tesuto] #01[desu yo]]\n";
+        newLine += "\t~Test Category 1\n\t~Test Category 2\n\t$Test Annotation\n";
         LyricLine testLine2 = LyricLine.parseTextToLine(newLine);
         // testLine2.setName("Test Line 2");
         

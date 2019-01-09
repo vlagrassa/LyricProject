@@ -493,6 +493,7 @@ public class LyricLine {
         LyricLine result = new LyricLine();
         // ID -> (language -> coords)
         HashMap<String, HashMap<String, LyricCoords>> parseMap = new HashMap<String, HashMap<String, LyricCoords>>();
+        Boolean slicesAdded = false;
         for (String currentLine : originalLines.split("\n")) {
             currentLine = currentLine.replace("\t", "");
             if (currentLine.startsWith(">Line")) {
@@ -542,14 +543,28 @@ public class LyricLine {
                 result.setBracketedText(head, body);
             }
             // ...more cases below
+            else {
+                if (!slicesAdded) {
+                    for (String id : parseMap.keySet()) {
+                        LyricSlice newSlice = result.createSlice();
+                        newSlice.setHeader(id);
+                        newSlice.setCoordsMap(parseMap.get(id));
+                        newSlice.matchLanguages(result);
+                    }
+                    slicesAdded = true;
+                }
+                if (currentLine.startsWith("~")) {
+                    // Parse categories
+                    System.out.println("Should add category: " + currentLine);
+                }
+                else if (currentLine.startsWith("$")) {
+                    // Parse annotations
+                    System.out.println("Should add annotation: " + currentLine);
+                }
+            }
         }
 
-        for (String id : parseMap.keySet()) {
-            LyricSlice newSlice = result.createSlice();
-            newSlice.setHeader(id);
-            newSlice.setCoordsMap(parseMap.get(id));
-            newSlice.matchLanguages(result);
-        }
+        
 
         return result;
     }
