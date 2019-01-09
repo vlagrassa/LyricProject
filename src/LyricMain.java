@@ -64,26 +64,26 @@ public class LyricMain {
     System.out.println(testLine.getText(LyricLine.textStyle.tagged));
 
     
-    System.out.println("Unbound Name: " + testLine.createDisplayName("English"));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 3));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 4));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 5));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 6));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 7));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 8));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 9));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 10));
-    testLine.setName("abcdefghijklmnopqrst");
-    System.out.println("Full Name:    " + testLine.getName());
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 7));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 8));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 9));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 10));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 15));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 17));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 18));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 19));
-    System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 20));
+    // System.out.println("Unbound Name: " + testLine.createDisplayName("English"));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 3));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 4));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 5));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 6));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 7));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 8));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 9));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 10));
+    // testLine.setName("abcdefghijklmnopqrst");
+    // System.out.println("Full Name:    " + testLine.getName());
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 7));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 8));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 9));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 10));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 15));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 17));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 18));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 19));
+    // System.out.println("Clipped Name: " + testLine.createDisplayNameClipped("English", 20));
 
     try {
         String newLine = ">Line<\n";

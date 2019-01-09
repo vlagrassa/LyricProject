@@ -492,13 +492,15 @@ public class LyricLine {
     public static LyricLine parseTextToLine(String orig) throws ParseException {
         String[] listOfLines = orig.split("\n");
         LyricLine result = new LyricLine();
+        // ID -> (language -> coords)
+        HashMap<String, HashMap<String, LyricCoords>> parseMap = new HashMap<String, HashMap<String, LyricCoords>>();
         for (String currentLine : listOfLines) {
             currentLine = currentLine.replace("\t", "");
             if (currentLine.startsWith(">Line")) {
                 // Ignore it
             }
             else if (currentLine.startsWith("@")) {
-                Stack<LyricSlice> openSlices = new Stack<LyricSlice>();
+                Stack<LyricCoords> openCoords = new Stack<LyricCoords>();
 
                 // Separate the language name and the line body
                 String[] headAndBody = currentLine.substring(1).split(":", 2);
@@ -513,16 +515,21 @@ public class LyricLine {
                         while (body.charAt(j) != '[') {
                             j++;
                         }
-                        LyricSlice newSlice = result.createSlice();
-                        newSlice.getCoords(head).setStart(i);
-                        newSlice.setHeader(body.substring(i, j));
-                        openSlices.push(newSlice);
+
+                        LyricCoords newCoords = new LyricCoords(i, null);
+                        String newID = body.substring(i, j);
+                        openCoords.push(newCoords);
+                        if (!parseMap.containsKey(newID)) {
+                            parseMap.put(newID, new HashMap<String, LyricCoords>());
+                        }
+                        parseMap.get(newID).put(head, newCoords);
+
                         body = body.substring(0, i) + body.substring(j);
                     }
                     else if (body.charAt(i) == ']') {
                         try {
-                            LyricSlice newSlice = openSlices.pop();
-                            newSlice.getCoords(head).setEnd(i);
+                            LyricCoords newCoords = openCoords.pop();
+                            newCoords.setEnd(i);
                         } catch (EmptyStackException e) {
                             throw new ParseException("Unmatched closing bracket found at index " + i + " in line \"" + currentLine + "\".", i);
                         }
@@ -530,15 +537,35 @@ public class LyricLine {
                 }
                 
                 // If the end is reached and something is still open on the stack, throw a parse error
-                if (!openSlices.isEmpty()) {
-                    LyricSlice remainder = openSlices.pop();
-                    throw new java.text.ParseException("No closing bracket found for slice \"" + remainder.getHeader() + "\" in line \"" + currentLine + "\".", remainder.getStart(head));
+                if (!openCoords.isEmpty()) {
+                    LyricCoords remainder = openCoords.pop();
+                    String unmatchedID = "";
+                    for (String id : parseMap.keySet()) {
+                        if (parseMap.get(id).containsValue(remainder)) {
+                            unmatchedID = id;
+                            break;
+                        }
+                    }
+                    throw new java.text.ParseException("No closing bracket found for slice \"" + unmatchedID + "\" in line \"" + currentLine + "\".", remainder.getStart());
                 }
 
                 result.setBracketedText(head, body);
             }
             // ...more cases below
         }
+
+        for (String id : parseMap.keySet()) {
+            LyricSlice newSlice = result.createSlice();
+            newSlice.setHeader(id);
+            newSlice.setCoordsMap(parseMap.get(id));
+            // TODO: Move below to LyricSlice.containsLanguage() method? Or even ensureContainsLanguages()?
+            for (String lang : result.getLanguages()) {
+                if (!parseMap.get(id).containsKey(lang)) {
+                    newSlice.addLanguage(lang);
+                }
+            }
+        }
+
         return result;
     }
 }
