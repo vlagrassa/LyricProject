@@ -271,6 +271,25 @@ public class LyricLine {
         return categoryList;
     }
 
+    public LyricSlice getSliceWithID(String id) {
+        for (LyricSlice slice : slices) {
+            if (slice.getHeader().equals(id)) {
+                return slice;
+            }
+        }
+        return null;
+    }
+
+    public void mergeSlicesWithSameID() {
+        for (int i = 0; i < slices.size(); i++) {
+            for (int j = i+1; j < slices.size(); j++) {
+                if (slices.get(i) != slices.get(j) && slices.get(i).getHeader().equals(slices.get(j).getHeader())) {
+                    mergeSlices(slices.get(i), slices.get(j));
+                }
+            }
+        }
+    }
+
 
   // =-=-= Line Name =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

@@ -99,5 +99,37 @@ public class LyricMain {
     } catch (ParseException e) {
         e.printStackTrace();
     }
+
+    try {
+        System.out.println("\n\nTest Line 3:\n");
+        String newLine = ">Line \"Test Line 3\"<\n";
+        newLine += "\t@English: abcdefghijklmnop\n";
+        newLine += "\t@Japanese: abcdefghijklmnop\n";
+        LyricLine testLine_ = LyricLine.parseTextToLine(newLine);
+
+        LyricSlice testSlice1 = testLine_.createSlice();
+        testSlice1.setCoordsUpdated("English", 1, 5).setCoordsUpdated("Japanese", 7, 9).setHeader("#00");
+        LyricSlice testSlice2 = testLine_.createSlice();
+        testSlice2.setCoordsUpdated("English", 3, 7).setCoordsUpdated("Japanese", 2, 3).setHeader("#11");
+        LyricSlice testSlice3 = testLine_.createSlice();
+        testSlice3.setCoordsUpdated("English", 15, 18).setCoordsUpdated("Japanese", 15, 18).setHeader("#00");
+        
+        System.out.println("Original:");
+        System.out.println(testLine_.getSlices());
+        System.out.println(testLine_.getTaggedText());
+
+        System.out.println("\nMerge by reference:");
+        testLine_.mergeSlices(testSlice1, testSlice2);
+        System.out.println(testLine_.getSlices());
+        System.out.println(testLine_.getTaggedText());
+
+        System.out.println("\nMerge by ID:");
+        testLine_.mergeSlicesWithSameID();
+        System.out.println(testLine_.getSlices());
+        System.out.println(testLine_.getTaggedText());
+
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
   }
 }
