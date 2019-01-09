@@ -25,13 +25,13 @@ public class LyricLine {
     /**
      * The style of text:
      * 
-     * <li>{@code plain} - Plaintext, with no slice annotations.</li>
+     * <li>{@code PLAIN} - Plaintext, with no slice annotations.</li>
      * 
-     * <li>{@code bracketed} - Open and close brackets present at slice boundaries; a
+     * <li>{@code BRACKETED} - Open and close brackets present at slice boundaries; a
      * human-readable form that preservest slice locations. Indexing to add/modify/etc
      * slice locations uses this form.</li>
      * 
-     * <li>{@code tagged} - Slice IDs inserted before the appropriate open brackets,
+     * <li>{@code TAGGED} - Slice IDs inserted before the appropriate open brackets,
      * and language name(s) added in; gives full information about all slices.</li>
      * 
      */
@@ -39,21 +39,21 @@ public class LyricLine {
         /**
          * Plaintext, with no slice annotations.
          */
-        plain,
+        PLAIN,
 
         /**
          * Open and close brackets present at slice boundaries; a
          * human-readable form that preservest slice locations. Indexing
          * to add/modify/etc slice locations uses this form.
          */
-        bracketed,
+        BRACKETED,
 
         /**
          * Slice IDs inserted before the appropriate open brackets, and
          * language name(s) added in; gives full information about all
          * slices.
          */
-        tagged
+        TAGGED
     }
 
     /**
@@ -428,11 +428,11 @@ public class LyricLine {
 
     public String getText(String key, textStyle style) {
         switch (style) {
-            case bracketed:
+            case BRACKETED:
                 return getBracketedText(key);
-            case plain:
+            case PLAIN:
                 return getPlainText(key);
-            case tagged:
+            case TAGGED:
                 return getTaggedText(key);
             default:
                 return "";
@@ -441,11 +441,11 @@ public class LyricLine {
 
     public String getText(textStyle style) {
         switch (style) {
-            case bracketed:
+            case BRACKETED:
                 return getBracketedText();
-            case plain:
+            case PLAIN:
                 return getPlainText();
-            case tagged:
+            case TAGGED:
                 return getTaggedText();
             default:
                 return "";

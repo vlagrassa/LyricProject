@@ -230,11 +230,11 @@ public class LyricTest {
     // System.out.println(testLine);
     // System.out.println(testLine.getTaggedText());
     // System.out.println("\nPrinting as plain:");
-    // System.out.println(testLine.getText(LyricLine.textStyle.plain));
+    // System.out.println(testLine.getText(LyricLine.textStyle.PLAIN));
     // System.out.println("\nPrinting as bracketed:");
-    // System.out.println(testLine.getText(LyricLine.textStyle.bracketed));
+    // System.out.println(testLine.getText(LyricLine.textStyle.BRACKETED));
     // System.out.println("\nPrinting as tagged:");
-    // System.out.println(testLine.getText(LyricLine.textStyle.tagged));
+    // System.out.println(testLine.getText(LyricLine.textStyle.TAGGED));
 
 // =-= Merging slices =-=
     // try {
