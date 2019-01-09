@@ -22,9 +22,37 @@ public class LyricLine {
      */
     private ArrayList<LyricSlice> slices;
 
+    /**
+     * The style of text:
+     * 
+     * <li>{@code plain} - Plaintext, with no slice annotations.</li>
+     * 
+     * <li>{@code bracketed} - Open and close brackets present at slice boundaries; a
+     * human-readable form that preservest slice locations. Indexing to add/modify/etc
+     * slice locations uses this form.</li>
+     * 
+     * <li>{@code tagged} - Slice IDs inserted before the appropriate open brackets,
+     * and language name(s) added in; gives full information about all slices.</li>
+     * 
+     */
     public enum textStyle {
+        /**
+         * Plaintext, with no slice annotations.
+         */
         plain,
+
+        /**
+         * Open and close brackets present at slice boundaries; a
+         * human-readable form that preservest slice locations. Indexing
+         * to add/modify/etc slice locations uses this form.
+         */
         bracketed,
+
+        /**
+         * Slice IDs inserted before the appropriate open brackets, and
+         * language name(s) added in; gives full information about all
+         * slices.
+         */
         tagged
     }
 
