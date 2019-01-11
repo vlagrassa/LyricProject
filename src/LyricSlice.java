@@ -20,7 +20,8 @@ public class LyricSlice {
      * speech, type of phrase, etc. This is important for organizing slices in the
      * final product, and determines what color to use to highlight it.
      */
-    Integer category;
+    // Integer category;
+    LyricCategory category;
 
     /**
      * A {@code String} storing information about the text contained in the slice,
@@ -63,7 +64,7 @@ public class LyricSlice {
      * @param category   The category of this slice.
      * @param annotation The annotation associated with this slice.
      */
-    public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, Integer category, String annotation) {
+    public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, LyricCategory category, String annotation) {
         coords = new HashMap<String,LyricCoords>();
         addLanguages(reference.keySet());
         referenceStrings = reference;
@@ -91,7 +92,7 @@ public class LyricSlice {
      * @param slices     Reference to list of slices to which this slice belongs.
      * @param category   The category of this slice.
      */
-    public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, Integer category) {
+    public LyricSlice(HashMap<String,String> reference, ArrayList<LyricSlice> slices, LyricCategory category) {
         this(reference, slices, category, "");
     }
 
@@ -202,7 +203,7 @@ public class LyricSlice {
      * 
      * @return The category of the slice.
      */
-    public Integer getCategory() {
+    public LyricCategory getCategory() {
         return category;
     }
 
@@ -217,17 +218,19 @@ public class LyricSlice {
         if (category == null) {
             return "";
         }
-        return Integer.toString(category);
+        return category.getIndexStr();
     }
 
     /**
      * Change the category of the slice to the given value.
      * 
+     * TODO: Reflect change in category in the header
+     * 
      * @param newcat The new category of the slice.
      * @return The original category of the slice.
      */
-    public Integer setCategory(Integer newcat) {
-        Integer oldcat = category;
+    public LyricCategory setCategory(LyricCategory newcat) {
+        LyricCategory oldcat = category;
         category = newcat;
         return oldcat;
     }
@@ -241,7 +244,7 @@ public class LyricSlice {
      * @param matchcat Value to compare category with.
      * @return Whether the slice's category matches the passed category.
      */
-    public Boolean isCategory(Integer matchcat) {
+    public Boolean isCategory(LyricCategory matchcat) {
         if (matchcat == null)
             return category == null;
         if (category == null)

@@ -13,8 +13,19 @@ public class LyricMain {
     System.out.println(testLine.getPlainText("English"));
 
 
+// =-= Initializing Categories =-=
+    LyricCategory category1 = new LyricCategory(1, "One");
+    LyricCategory category2 = new LyricCategory(2, "Two");
+    LyricCategory category3 = new LyricCategory(3, "Three");
+    ArrayList<LyricCategory> categorySet = new ArrayList<LyricCategory>();
+    categorySet.add(category1);
+    categorySet.add(category3);
+    categorySet.add(category2);
+    System.out.println(categorySet);
+
+
 // =-= Initializing test LyricSlice =-=
-    LyricSlice testSlice = testLine.createSlice(1);
+    LyricSlice testSlice = testLine.createSlice(category1);
     testSlice.setCoordsUpdated("Japanese", -5, 6);
     testSlice.setCoordsUpdated("English", 5, 18);
     testSlice.setCoordsUpdated("English", 5, 18);
@@ -23,14 +34,14 @@ public class LyricMain {
 
 
 // =-= Adding more slices, with categories =-=
-    testLine.createSlice(2).setCoordsUpdated("English", 8, 9);
-    testLine.createSlice(1).setCoordsUpdated("English", 0, 4).setCoordsUpdated("Japanese", 9, 17);
+    testLine.createSlice(category2).setCoordsUpdated("English", 8, 9);
+    testLine.createSlice(category1).setCoordsUpdated("English", 0, 4).setCoordsUpdated("Japanese", 9, 17);
     /*
-    testLine.createSlice(3).setStartEnd("English", 0, 2).setStartEnd("Japanese", 7, 9);
-    testLine.createSlice(3).setStartEnd("English", 2, 3).setStartEnd("Japanese", 9, 11);
-    testLine.createSlice(3).setStartEnd("English", 3, 4).setStartEnd("Japanese", 11, 13);
+    testLine.createSlice(category3).setStartEnd("English", 0, 2).setStartEnd("Japanese", 7, 9);
+    testLine.createSlice(category3).setStartEnd("English", 2, 3).setStartEnd("Japanese", 9, 11);
+    testLine.createSlice(category3).setStartEnd("English", 3, 4).setStartEnd("Japanese", 11, 13);
     */
-    testLine.createSlice(3).setCoordsUpdated("Japanese", 3, 4).addCoords("Japanese", 8, 9);
+    testLine.createSlice(category3).setCoordsUpdated("Japanese", 3, 4).addCoords("Japanese", 8, 9);
 
 
 // =-=
@@ -43,6 +54,18 @@ public class LyricMain {
         LyricLine testLine2 = LyricLine.parseTextToLine(newLine);
         // testLine2.setName("Test Line 2");
         
+        testLine2.setCategoryList(categorySet);
+
+        System.out.println(testLine2.getCoordsList("English"));
+        System.out.println(testLine2.getSlices());
+        System.out.println(testLine2.getTaggedText());
+
+        testLine2.getSlices().get(0).setCategory(category1);
+        testLine2.getSlices().get(1).setCategory(category1);
+        testLine2.getSlices().get(2).setCategory(category2);
+        testLine2.getSlices().get(3).setCategory(category2);
+        testLine2.getSlices().get(4).setCategory(category3);
+
         System.out.println(testLine2.getCoordsList("English"));
         System.out.println(testLine2.getSlices());
         System.out.println(testLine2.getTaggedText());

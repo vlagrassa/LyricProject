@@ -61,16 +61,18 @@ public class LyricLine {
      */
     private String displayName;
 
+    private ArrayList<LyricCategory> categoryList;
+
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
-     * Initialize a new {@code LyricLine} object with a set of languages to
-     * be stored.
+     * Initialize a new {@code LyricLine} object with a number of slice categories
+     * and a set of languages to be stored.
      * 
      * @param languages List of languages used in the line.
      */
-    public LyricLine(String... languages) {
+    public LyricLine(ArrayList<LyricCategory> categoryList, String... languages) {
 
         // Inititalize bracketedtext with an empty string for each of the passed languages
         bracketedtexts = new HashMap<String,String>();
@@ -80,6 +82,23 @@ public class LyricLine {
 
         // Initialize the array of slices
         slices = new ArrayList<LyricSlice>();
+
+        // Copy (the reference to) the list of categories
+        this.categoryList = categoryList;
+    }
+
+    /**
+     * Initialize a new {@code LyricLine} object with a  set of languages to
+     * be stored.
+     * 
+     * Note that this method omits the list of categories, which should be
+     * passed as an argument if it is at all available - this is mostly a
+     * backup, convenience method in case a category list is not available
+     * when parsing a new line. Otherwise, the overarching Verse should pass
+     * down the categories.
+     */
+    public LyricLine(String... languages) {
+        this(new ArrayList<LyricCategory>(), languages);
     }
 
 
@@ -165,9 +184,9 @@ public class LyricLine {
 
     /**
      * Get the list of {@code LyricSlice} objects associated with this
-     * line. If an {@code Integer} argument is provided, will return a
-     * list of only the slices matching that category, serving as a way
-     * to filter them.
+     * line. If a {@code LyricCategory} argument or an {@code Integer}
+     * argument is provided, will return a list of only the slices
+     * matching that category, serving as a way to filter them.
      * 
      * @return The full list of {@code LyricSlice} objects.
      */
@@ -177,19 +196,40 @@ public class LyricLine {
 
     /**
      * Get the list of {@code LyricSlice} objects associated with this
-     * line with a category matching the passed {@code Integer} value.
+     * line with a category matching the passed {@code LyricCategory} value.
      * If no argument is provided, will return a list of all the slices
      * associated with this line, regardless of category.
      * 
-     * @see {@link LyricSlice#isCategory(Integer)}
+     * @see {@link LyricSlice#isCategory(LyricCategory)}
      * 
      * @param cat The category to filter by.
+     * @return The filtered list of {@code LyricSlice} objects.
+     */
+    public ArrayList<LyricSlice> getSlices(LyricCategory cat) {
+        ArrayList<LyricSlice> result = new ArrayList<LyricSlice>();
+        for (LyricSlice s : slices) {
+            if (s.isCategory(cat)) {
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the list of {@code LyricSlice} objects associated with this
+     * line with a category index matching the passed {@code Integer} value.
+     * If no argument is provided, will return a list of all the slices
+     * associated with this line, regardless of category.
+     * 
+     * @see {@link LyricCategory#getIndex()}
+     * 
+     * @param cat The index of the category to filter by.
      * @return The filtered list of {@code LyricSlice} objects.
      */
     public ArrayList<LyricSlice> getSlices(Integer cat) {
         ArrayList<LyricSlice> result = new ArrayList<LyricSlice>();
         for (LyricSlice s : slices) {
-            if (s.isCategory(cat)) {
+            if (s.getCategory().getIndex() == cat) {
                 result.add(s);
             }
         }
@@ -206,7 +246,7 @@ public class LyricLine {
      * @param annotation The annotation for the new slice.
      * @return The newly created {@code LyricSlice}.
      */
-    public LyricSlice createSlice(Integer category, String annotation) {
+    public LyricSlice createSlice(LyricCategory category, String annotation) {
         LyricSlice newSlice = new LyricSlice(bracketedtexts, slices, category, annotation);
         slices.add(newSlice);
         return newSlice;
@@ -223,7 +263,7 @@ public class LyricLine {
      * @param category The category of the new slice.
      * @return The newly created {@code LyricSlice}.
      */
-    public LyricSlice createSlice(Integer category) {
+    public LyricSlice createSlice(LyricCategory category) {
         return createSlice(category, "");
     }
 
@@ -484,9 +524,9 @@ public class LyricLine {
         }
         // TODO: Update temporary code to insert categories
         result += "\n";
-        for (int cat = 1; cat <= 3; cat++) {
-            result += "\n~Category " + cat + ": ";
-            for (LyricSlice slice : getSlices(cat)) {
+        for (LyricCategory currentCategory : categoryList) {
+            result += "\n~" + currentCategory.getDisplayName() + ": ";
+            for (LyricSlice slice : getSlices(currentCategory)) {
                 result += slice.getHeader() + ", ";
             }
         }
@@ -630,6 +670,36 @@ public class LyricLine {
 
         return result;
     }
+
+
+  // =-=-= Category List =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    public void setCategoryList(ArrayList<LyricCategory> newCategoryList) {
+        categoryList = newCategoryList;
+    }
+
+    public void addCategory(LyricCategory newCategory) {
+        if (!categoryList.contains(newCategory)) {
+            categoryList.add(newCategory);
+        }
+    }
+
+    public void addCategories(LyricCategory... newCategories) {
+        for (LyricCategory category : newCategories) {
+            addCategory(category);
+        }
+    }
+
+    public void removeCategory(LyricCategory category) {
+        categoryList.remove(category);
+    }
+
+    public void removeCategories(LyricCategory... categories) {
+        for (LyricCategory category : categories) {
+            removeCategory(category);
+        }
+    }
+
 }
 
 
