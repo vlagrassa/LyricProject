@@ -569,10 +569,30 @@ public class LyricLine {
         return textSB.toString();
     }
 
+    /**
+     * Remove all manually set headers from the line, so that they will be
+     * auto-generated when the tagged text is generated. This is generally
+     * recommended unless the specific, preexisting IDs of the slices need
+     * to be preserved for some reason.
+     */
+    public void removeAllManualHeaders() {
+        for (LyricSlice slice : slices) {
+            slice.removeManualHeader();
+        }
+    }
+
+    /**
+     * Auto-generate a header ID string for each slice that lacks a manually
+     * set header value. This will be run any time tagged text is generated.
+     * 
+     * TODO: Ensure auto-generated and manual headers show up identically in reference to the format string
+     * 
+     * @param headerTemplate A format string to insert ID numbers into.
+     */
     public void genHeaders(String headerTemplate) {
         ArrayList<String> usedHeaders = new ArrayList<String>();
         for (LyricSlice slice : slices) {
-            if (slice.hasHeader()) {
+            if (slice.headerIsManual()) {
                 usedHeaders.add(slice.getHeader());
             } else {
                 String newHeader;
@@ -583,7 +603,7 @@ public class LyricLine {
                         break;
                     }
                 }
-                slice.setHeader(newHeader);
+                slice.setHeaderAuto(newHeader);
             }
         }
     }
@@ -649,7 +669,7 @@ public class LyricLine {
                 if (!slicesAdded) {
                     for (String id : parseMap.keySet()) {
                         LyricSlice newSlice = result.createSlice();
-                        newSlice.setHeader(id);
+                        newSlice.setHeaderManual(id);
                         newSlice.setCoordsMap(parseMap.get(id));
                         newSlice.matchLanguages(result);
                     }

@@ -41,6 +41,8 @@ public class LyricSlice {
      */
     String header;
 
+    Boolean hasManualHeader = false;
+
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -223,8 +225,6 @@ public class LyricSlice {
 
     /**
      * Change the category of the slice to the given value.
-     * 
-     * TODO: Reflect change in category in the header
      * 
      * @param newcat The new category of the slice.
      * @return The original category of the slice.
@@ -836,30 +836,132 @@ public class LyricSlice {
   // =-=-= Header =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     /**
-     * Set the ID string for the slice. It is generally inserted in a reference
-     * string at the beginning of the slice, hence the name "header".
+     * <li> Set the ID string for the slice, specifying whether it is manual or
+     * auto-generated. It is generally inserted in a reference string at the
+     * beginning of the enclosed text, hence the name "header". </li>
      * 
-     * Note that this value should be unique to this slice within the line.
+     * <li> Note that this value should be unique to this slice within the line. </li>
+     * 
+     * @see {@link #setHeaderAuto(String)}
+     * @see {@link #setHeaderManual(String)}
      * 
      * @param newheader The new value for the {@code header} field.
+     * @param isManual  Whether the new header is manual or auto-generated.
      */
-    public void setHeader(String newheader) {
+    private void setHeader(String newheader, Boolean isManual) {
         header = newheader;
+        hasManualHeader = isManual;
     }
 
     /**
-     * Set the ID string for the slice if it does not currently have a value. It
-     * is generally inserted in a reference string at the beginning of the slice,
-     * hence the name "header".
+     * <li> Set an auto-generated ID string for the slice, which will be inserted
+     * in a reference string at the beginning of the enclosed text. </li>
      * 
-     * Note that this value should be unique to this slice within the line.
+     * <li> Auto-generated values will be rewritten whenever tagged text is
+     * generated, while manual values will remain the same unless manually changed
+     * by the user. This distinction exists to preserve pre-existing IDs in parsed
+     * lines. </li>
+     * 
+     * <li> Note that this value should be unique to this slice within the line. </li>
+     * 
+     * @see {@link #setHeaderManual(String)}
      * 
      * @param newheader The new value for the {@code header} field.
      */
-    public void setHeaderIfEmpty(String newheader) {
-        if (hasHeader(false)) {
-            setHeader(newheader);
-        }
+    public void setHeaderAuto(String newheader) {
+        setHeader(newheader, false);
+    }
+
+    /**
+     * <li> Set a manual ID string for the slice, which will be inserted in a
+     * reference string at the beginning of the enclosed text. </li>
+     * 
+     * <li> Auto-generated values will be rewritten whenever tagged text is
+     * generated, while manual values will remain the same unless manually changed
+     * by the user. This distinction exists to preserve pre-existing IDs in parsed
+     * lines. </li>
+     * 
+     * <li> Note that this value should be unique to this slice within the line. </li>
+     * 
+     * @see {@link #setHeaderAuto(String)}
+     * 
+     * @param newheader The new value for the {@code header} field.
+     */
+    public void setHeaderManual(String newheader) {
+        setHeader(newheader, true);
+    }
+
+    /**
+     * Remove the manually-created ID string of the slice, if it has one.
+     * This means an auto-generated one will be used whenever a header is
+     * required.
+     */
+    public void removeManualHeader() {
+        setHeaderAuto(null);
+    }
+
+    /**
+     * Return {@code true} if this slice's ID string was manually created,
+     * and {@code false} if it was auto-generated. If a boolean argument is
+     * passed, checks whether these values match.
+     * 
+     * @see {@link #headerIsManual(Boolean)}
+     * @see {@link #headerIsAuto()}
+     * @see {@link #setHeaderManual(String)}
+     * 
+     * @return Whether the header value was manually set.
+     */
+    public Boolean headerIsManual() {
+        return hasManualHeader;
+    }
+
+    /**
+     * <li> Checks whether this slice's ID string was manually created, and returns
+     * {@code true} if this value matches the passed argument. Equivalent to: </li>
+     * 
+     * <li> {@code headerIsManual() == val} </li>
+     * 
+     * @see {@link #headerIsManual()}
+     * @see {@link #headerIsAuto()}
+     * @see {@link #setHeaderManual(String)}
+     * 
+     * @param val The expected value of {@code headerIsManual()}.
+     * @return Whether the expected and actual values match.
+     */
+    public Boolean headerIsManual(Boolean val) {
+        return headerIsManual() == val;
+    }
+
+    /**
+     * Return {@code true} if this slice's ID string was auto-generated, and
+     * {@code false} if it was manually created. If a boolean argument is
+     * passed, checks whether these values match.
+     * 
+     * @see {@link #headerIsAuto(Boolean)}
+     * @see {@link #headerIsManual()}
+     * @see {@link #setHeaderAuto(String)}
+     * 
+     * @return Whether the header value was auto-generated.
+     */
+    public Boolean headerIsAuto() {
+        return !headerIsManual();
+    }
+
+    /**
+     * <li> Checks whether this slice's ID string was auto-generated, and returns
+     * {@code true} if this value matches the passed argument. Equivalent to: </li>
+     * 
+     * <li> {@code headerIsAuto() == val} </li>
+     * 
+     * @see {@link #headerIsAuto(Boolean)}
+     * @see {@link #headerIsManual()}
+     * @see {@link #setHeaderAuto(String)}
+     * 
+     * @param val The expected value of {@code headerIsAuto()}.
+     * @return Whether the expected and actual values match.
+     */
+    public Boolean headerIsAuto(Boolean val) {
+        return headerIsAuto() == val;
     }
 
     /**
@@ -890,6 +992,60 @@ public class LyricSlice {
      */
     public Boolean hasHeader(Boolean val) {
         return hasHeader() == val;
+    }
+
+    /**
+     * Return {@code true} if the slice ID string is not set to {@code null} and
+     * if the string was auto-generated, or {@code false} otherwise. Equivalent to
+     * combining the results of {@code hasHeader()} and {@code headerIsAuto()}.
+     * 
+     * If a boolean argument is passed, checks whether these values match.
+     * 
+     * @return Whether the slice has an auto-generated header.
+     */
+    public Boolean hasHeaderAuto() {
+        return hasHeader() && headerIsAuto();
+    }
+
+    /**
+     * Return {@code true} if the slice ID string is not set to {@code null} and
+     * if the string was auto-generated, or {@code false} otherwise. Equivalent to
+     * combining the results of {@code hasHeader()} and {@code headerIsAuto()}.
+     * 
+     * If a boolean argument is passed, checks whether these values match.
+     * 
+     * @param val The expected value of {@code hasHeaderAuto()}.
+     * @return Whether these values match.
+     */
+    public Boolean hasHeaderAuto(Boolean val) {
+        return hasHeaderAuto() == val;
+    }
+
+    /**
+     * Return {@code true} if the slice ID string is not set to {@code null} and if
+     * the string was manually created, or {@code false} otherwise. Equivalent to
+     * combining the results of {@code hasHeader()} and {@code headerIsManual()}.
+     * 
+     * If a boolean argument is passed, checks whether these values match.
+     * 
+     * @return Whether the slice has a manually created header.
+     */
+    public Boolean hasHeaderManual() {
+        return hasHeader() && headerIsManual();
+    }
+
+    /**
+     * Return {@code true} if the slice ID string is not set to {@code null} and if
+     * the string was manually created, or {@code false} otherwise. Equivalent to
+     * combining the results of {@code hasHeader()} and {@code headerIsManual()}.
+     * 
+     * If a boolean argument is passed, checks whether these values match.
+     * 
+     * @param val The expected value of {@code hasHeaderManual()}.
+     * @return Whether these values match.
+     */
+    public Boolean hasHeaderManual(Boolean val) {
+        return hasHeaderManual() == val;
     }
 
     /**

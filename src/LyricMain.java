@@ -48,12 +48,12 @@ public class LyricMain {
 
     try {
         String newLine = ">Line \"Test Line 2\"<\n";
-        newLine += "\t@English: #05[This] #04[#01[is] #02[a] #03[test]]\n";
-        newLine += "\t@Japanese: #05[Kore wa] #04[#03[tesuto] #01[desu yo]]\n";
+        newLine += "\t@English: #05[This] #04[#10[is] #02[a] #03[test]]\n";
+        newLine += "\t@Japanese: #05[Kore wa] #04[#03[tesuto] #10[desu yo]]\n";
         newLine += "\t~Test Category 1\n\t~Test Category 2\n\t$Test Annotation\n";
         LyricLine testLine2 = LyricLine.parseTextToLine(newLine);
         // testLine2.setName("Test Line 2");
-        
+
         testLine2.setCategoryList(categorySet);
 
         System.out.println(testLine2.getCoordsList("English"));
@@ -69,6 +69,19 @@ public class LyricMain {
         System.out.println(testLine2.getCoordsList("English"));
         System.out.println(testLine2.getSlices());
         System.out.println(testLine2.getTaggedText());
+
+        LyricSlice testSliceCat = testLine2.createSlice(category1).setCoordsUpdated("English", 2, 4).setCoordsUpdated("Japanese", 2, 4);
+        testLine2.createSlice(category2).setCoordsUpdated("English", 4, 5).setCoordsUpdated("Japanese", 4, 5);
+        System.out.println(testLine2.getTaggedText());
+
+        // Expecting to see this reflected in the name: #11 -> #20 and #20 -> #21
+        testSliceCat.setCategory(category2);
+        System.out.println(testLine2.getTaggedText());
+
+        // Expecting to see first digit of all slices match category number
+        testLine2.removeAllManualHeaders();
+        System.out.println(testLine2.getTaggedText());
+
     } catch (ParseException e) {
         e.printStackTrace();
     }
