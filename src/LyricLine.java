@@ -516,13 +516,20 @@ public class LyricLine {
     }
 
     public String getTaggedText(Integer indent) {
+        return getTaggedText(indent, getLanguages());
+    }
+
+    public String getTaggedText(Collection<String> languages) {
+        return getTaggedText(0, languages);
+    }
+
+    public String getTaggedText(Integer indent, Collection<String> languages) {
         String tabs = getTabString(indent);
         String result = tabs.substring(0, tabs.length()-1);
         result += String.format(">Line%s<", hasName() ? " \"" + getName() + "\"" : "");
-        for (String lang : getLanguages()) {
+        for (String lang : languages) {
             result += "\n" + getTaggedText(lang);
         }
-        // TODO: Update temporary code to insert categories
         result += "\n";
         for (LyricCategory currentCategory : categoryList) {
             result += "\n~" + currentCategory.getDisplayName() + ": ";

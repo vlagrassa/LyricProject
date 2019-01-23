@@ -82,6 +82,12 @@ public class LyricMain {
         testLine2.removeAllManualHeaders();
         System.out.println(testLine2.getTaggedText());
 
+        // Expecting to see the languages printed Japanese then English, rather than the default alphabetical order
+        ArrayList<String> orderedLanguages = new ArrayList<String>();
+        orderedLanguages.add("Japanese");
+        orderedLanguages.add("English");
+        System.out.println(testLine2.getTaggedText(orderedLanguages));
+
     } catch (ParseException e) {
         e.printStackTrace();
     }
