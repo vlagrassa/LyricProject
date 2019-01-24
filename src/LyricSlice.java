@@ -168,32 +168,106 @@ public class LyricSlice {
         return referenceStrings.get(key);
     }
 
-    //TODO: Use putIfAbsent() to add language(s) to the slice?
+
+  // =-=-= Adding Languages =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    /**
+     * Initialize a new {@code LyricCoords} object for the passed language. Note
+     * that this will overwrite the current corresponding {@code LyricCoords} if
+     * it exists.
+     * 
+     * @see {@link #addLanguageIfAbsent(String)}
+     * @see {@link #addLanguages(String...)}
+     * 
+     * @param newLanguage The language to be added.
+     */
     public void addLanguage(String newLanguage) {
         addLanguages(newLanguage);
     }
 
+    /**
+     * Initialize a new {@code LyricCoords} object for the passed language if no entry
+     * exists yet.
+     * 
+     * @see {@link #addLanguage(String)}
+     * @see {@link #addLanguagesIfAbsent(String...)}
+     * 
+     * @param newLanguage The language to be added.
+     */
+    public void addLanguageIfAbsent(String newLanguage) {
+        addLanguagesIfAbsent(newLanguage);
+    }
+
+    /**
+     * Initialize a new {@code LyricCoords} object for each passed language. Note
+     * that this will overwrite any existing {@code LyricCoords}.
+     * 
+     * @see {@link #addLanguages(Collection)}
+     * @see {@link #addLanguagesIfAbsent(String...)}
+     * 
+     * @param newLanguages The languages to be added.
+     */
     public void addLanguages(String... newLanguages) {
         for (String language : newLanguages) {
             coords.put(language, new LyricCoords());
         }
     }
 
+    /**
+     * Initialize a new {@code LyricCoords} object for each passed language. Note
+     * that this will overwrite any existing {@code LyricCoords}.
+     * 
+     * @see {@link #addLanguages(String...)}
+     * @see {@link #addLanguagesIfAbsent(Collection)}
+     * 
+     * @param newLanguages The languages to be added.
+     */
     public void addLanguages(Collection<String> newLanguages) {
         for (String language : newLanguages) {
             coords.put(language, new LyricCoords());
         }
     }
 
-    public Set<String> matchLanguages(LyricLine line) {
-        Set<String> result = new HashSet<String>();
-        for (String language : line.getLanguages()) {
-            if (!coords.containsKey(language)) {
-                addLanguage(language);
-                result.add(language);
-            }
+    /**
+     * Initialize a new {@code LyricCoords} object for each passed language if no entry
+     * exists yet.
+     * 
+     * @see {@link #addLanguagesIfAbsent(Collection)}
+     * @see {@link #addLanguages(String)}
+     * 
+     * @param newLanguages The languages to be added.
+     */
+    public void addLanguagesIfAbsent(String... newLanguages) {
+        for (String language : newLanguages) {
+            coords.putIfAbsent(language, new LyricCoords());
         }
-        return result;
+    }
+
+    /**
+     * Initialize a new {@code LyricCoords} object for each passed language if no entry
+     * exists yet.
+     * 
+     * @see {@link #addLanguagesIfAbsent(String...)}
+     * @see {@link #addLanguages(Collection)}
+     * 
+     * @param newLanguages The languages to be added.
+     */
+    public void addLanguagesIfAbsent(Collection<String> newLanguages) {
+        for (String language : newLanguages) {
+            coords.putIfAbsent(language, new LyricCoords());
+        }
+    }
+
+    /**
+     * Initialize a new {@code LyricCoords} object for any language contained in the
+     * passed {@code LyricLine} object that is not in this {@code LyricSlice} object.
+     * 
+     * @see {@link #addLanguagesIfAbsent(Collection)}
+     * 
+     * @param line The {@code LyricLine} to draw languages from.
+     */
+    public void matchLanguages(LyricLine line) {
+        addLanguagesIfAbsent(line.getLanguages());
     }
 
 
