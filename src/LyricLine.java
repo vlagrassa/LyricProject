@@ -70,6 +70,8 @@ public class LyricLine {
      * Initialize a new {@code LyricLine} object with a number of slice categories
      * and a set of languages to be stored.
      * 
+     * @see {@link #LyricLine(ArrayList, ArrayList)}
+     * 
      * @param languages List of languages used in the line.
      */
     public LyricLine(ArrayList<LyricCategory> categoryList, String... languages) {
@@ -99,6 +101,18 @@ public class LyricLine {
      */
     public LyricLine(String... languages) {
         this(new ArrayList<LyricCategory>(), languages);
+    }
+
+    /**
+     * Initialize a new {@code LyricLine} object with a number of slice categories
+     * and a set of languages to be stored.
+     * 
+     * @see {@link #LyricLine(ArrayList, String...)}
+     * 
+     * @param languages List of languages used in the line.
+     */
+    public LyricLine(ArrayList<LyricCategory> categoryList, ArrayList<String> languages) {
+        this(categoryList, languages.toArray(new String[0]));
     }
 
 
