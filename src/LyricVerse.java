@@ -47,7 +47,7 @@ public class LyricVerse {
 
         // Add the tagged text for each line
         for (LyricLine line : listOfLines) {
-            result += "\n" + line.getTaggedText(indent+1, listOfLanguages);
+            result += "\n\n" + line.getTaggedText(indent+1, listOfLanguages);
         }
 
         // Add final newline and return
