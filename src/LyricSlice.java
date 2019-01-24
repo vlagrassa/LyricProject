@@ -20,7 +20,6 @@ public class LyricSlice {
      * speech, type of phrase, etc. This is important for organizing slices in the
      * final product, and determines what color to use to highlight it.
      */
-    // Integer category;
     LyricCategory category;
 
     /**
@@ -41,6 +40,10 @@ public class LyricSlice {
      */
     String header;
 
+    /**
+     * Tells whether the header variable was set manually or was auto-generated. Used to
+     * determine whether it is safe to overwrite the header.
+     */
     Boolean hasManualHeader = false;
 
 
@@ -863,11 +866,20 @@ public class LyricSlice {
         return this;
     }
 
+    /**
+     * Add the ranges covered by the passed {@code LyricSlice} to the current
+     * {@code LyricSlice} object, without altering the passed argument.
+     * 
+     * @see {@link #addRange(String, Integer, Integer)}
+     * 
+     * @param newslice The slice to draw the new range(s) from.
+     * 
+     * // TODO: Do anything with category, annotation, and/or header?
+     */
     public void mergeSlice(LyricSlice newslice) {
         for (String lang : coords.keySet()) {
             addRange(lang, newslice.getCoords(lang).getStart(), newslice.getCoords(lang).getEnd());
         }
-        // TODO: Do anything with category, annotation, and/or header?
     }
 
 
