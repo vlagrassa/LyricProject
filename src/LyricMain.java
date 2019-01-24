@@ -9,8 +9,8 @@ public class LyricMain {
     LyricLine testLine = new LyricLine("English", "Japanese");
     testLine.setBracketedText("Japanese", "honbun tesuto");
     testLine.setBracketedText("English", "test text");
-    System.out.println(testLine.getPlainText("Japanese"));
-    System.out.println(testLine.getPlainText("English"));
+    // System.out.println(testLine.getPlainText("Japanese"));
+    // System.out.println(testLine.getPlainText("English"));
 
 
 // =-= Initializing Categories =-=
@@ -21,7 +21,7 @@ public class LyricMain {
     categorySet.add(category1);
     categorySet.add(category3);
     categorySet.add(category2);
-    System.out.println(categorySet);
+    // System.out.println(categorySet);
 
 
 // =-= Initializing test LyricSlice =-=
@@ -29,8 +29,8 @@ public class LyricMain {
     testSlice.setCoordsUpdated("Japanese", -5, 6);
     testSlice.setCoordsUpdated("English", 5, 18);
     testSlice.setCoordsUpdated("English", 5, 18);
-    System.out.println("Test Slice:\n" + testSlice);
-    System.out.println("Test Line:\n" + testLine);
+    // System.out.println("Test Slice:\n" + testSlice);
+    // System.out.println("Test Line:\n" + testLine);
 
 
 // =-= Adding more slices, with categories =-=
@@ -56,9 +56,9 @@ public class LyricMain {
 
         testLine2.setCategoryList(categorySet);
 
-        System.out.println(testLine2.getCoordsList("English"));
-        System.out.println(testLine2.getSlices());
-        System.out.println(testLine2.getTaggedText());
+        // System.out.println(testLine2.getCoordsList("English"));
+        // System.out.println(testLine2.getSlices());
+        // System.out.println(testLine2.getTaggedText());
 
         testLine2.getSlices().get(0).setCategory(category1);
         testLine2.getSlices().get(1).setCategory(category1);
@@ -66,27 +66,39 @@ public class LyricMain {
         testLine2.getSlices().get(3).setCategory(category2);
         testLine2.getSlices().get(4).setCategory(category3);
 
-        System.out.println(testLine2.getCoordsList("English"));
-        System.out.println(testLine2.getSlices());
-        System.out.println(testLine2.getTaggedText());
+        // System.out.println(testLine2.getCoordsList("English"));
+        // System.out.println(testLine2.getSlices());
+        // System.out.println(testLine2.getTaggedText());
 
         LyricSlice testSliceCat = testLine2.createSlice(category1).setCoordsUpdated("English", 2, 4).setCoordsUpdated("Japanese", 2, 4);
         testLine2.createSlice(category2).setCoordsUpdated("English", 4, 5).setCoordsUpdated("Japanese", 4, 5);
-        System.out.println(testLine2.getTaggedText());
+        // System.out.println(testLine2.getTaggedText());
 
         // Expecting to see this reflected in the name: #11 -> #20 and #20 -> #21
         testSliceCat.setCategory(category2);
-        System.out.println(testLine2.getTaggedText());
+        // System.out.println(testLine2.getTaggedText());
 
         // Expecting to see first digit of all slices match category number
         testLine2.removeAllManualHeaders();
-        System.out.println(testLine2.getTaggedText());
+        // System.out.println(testLine2.getTaggedText());
 
         // Expecting to see the languages printed Japanese then English, rather than the default alphabetical order
         ArrayList<String> orderedLanguages = new ArrayList<String>();
         orderedLanguages.add("Japanese");
         orderedLanguages.add("English");
-        System.out.println(testLine2.getTaggedText(orderedLanguages));
+        // System.out.println(testLine2.getTaggedText(orderedLanguages));
+
+        LyricVerse testVerse = new LyricVerse();
+        testVerse.setName("Test Verse");
+        testVerse.setLanguages(orderedLanguages);
+        testVerse.addLine(testLine);
+        testVerse.addLine(testLine2);
+        testVerse.addLine(testLine);
+        LyricLine testLine3 = testVerse.createLine();
+        testLine3.setBracketedText("English", "Test 3");
+        testLine3.setBracketedText("Japanese", "Tesuto San");
+
+        System.out.println(testVerse.getTaggedText(1));
 
     } catch (ParseException e) {
         e.printStackTrace();
