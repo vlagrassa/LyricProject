@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.*;
 
 public class LyricVerse {
@@ -47,6 +48,41 @@ public class LyricVerse {
 
         // Add final newline and return
         result += "\n";
+        return result;
+    }
+
+    public static LyricVerse parseTextToVerse(String originalLines, LyricHead head) throws ParseException {
+
+        // Variables to store final LyricVerse object and section of text for current LyricLine object
+        LyricVerse result = new LyricVerse();
+        String lineToParse = null;
+
+        // Loop through each line in the input
+        for (String currentLine : originalLines.split("\n")) {
+
+            // Parse header line of form `>Verse "name"<`
+            if (currentLine.trim().startsWith(">Verse")) {
+                int firstQuote  = currentLine.indexOf("\"") + 1;
+                int secondQuote = currentLine.indexOf("\"", firstQuote);
+                result.setName(currentLine.substring(firstQuote, secondQuote));
+            }
+
+            // Add the current LyricLine object and start constructing a new one
+            else if (currentLine.trim().startsWith(">Line")) {
+                if (lineToParse != null) {
+                    result.addLine(LyricLine.parseTextToLine(lineToParse));
+                }
+                lineToParse = currentLine;
+            }
+
+            // Add a regular line
+            else {
+                lineToParse += "\n" + currentLine;
+            }
+        }
+
+        // Parse the last LyricLine, which will be left over from the loop, and return the final LyricVerse
+        result.addLine(LyricLine.parseTextToLine(lineToParse));
         return result;
     }
 

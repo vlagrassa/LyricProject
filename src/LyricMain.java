@@ -44,8 +44,20 @@ public class LyricMain {
     testLine.createSlice(category3).setCoordsUpdated("Japanese", 3, 4).addCoords("Japanese", 8, 9);
 
 
-// =-=
+    String testVerseStr = "";
+    testVerseStr += ">Verse \"Verse 1\"<\n";
+    testVerseStr += "\t>Line \"Line 1\"<\n";
+    testVerseStr += "\t\t@Japanese: #01[Tesuto]\n";
+    testVerseStr += "\t\t@English: #01[Test]\n";
+    testVerseStr += "\t\t~Noun: #01\n";
+    testVerseStr += "\t>Line \"Line 2\"<\n";
+    testVerseStr += "\t\t@Japanese: #02[honbun]\n";
+    testVerseStr += "\t\t@English: #02[text]\n";
+    testVerseStr += "\t\t~Verb: #02\n";
 
+
+// =-=
+/*
     try {
         String newLine = ">Line \"Test Line 2\"<\n";
         newLine += "\t@English: #05[This] #04[#10[is] #02[a] #03[test]]\n";
@@ -106,6 +118,18 @@ public class LyricMain {
 
         System.out.println(testLine3.getTaggedText(testHead2));
         System.out.println(testHead2.getAsTagged(3));
+
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
+*/
+    try {
+        LyricHead testHead = LyricHead.parseTextToHead(">Head<\n@Japanese\n@English\n~Noun: #000000\n~Verb: #111111");
+        LyricVerse testVerse = LyricVerse.parseTextToVerse(testVerseStr, testHead);
+
+        System.out.println(testHead.getAsTagged(0));
+        System.out.println(">Body<");
+        System.out.println(testVerse.getTaggedText(1, testHead));
 
     } catch (ParseException e) {
         e.printStackTrace();
