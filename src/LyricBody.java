@@ -76,6 +76,19 @@ public class LyricBody {
         return getVerse(verse).getLine(line);
     }
 
+    public String getAsTagged(int indent) {
+        String result = head.getAsTagged(indent) + "\n";
+        for (LyricVerse verse : getVerses()) {
+            result += verse.getTaggedText(indent, head) + "\n";
+        }
+        return result;
+    }
+
+    public String getAsTagged() {
+        return getAsTagged(0);
+    }
+
+
     // TODO: Implement the following methods
     // public void duplicateVerse(int originIndex, int newIndex) {};
     // public static LyricBody parseTextToBody(String originalLines) {}

@@ -134,11 +134,7 @@ public class LyricMain {
         testBody.createLine(testVerse).setBracketedText("English", "Line Created and Appended");
         testBody.createLine(testVerse, 0).setBracketedText("English", "Line Created and Inserted @0");
 
-        System.out.println(testHead.getAsTagged(0));
-        System.out.println(">Body<");
-        for (LyricVerse verse : testBody.getVerses()) {
-            System.out.println(verse.getTaggedText(1, testHead));
-        }
+        System.out.println(testBody.getAsTagged());
 
     } catch (ParseException e) {
         e.printStackTrace();
