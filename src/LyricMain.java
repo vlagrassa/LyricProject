@@ -127,9 +127,18 @@ public class LyricMain {
         LyricHead testHead = LyricHead.parseTextToHead(">Head<\n@Japanese\n@English\n~Noun: #000000\n~Verb: #111111");
         LyricVerse testVerse = LyricVerse.parseTextToVerse(testVerseStr, testHead);
 
+        LyricBody testBody = new LyricBody(testHead);
+        testBody.addVerse(testVerse);
+        testBody.createVerse().createLine(testHead).setBracketedText("English", "Verse Created and Appended");
+        testBody.createVerse(1).createLine(testHead).setBracketedText("English", "Verse Created and Inserted @1");
+        testBody.createLine(testVerse).setBracketedText("English", "Line Created and Appended");
+        testBody.createLine(testVerse, 0).setBracketedText("English", "Line Created and Inserted @0");
+
         System.out.println(testHead.getAsTagged(0));
         System.out.println(">Body<");
-        System.out.println(testVerse.getTaggedText(1, testHead));
+        for (LyricVerse verse : testBody.getVerses()) {
+            System.out.println(verse.getTaggedText(1, testHead));
+        }
 
     } catch (ParseException e) {
         e.printStackTrace();
