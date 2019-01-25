@@ -99,6 +99,14 @@ public class LyricMain {
 
         System.out.println(testVerse.getTaggedText(0, testHeader));
 
+        LyricHead testHead2 = LyricHead.parseTextToHead(">Head<\n@Japanese\n@English\n~Noun: #000000\n~Verb: #111111");
+        
+        System.out.println(testHead2.getLanguages());
+        System.out.println(testHead2.getCategories());
+
+        System.out.println(testLine3.getTaggedText(testHead2));
+        System.out.println(testHead2.getAsTagged(3));
+
     } catch (ParseException e) {
         e.printStackTrace();
     }

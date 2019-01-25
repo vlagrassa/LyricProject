@@ -28,6 +28,18 @@ public class LyricCategory {
         return displayColor;
     }
 
+    public String getDisplayColorStr() {
+        return "#" + Integer.toHexString(displayColor.getRGB()).substring(2);
+    }
+
+    public void setDisplayColor(Color newColor) {
+        displayColor = newColor;
+    }
+
+    public void setDisplayColor(String newColor) {
+        displayColor = Color.decode(newColor);
+    }
+
     public String getExtraInfo() {
         return extraInfo;
     }

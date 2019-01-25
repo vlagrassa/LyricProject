@@ -119,4 +119,45 @@ public class LyricHead {
     }
 
     //TODO: Reordering categories
+
+
+  // =-=-= Parsing =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    public static LyricHead parseTextToHead(String originalLines) /*throws ParseException*/ {
+        LyricHead result = new LyricHead(new ArrayList<String>(), new ArrayList<LyricCategory>());
+        for (String currentLine : originalLines.split("\n")) {
+            currentLine = currentLine.replace("\t", "");
+            if (currentLine.startsWith(">Head<")) {
+                // Skip it?
+            }
+            else if (currentLine.startsWith("@")) {
+                int colonIndex = currentLine.indexOf(":");
+                result.addLanguage(currentLine.substring(1, colonIndex >= 0 ? colonIndex : currentLine.length()));
+            }
+            else if (currentLine.startsWith("~")) {
+                String[] headAndBody = currentLine.substring(1).split(":", 2);
+                LyricCategory newCategory = new LyricCategory(result.getCategories().size(), headAndBody[0].trim());
+                newCategory.setDisplayColor(headAndBody[1].trim());
+                result.addCategory(newCategory);
+            }
+        }
+        return result;
+    }
+
+    public String getAsTagged(int indent) {
+        String tabs = "";
+        for (int i = 0; i <= indent; i++) {
+            tabs += "\t";
+        }
+        String result = tabs.substring(1) + ">Head<";
+        for (String language : listOfLanguages) {
+            result += "\n@" + language + ":";
+        }
+        result += "\n";
+        for (LyricCategory category : listOfCategories) {
+            result += "\n~" + category.getDisplayName() + ": " + category.getDisplayColorStr();
+        }
+        result = result.replace("\n", "\n" + tabs) + "\n";
+        return result;
+    }
 }
