@@ -54,8 +54,6 @@ public class LyricMain {
         LyricLine testLine2 = LyricLine.parseTextToLine(newLine);
         // testLine2.setName("Test Line 2");
 
-        testLine2.setCategoryList(categorySet);
-
         // System.out.println(testLine2.getCoordsList("English"));
         // System.out.println(testLine2.getSlices());
         // System.out.println(testLine2.getTaggedText());
@@ -88,17 +86,18 @@ public class LyricMain {
         orderedLanguages.add("English");
         // System.out.println(testLine2.getTaggedText(orderedLanguages));
 
+        LyricHead testHeader = new LyricHead(orderedLanguages, categorySet);
+
         LyricVerse testVerse = new LyricVerse();
         testVerse.setName("Test Verse");
-        testVerse.setLanguages(orderedLanguages);
         testVerse.addLine(testLine);
         testVerse.addLine(testLine2);
         testVerse.addLine(testLine);
-        LyricLine testLine3 = testVerse.createLine();
+        LyricLine testLine3 = testVerse.createLine(testHeader);
         testLine3.setBracketedText("English", "Test 3");
         testLine3.setBracketedText("Japanese", "Tesuto San");
 
-        System.out.println(testVerse.getTaggedText(1));
+        System.out.println(testVerse.getTaggedText(0, testHeader));
 
     } catch (ParseException e) {
         e.printStackTrace();

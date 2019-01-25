@@ -1,26 +1,21 @@
 import java.util.*;
 
 public class LyricVerse {
-    //TODO: Move languages and categories to LyricHead object
-    private ArrayList<String> listOfLanguages;
-    private ArrayList<LyricCategory> listOfCategories;
     private ArrayList<LyricLine> listOfLines;
     private String displayName;
 
     public LyricVerse() {
-        listOfLanguages = new ArrayList<String>();
-        listOfCategories = new ArrayList<LyricCategory>();
         listOfLines = new ArrayList<LyricLine>();
     }
 
-    public LyricLine createLine() {
-        LyricLine newLine = new LyricLine(listOfCategories, listOfLanguages);
+    public LyricLine createLine(LyricHead head) {
+        LyricLine newLine = new LyricLine(head);
         listOfLines.add(newLine);
         return newLine;
     }
 
-    public LyricLine createLine(int index) {
-        LyricLine newLine = new LyricLine(listOfCategories, listOfLanguages);
+    public LyricLine createLine(int index, LyricHead head) {
+        LyricLine newLine = new LyricLine(head);
         listOfLines.add(index, newLine);
         return newLine;
     }
@@ -33,7 +28,7 @@ public class LyricVerse {
         listOfLines.add(index, newLine);
     }
 
-    public String getTaggedText(int indent) {
+    public String getTaggedText(int indent, LyricHead head) {
         // Initialize result string
         String result = "";
 
@@ -47,7 +42,7 @@ public class LyricVerse {
 
         // Add the tagged text for each line
         for (LyricLine line : listOfLines) {
-            result += "\n\n" + line.getTaggedText(indent+1, listOfLanguages);
+            result += "\n\n" + line.getTaggedText(indent+1, head);
         }
 
         // Add final newline and return
@@ -65,9 +60,5 @@ public class LyricVerse {
 
     public void setName(String newName) {
         displayName = newName;
-    }
-
-    public void setLanguages(ArrayList<String> newLanguages) {
-        listOfLanguages = newLanguages;
     }
 }

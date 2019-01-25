@@ -61,8 +61,6 @@ public class LyricLine {
      */
     private String displayName;
 
-    private ArrayList<LyricCategory> categoryList;
-
 
   // =-=-= Constructor(s) =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -74,7 +72,7 @@ public class LyricLine {
      * 
      * @param languages List of languages used in the line.
      */
-    public LyricLine(ArrayList<LyricCategory> categoryList, String... languages) {
+    public LyricLine(String... languages) {
 
         // Inititalize bracketedtext with an empty string for each of the passed languages
         bracketedtexts = new HashMap<String,String>();
@@ -84,23 +82,10 @@ public class LyricLine {
 
         // Initialize the array of slices
         slices = new ArrayList<LyricSlice>();
-
-        // Copy (the reference to) the list of categories
-        this.categoryList = categoryList;
     }
 
-    /**
-     * Initialize a new {@code LyricLine} object with a  set of languages to
-     * be stored.
-     * 
-     * Note that this method omits the list of categories, which should be
-     * passed as an argument if it is at all available - this is mostly a
-     * backup, convenience method in case a category list is not available
-     * when parsing a new line. Otherwise, the overarching Verse should pass
-     * down the categories.
-     */
-    public LyricLine(String... languages) {
-        this(new ArrayList<LyricCategory>(), languages);
+    public LyricLine(LyricHead head) {
+        this(head.getLanguages());
     }
 
     /**
@@ -111,8 +96,8 @@ public class LyricLine {
      * 
      * @param languages List of languages used in the line.
      */
-    public LyricLine(ArrayList<LyricCategory> categoryList, ArrayList<String> languages) {
-        this(categoryList, languages.toArray(new String[0]));
+    public LyricLine(ArrayList<String> languages) {
+        this(languages.toArray(new String[0]));
     }
 
 
@@ -191,6 +176,16 @@ public class LyricLine {
         for (LyricSlice slice : slices) {
             slice.matchUpdatedReference(key, index, -length);
         }
+    }
+
+    public ArrayList<LyricCategory> getCategories() {
+        ArrayList<LyricCategory> result = new ArrayList<LyricCategory>();
+        for (LyricSlice slice : slices) {
+            if (!result.contains(slice.getCategory())) {
+                result.add(slice.getCategory());
+            }
+        }
+        return result;
     }
 
 
@@ -346,11 +341,11 @@ public class LyricLine {
     }
 
     private ArrayList<String> getCategoryStrList() {
-        ArrayList<String> categoryList = new ArrayList<String>();
+        ArrayList<String> categoryStrList = new ArrayList<String>();
         for (LyricSlice slice : slices) {
-            categoryList.add(slice.getCategoryStr());
+            categoryStrList.add(slice.getCategoryStr());
         }
-        return categoryList;
+        return categoryStrList;
     }
 
     public LyricSlice getSliceWithID(String id) {
@@ -521,23 +516,31 @@ public class LyricLine {
         return result;
     }
 
-    public String getTaggedText() {
-        return getTaggedText(0);
-    }
-
     public String getTaggedText(String key) {
         return "@" + key + ": " + formatLangBody(key, "#%s");
     }
 
+    public String getTaggedText() {
+        return getTaggedText(0);
+    }
+
     public String getTaggedText(Integer indent) {
-        return getTaggedText(indent, getLanguages());
+        return getTaggedText(indent, getLanguages(), getCategories());
     }
 
-    public String getTaggedText(Collection<String> languages) {
-        return getTaggedText(0, languages);
+    public String getTaggedText(LyricHead head) {
+        return getTaggedText(0, head);
     }
 
-    public String getTaggedText(Integer indent, Collection<String> languages) {
+    public String getTaggedText(Integer indent, LyricHead head) {
+        return getTaggedText(indent, head.getLanguages(), head.getCategories());
+    }
+
+    public String getTaggedText(Collection<String> languages, Collection<LyricCategory> categories) {
+        return getTaggedText(0, languages, categories);
+    }
+
+    public String getTaggedText(Integer indent, Collection<String> languages, Collection<LyricCategory> categories) {
         String tabs = getTabString(indent);
         String result = tabs.substring(0, tabs.length()-1);
         result += String.format(">Line%s<", hasName() ? " \"" + getName() + "\"" : "");
@@ -545,7 +548,7 @@ public class LyricLine {
             result += "\n" + getTaggedText(lang);
         }
         result += "\n";
-        for (LyricCategory currentCategory : categoryList) {
+        for (LyricCategory currentCategory : categories) {
             result += "\n~" + currentCategory.getDisplayName() + ": ";
             for (LyricSlice slice : getSlices(currentCategory)) {
                 result += slice.getHeader() + ", ";
@@ -710,35 +713,6 @@ public class LyricLine {
         
 
         return result;
-    }
-
-
-  // =-=-= Category List =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-    public void setCategoryList(ArrayList<LyricCategory> newCategoryList) {
-        categoryList = newCategoryList;
-    }
-
-    public void addCategory(LyricCategory newCategory) {
-        if (!categoryList.contains(newCategory)) {
-            categoryList.add(newCategory);
-        }
-    }
-
-    public void addCategories(LyricCategory... newCategories) {
-        for (LyricCategory category : newCategories) {
-            addCategory(category);
-        }
-    }
-
-    public void removeCategory(LyricCategory category) {
-        categoryList.remove(category);
-    }
-
-    public void removeCategories(LyricCategory... categories) {
-        for (LyricCategory category : categories) {
-            removeCategory(category);
-        }
     }
 
 }
