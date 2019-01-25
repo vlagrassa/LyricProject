@@ -1,9 +1,8 @@
 import java.text.ParseException;
 import java.util.*;
 
-public class LyricVerse {
+public class LyricVerse extends DisplayNameObject {
     private ArrayList<LyricLine> listOfLines;
-    private String displayName;
 
     public LyricVerse() {
         listOfLines = new ArrayList<LyricLine>();
@@ -86,15 +85,7 @@ public class LyricVerse {
         return result;
     }
 
-    public Boolean hasName() {
-        return displayName != null;
-    }
-
-    public String getName() {
-        return displayName;
-    }
-
-    public void setName(String newName) {
-        displayName = newName;
+    public String getDefaultName(String key) {
+        return (listOfLines.size() > 0) ? listOfLines.get(0).getDefaultName(key) : "<Empty Verse>";
     }
 }
