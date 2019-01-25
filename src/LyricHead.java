@@ -15,6 +15,10 @@ public class LyricHead {
         listOfCategories = categories;
     }
 
+    public LyricHead() {
+        this(new ArrayList<String>(), new ArrayList<LyricCategory>());
+    }
+
 
   // =-=-= Language List =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -124,7 +128,7 @@ public class LyricHead {
   // =-=-= Parsing =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     public static LyricHead parseTextToHead(String originalLines) /*throws ParseException*/ {
-        LyricHead result = new LyricHead(new ArrayList<String>(), new ArrayList<LyricCategory>());
+        LyricHead result = new LyricHead();
         for (String currentLine : originalLines.split("\n")) {
             currentLine = currentLine.replace("\t", "");
             if (currentLine.startsWith(">Head<")) {
