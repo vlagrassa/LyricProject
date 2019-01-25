@@ -28,6 +28,14 @@ public class LyricVerse extends DisplayNameObject {
         listOfLines.add(index, newLine);
     }
 
+    public ArrayList<LyricLine> getLines() {
+        return listOfLines;
+    }
+
+    public LyricLine getLine(int index) {
+        return listOfLines.get(index);
+    }
+
     public String getTaggedText(int indent, LyricHead head) {
         // Initialize result string
         String result = "";
